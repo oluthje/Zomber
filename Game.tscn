@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Boundary.tscn" type="PackedScene" id=1]
+[ext_resource path="res://WaveSystem.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Game.gd" type="Script" id=4]
+[ext_resource path="res://icon.png" type="Texture" id=6]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=7]
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="."]
+visible = false
+position = Vector2( 512, 304 )
+scale = Vector2( 8, 4.6875 )
+texture = ExtResource( 6 )
+
+[node name="Player" parent="." instance=ExtResource( 7 )]
+position = Vector2( 520, 320 )
+
+[node name="WaveSystem" parent="." instance=ExtResource( 3 )]
+
+[node name="WorldBoundaries" type="Node2D" parent="."]
+
+[node name="Boundary" parent="WorldBoundaries" instance=ExtResource( 1 )]
+position = Vector2( 288, -16 )
+
+[node name="Boundary2" parent="WorldBoundaries" instance=ExtResource( 1 )]
+position = Vector2( 864, -16 )
+
+[node name="Boundary5" parent="WorldBoundaries" instance=ExtResource( 1 )]
+position = Vector2( 288, 592 )
+
+[node name="Boundary4" parent="WorldBoundaries" instance=ExtResource( 1 )]
+position = Vector2( 864, 592 )
+
+[node name="Boundary3" parent="WorldBoundaries" instance=ExtResource( 1 )]
+position = Vector2( 1168, 288 )
+rotation = 1.5708
+
+[node name="Boundary6" parent="WorldBoundaries" instance=ExtResource( 1 )]
+position = Vector2( -16, 288 )
+rotation = 1.5708
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="WaveCountLabel" type="Label" parent="CanvasLayer"]
+modulate = Color( 1, 0, 0, 1 )
+margin_right = 405.0
+margin_bottom = 97.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite2" type="Sprite" parent="."]
+position = Vector2( 374, 216 )
+z_index = -1
+texture = ExtResource( 6 )

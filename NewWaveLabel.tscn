@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://FFFFORWA.TTF" type="DynamicFontData" id=1]
+[ext_resource path="res://NewWaveLabel.gd" type="Script" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "Panning"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 1.6, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 550, 20 ), Vector2( 300, 20 ), Vector2( 100, 20 ), Vector2( -250, 20 ) ]
+}
+
+[node name="NewWaveLabel" type="Label"]
+margin_left = -250.0
+margin_top = 20.0
+margin_right = -196.0
+margin_bottom = 42.0
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.0235294, 0.0862745, 0.6, 1 )
+text = "Wave"
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Panning = SubResource( 2 )
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
