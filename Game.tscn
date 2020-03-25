@@ -53,6 +53,11 @@ __meta__ = {
 }
 
 [node name="Sprite2" type="Sprite" parent="."]
-position = Vector2( 374, 216 )
+position = Vector2( 313.347, 168.064 )
+z_index = -1
+texture = ExtResource( 6 )
+
+[node name="Sprite3" type="Sprite" parent="."]
+position = Vector2( 872.922, 428.287 )
 z_index = -1
 texture = ExtResource( 6 )
