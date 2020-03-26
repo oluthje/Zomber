@@ -15,6 +15,9 @@ func _ready():
 	try_update_held_item()
 
 func _physics_process(delta):
+	if Item.player_should_update_held_item:
+		try_update_held_item()
+		Item.player_should_update_held_item = false
 	rotate(get_rotation_toward_mouse())
 	get_input()
 	
