@@ -1,0 +1,73 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Enemies/WaveSystem.gd" type="Script" id=1]
+
+[node name="WaveSystem" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="RestTimer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+autostart = true
+
+[node name="SpawnTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Spawnpoints" type="Node2D" parent="."]
+
+[node name="Spawnpoint1" type="Node2D" parent="Spawnpoints"]
+position = Vector2( 212, -244.034 )
+
+[node name="Spawnpoint2" type="Node2D" parent="Spawnpoints"]
+position = Vector2( 503.384, -245.517 )
+
+[node name="Spawnpoint3" type="Node2D" parent="Spawnpoints"]
+position = Vector2( 805.89, -247 )
+
+[node name="Spawnpoint4" type="Node2D" parent="Spawnpoints"]
+position = Vector2( 1050.88, -244.776 )
+
+[node name="Spawnpoint5" type="Node2D" parent="Spawnpoints"]
+position = Vector2( 1459, 159 )
+
+[node name="Spawnpoint6" type="Node2D" parent="Spawnpoints"]
+position = Vector2( 1461.11, 366.083 )
+
+[node name="Spawnpoint7" type="Node2D" parent="Spawnpoints"]
+position = Vector2( 1101.79, 853 )
+
+[node name="Spawnpoint8" type="Node2D" parent="Spawnpoints"]
+position = Vector2( 801.731, 862.996 )
+
+[node name="Spawnpoint9" type="Node2D" parent="Spawnpoints"]
+position = Vector2( 562.953, 862.996 )
+
+[node name="Spawnpoint10" type="Node2D" parent="Spawnpoints"]
+position = Vector2( 296.704, 861.939 )
+
+[node name="Spawnpoint11" type="Node2D" parent="Spawnpoints"]
+position = Vector2( 78, 861.939 )
+
+[node name="Spawnpoint12" type="Node2D" parent="Spawnpoints"]
+position = Vector2( -293.943, 560.31 )
+
+[node name="Spawnpoint13" type="Node2D" parent="Spawnpoints"]
+position = Vector2( -293.943, 411.338 )
+
+[node name="Spawnpoint14" type="Node2D" parent="Spawnpoints"]
+position = Vector2( -295, 235.952 )
+
+[node name="Spawnpoint15" type="Node2D" parent="Spawnpoints"]
+position = Vector2( -290.774, 50 )
+
+[node name="Label" type="Label" parent="."]
+modulate = Color( 0, 0.607843, 1, 1 )
+margin_left = 103.0
+margin_top = 81.0
+margin_right = 143.0
+margin_bottom = 95.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="timeout" from="RestTimer" to="." method="_on_RestTimer_timeout"]
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]
