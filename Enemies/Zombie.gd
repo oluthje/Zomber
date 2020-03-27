@@ -11,7 +11,7 @@ var velocity = Vector2()
 
 var stun_time = 0.1
 
-var speed = 125
+var speed = 115
 var min_distance = 50
 var health = 35
 var can_move = true

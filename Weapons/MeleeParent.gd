@@ -1,7 +1,10 @@
 extends Node2D
 
+var SwooshParticles = preload("res://Weapons/SwooshParticles.tscn")
+
 # Gun information
 var hit_cooldown = 10 # Amount of time between each shot
+var swoosh_time = 1
 var automatic = false
 var damage = 15
 var attack_speed = 1
@@ -31,6 +34,7 @@ func input():
 			swing()
 
 func swing():
+	is_swinging = true
 	$AnimationPlayer.set_speed_scale(attack_speed)
 	if current_arm == "right":
 		current_arm = "left"
@@ -38,8 +42,17 @@ func swing():
 	elif current_arm == "left":
 		current_arm = "right"
 		$AnimationPlayer.play("swingright")
+		
+	spawn_swoosh_particles()
+
+func spawn_swoosh_particles():
+	var particles = SwooshParticles.instance()
+	particles.set_up(float(hit_cooldown)/float(60))
+	particles.set_emitting(true)
+	get_node("Sprite").get_node("SwooshPos").add_child(particles)
 	
 func swing_finished():
+	is_swinging = false
 	if current_arm == "right":
 		get_node("Sprite").set_flip_h(false)
 	elif current_arm == "left":

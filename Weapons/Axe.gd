@@ -2,7 +2,8 @@ extends "res://Weapons/MeleeParent.gd"
 
 func _ready():
 	# Gun information
-	hit_cooldown = 60 # Amount of time between each shot
+	hit_cooldown = 30 # Amount of time between each shot
+	swoosh_time = 0.2
 	automatic = false
 	damage = 15
 	attack_speed = 2.5
