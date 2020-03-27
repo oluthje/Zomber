@@ -2,5 +2,5 @@
 
 [ext_resource path="res://Weapons/GunParent.gd" type="Script" id=1]
 
-[node name="Gun" type="Node2D"]
+[node name="GunParent" type="Node2D"]
 script = ExtResource( 1 )

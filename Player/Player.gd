@@ -5,6 +5,9 @@ var Corpse = preload("res://Enemies/Gore/Corpse.tscn")
 # Guns
 var Pistol = preload("res://Weapons/Pistol.tscn")
 
+# Melee weapons
+var Axe = preload("res://Weapons/Axe.tscn")
+
 # Movement
 var speed = 150
 var friction = 0.18
@@ -78,6 +81,9 @@ func try_update_held_item():
 		pass
 	elif Item.inventory[Item.current_inventory_slot] == Item.PISTOL:
 		var item = Pistol.instance()
+		get_node("HandHeldItem").add_child(item)
+	elif Item.inventory[Item.current_inventory_slot] == Item.AXE:
+		var item = Axe.instance()
 		get_node("HandHeldItem").add_child(item)
 	
 func _on_Area2D_body_entered(body):

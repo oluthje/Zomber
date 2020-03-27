@@ -101,5 +101,5 @@ reload={
 [rendering]
 
 quality/2d/use_pixel_snap=true
-environment/default_clear_color=Color( 0.313726, 0.643137, 0.0901961, 1 )
+environment/default_clear_color=Color( 0.215686, 0.466667, 0.0470588, 1 )
 environment/default_environment="res://default_env.tres"
