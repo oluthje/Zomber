@@ -89,5 +89,10 @@ disabled = true
 position = Vector2( -4, -8.6863 )
 rotation = 0.785398
 scale = Vector2( 1, -1 )
+z_index = -1
+
+[node name="CoolDownTimer" type="Timer" parent="."]
+one_shot = true
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="body_entered" from="Sprite/Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="timeout" from="CoolDownTimer" to="." method="_on_CoolDownTimer_timeout"]

@@ -40,7 +40,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 24.0208
+radius = 28.0
 
 [node name="Tree" type="StaticBody2D"]
 position = Vector2( 399, 294 )

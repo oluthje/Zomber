@@ -16,7 +16,7 @@ var can_advance_to_next_wave = true
 var num_zombies = 3
 var zombies_left = 3
 var spawn_time = 0
-	
+
 func _physics_process(delta):
 	var zombies_alive = get_tree().get_nodes_in_group("enemies").size()
 	if zombies_alive <= 0 and can_advance_to_next_wave:
@@ -29,17 +29,18 @@ func _physics_process(delta):
 #	label.set_text(str(zombies_alive))
 
 func next_wave():
-	wave_num += 1
-	num_zombies += 1
-	zombies_left = num_zombies
-	
-	set_wave_label_text()
-	spawn_panning_wave_label()
-	
-	var spawn_time = float(wave_time)/float(num_zombies)
-	spawn_timer.set_wait_time(spawn_time)
-	spawn_timer.start()
-	
+	if get_parent().spawn_enemies:
+		wave_num += 1
+		num_zombies += 1
+		zombies_left = num_zombies
+		
+		set_wave_label_text()
+		spawn_panning_wave_label()
+		
+		var spawn_time = float(wave_time)/float(num_zombies)
+		spawn_timer.set_wait_time(spawn_time)
+		spawn_timer.start()
+
 func spawn_panning_wave_label():
 	var wave_label = PanningLabel.instance()
 	wave_label.set_text("Wave " + str(wave_num))
