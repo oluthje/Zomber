@@ -14,6 +14,9 @@ const SHOTGUN = "shotgun"
 # Melee weapons
 const AXE = "axe"
 
+# Carryable Objects
+var LOG = "log"
+
 # Functional keywords
 const EMPTY = "empty"
 const DISABLED = "disabled"
@@ -26,3 +29,4 @@ var should_update_inventory = false
 var player_should_update_held_item = false
 
 var item_player_can_pick_up = ""
+var object_player_can_pick_up = ""

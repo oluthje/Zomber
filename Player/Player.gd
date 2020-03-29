@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 onready var pickup_timer = get_node("PickupTimer")
 
+var CarryableObject = preload("res://Environment/CarryableObject.tscn")
 var PhysicalItem = preload("res://Weapons/PhysicalItem.tscn")
 var Corpse = preload("res://Enemies/Gore/Corpse.tscn")
 
@@ -17,10 +18,18 @@ var friction = 0.18
 var acceleration = 0.5
 var velocity = Vector2.ZERO
 
-# Misc
+# Object pickup
+var carrying_object = false
+var pickupable_object_area
+var object_carrying_name = ""
+
+# Item pickup
 var can_pickup = true
 var pickup_cooldown = 0.2
 var pickupable_item_area
+
+# Misc
+# not yet
 
 func _ready():
 	try_update_held_item()
@@ -81,8 +90,15 @@ func rotate_legs_toward_movement():
 	
 func try_to_pickup_item():
 	var ammo_num_to_item
-	if Input.is_action_pressed("interact"):
-		if can_pickup and Item.item_player_can_pick_up != "":
+	if Input.is_action_just_pressed("interact") and not carrying_object:
+		if can_pickup and Item.object_player_can_pick_up != "":
+			pickup_timer.set_wait_time(pickup_cooldown)
+			pickup_timer.start()
+			can_pickup = false
+			
+			try_pickup_object()
+			try_update_held_item()
+		elif can_pickup and Item.item_player_can_pick_up != "":
 			pickup_timer.set_wait_time(pickup_cooldown)
 			pickup_timer.start()
 			can_pickup = false
@@ -92,6 +108,27 @@ func try_to_pickup_item():
 			
 			try_to_slot_item(ammo_num_to_item)
 			try_update_held_item()
+	elif Input.is_action_just_pressed("interact") and carrying_object:
+		try_drop_object()
+	
+func try_pickup_object():
+	carrying_object = true
+	Item.object_player_can_pick_up = ""
+	pickupable_object_area.queue_free()
+	object_carrying_name = pickupable_object_area.object_name
+	get_node("CarryableObject").get_node("SlotItemImage").select_item_to_display(Item.LOG)
+
+func try_drop_object():
+	var carryable_object = CarryableObject.instance()
+	carryable_object.set_up_object(object_carrying_name)
+	carryable_object.set_global_position(get_global_position())
+	carryable_object.set_rotation(get_rotation())
+	get_parent().add_child(carryable_object)
+	
+	get_node("CarryableObject").get_node("SlotItemImage").select_item_to_display("none")
+	carrying_object = false
+	object_carrying_name = ""
+	try_update_held_item()
 
 func try_to_slot_item(ammo_to_item):
 	var could_slot_item = false
@@ -116,7 +153,7 @@ func try_to_slot_item(ammo_to_item):
 	pickupable_item_area.queue_free()
 				
 	Item.inv_ammo[slot_placed_item] = item.ammo_count
-					
+	
 func drop_held_item(ammo):
 	var physical_item = PhysicalItem.instance()
 	get_parent().add_child(physical_item)
@@ -141,6 +178,11 @@ func try_update_held_item():
 	elif Item.inventory[Item.current_inventory_slot] == Item.AXE:
 		var item = Axe.instance()
 		get_node("HandHeldItem").add_child(item)
+	
+	if carrying_object:
+		if get_node("HandHeldItem").get_children().size() > 0:
+			for child in get_node("HandHeldItem").get_children():
+				child.queue_free()
 	
 func _on_Area2D_body_entered(body):
 	if "Zombie" in body.name:

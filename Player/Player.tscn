@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Player/player.png" type="Texture" id=2]
+[ext_resource path="res://Weapons/SlotItemImage.tscn" type="PackedScene" id=3]
 [ext_resource path="res://HUD/Camera2D.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Sprites/Player/playerlegs.png" type="Texture" id=5]
 
@@ -35,6 +36,11 @@ script = ExtResource( 1 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Walk = SubResource( 1 )
 
+[node name="CarryableObject" type="Node2D" parent="."]
+position = Vector2( 0, 10 )
+
+[node name="SlotItemImage" parent="CarryableObject" instance=ExtResource( 3 )]
+
 [node name="HandHeldItem" type="Node2D" parent="."]
 
 [node name="Camera2D" parent="." instance=ExtResource( 4 )]
@@ -44,6 +50,7 @@ rotation = 1.5708
 texture = ExtResource( 5 )
 vframes = 3
 hframes = 3
+frame = 1
 
 [node name="Player" type="Sprite" parent="."]
 rotation = 1.5708
