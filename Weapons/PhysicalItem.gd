@@ -1,6 +1,7 @@
 extends Area2D
 
 export var pre_set_item = ""
+export var pre_set_ammo = 0
 
 var item_name
 var ammo_count
@@ -9,9 +10,10 @@ var got_picked_up = false
 func _ready():
 	if pre_set_item != "":
 		item_name = pre_set_item
-		set_up_item(item_name)
+		set_up_item(item_name, pre_set_ammo)
 
-func set_up_item(item):
+func set_up_item(item, ammo_num):
+	ammo_count = ammo_num
 	item_name = item
 	
 	# Guns

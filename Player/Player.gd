@@ -82,9 +82,9 @@ func rotate_legs_toward_movement():
 func try_to_pickup_item():
 	var ammo_num_to_item
 	if Input.is_action_pressed("interact"):
-		#print("pickupable_item_area: " + str(pickupable_item_area.name))
 		if can_pickup and Item.item_player_can_pick_up != "":
 			pickup_timer.set_wait_time(pickup_cooldown)
+			pickup_timer.start()
 			can_pickup = false
 			
 			# Get current loaded ammo num for item drop
@@ -115,23 +115,13 @@ func try_to_slot_item(ammo_to_item):
 			
 	pickupable_item_area.queue_free()
 				
-	# Get ammo from item, then delete item to be picked up
-#	if "PhysicalItem" in pickupable_item_area.name:
-#		if item.item_name == Item.item_player_can_pick_up:
-#			if item.item_type != Item.MELEE:
-#				if item.item_type == Item.PROJECTILE:
-#					Item.inv_ammo[slot_placed_item] = item.ammo_count
-#				elif item.item_type == Item.ITEM:
-#					if Item.inv_ammo[slot_placed_item] == -1:
-#						Item.inv_ammo[slot_placed_item] += item.ammo_count + 1
-#					else:
-#						Item.inv_ammo[slot_placed_item] += item.ammo_count
+	Item.inv_ammo[slot_placed_item] = item.ammo_count
 					
 func drop_held_item(ammo):
 	var physical_item = PhysicalItem.instance()
 	get_parent().add_child(physical_item)
 	physical_item.set_global_position(get_global_position())
-	physical_item.set_up_item(Item.inventory[Item.current_inventory_slot])
+	physical_item.set_up_item(Item.inventory[Item.current_inventory_slot], ammo)
 	
 	Item.inv_ammo[Item.current_inventory_slot] = -1
 	Item.inventory[Item.current_inventory_slot] = Item.item_player_can_pick_up
