@@ -1,7 +1,7 @@
 extends Node2D
 
 # Inventory related variables
-var inventory = ["pistol", "axe", "empty", "disabled", "disabled", "disabled", "disabled", "disabled"]
+var inventory = ["pistol", "axe", "axe", "disabled", "disabled", "disabled", "disabled", "disabled"]
 var inv_ammo = [-1, -1, -1, -1, -1, -1, -1, -1] # The amount of ammo for each slot (assuming gun is in slot)
 
 var resource_inv = ["wood", "coal", "components"]
@@ -24,3 +24,5 @@ const ITEM = "item"
 var current_inventory_slot = 0
 var should_update_inventory = false	
 var player_should_update_held_item = false
+
+var item_player_can_pick_up

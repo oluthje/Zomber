@@ -1,59 +1,30 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Weapons/SlotItemImage.gd" type="Script" id=1]
-[ext_resource path="res://Sprites/Weapons/pistol.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/ItemIcons/AxeIcon.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/ItemIcons/PistolIcon.png" type="Texture" id=4]
 
-[sub_resource type="Animation" id=2]
-resource_name = "empty"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Pistol:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-
-[sub_resource type="Animation" id=1]
-resource_name = "pistol"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Pistol:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Pistol:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 4 ) ],
+"loop": true,
+"name": "pistol",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "axe",
+"speed": 5.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "none",
+"speed": 5.0
+} ]
 
 [node name="SlotItemImage" type="Node2D"]
 script = ExtResource( 1 )
 
-[node name="Pistol" type="Sprite" parent="."]
-visible = false
-texture = ExtResource( 2 )
-vframes = 2
-hframes = 2
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/empty = SubResource( 2 )
-anims/pistol = SubResource( 1 )
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 3 )
+animation = "none"
