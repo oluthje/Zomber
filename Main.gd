@@ -1,10 +1,7 @@
 extends Node2D
 
 var Game = preload("res://Game.tscn")
-var game_node
-
-func _ready():
-	game_node = get_game_node()
+onready var game_node = get_game_node()
 
 func _physics_process(delta):
 	if Input.is_action_just_pressed("restart_game"):

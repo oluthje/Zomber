@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Sprites/HUD/Building/BuildButtonClicked.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/HUD/Building/BuildButton.png" type="Texture" id=2]
+[ext_resource path="res://HUD/ConstructionButton.gd" type="Script" id=3]
+
+[node name="ConstructionButton" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="TextureButton" type="TextureButton" parent="."]
+margin_left = 456.0
+margin_top = 16.0
+margin_right = 488.0
+margin_bottom = 49.0
+toggle_mode = true
+texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AutoCloseTimer" type="Timer" parent="."]
+one_shot = true
+[connection signal="mouse_entered" from="TextureButton" to="." method="_on_TextureButton_mouse_entered"]
+[connection signal="mouse_exited" from="TextureButton" to="." method="_on_TextureButton_mouse_exited"]
+[connection signal="pressed" from="TextureButton" to="." method="_on_TextureButton_pressed"]
+[connection signal="timeout" from="AutoCloseTimer" to="." method="_on_AutoCloseTimer_timeout"]

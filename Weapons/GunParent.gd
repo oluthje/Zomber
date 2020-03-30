@@ -43,11 +43,11 @@ func input():
 	var should_save_loaded_ammo = false
 	
 	if automatic == true:
-		if Input.is_action_pressed("shoot") and time > shot_cooldown and is_reloading != true and loaded_ammo > 0:
+		if Input.is_action_pressed("shoot") and time > shot_cooldown and is_reloading != true and loaded_ammo > 0 and not Item.using_menu:
 			shoot()
 			should_save_loaded_ammo = true
 	else:
-		if Input.is_action_just_pressed("shoot") and time > shot_cooldown and is_reloading != true and loaded_ammo > 0:
+		if Input.is_action_just_pressed("shoot") and time > shot_cooldown and is_reloading != true and loaded_ammo > 0 and not Item.using_menu:
 			shoot()
 			should_save_loaded_ammo = true
 

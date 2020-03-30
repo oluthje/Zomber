@@ -1,5 +1,6 @@
 extends StaticBody2D
 
+var CarryableObject = preload("res://Environment/CarryableObject.tscn")
 var TreeTrunk = preload("res://Environment/TreeLog.tscn")
 var TreeChopParticles = preload("res://Environment/TreeChopParticles.tscn")
 
@@ -31,14 +32,15 @@ func spawn_chop_particles():
 func get_angle_to_player():
 	var game_node = get_tree().get_root().get_node("Main").game_node
 	return game_node.get_rotation_to_node(get_global_position(), game_node.player_pos)
-	
+
 func place_logs_at_angle(degrees):
 	for log_num in num_logs:
-		var trunk = TreeTrunk.instance()
-		var trunk_pos = Vector2((log_num * log_spacing) + 16, 0)
-		trunk.set_global_position(trunk_pos.rotated(deg2rad(degrees)) + get_global_position())
-		trunk.set_rotation(deg2rad(degrees))
-		get_parent().add_child(trunk)
+		var tree_log = CarryableObject.instance()
+		var log_pos = Vector2((log_num * log_spacing) + 16, 0)
+		tree_log.set_up_object(Item.LOG)
+		tree_log.set_global_position(log_pos.rotated(deg2rad(degrees)) + get_global_position())
+		tree_log.set_rotation(deg2rad(degrees))
+		get_parent().add_child(tree_log)
 		
 	queue_free()
 

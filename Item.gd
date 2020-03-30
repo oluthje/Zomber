@@ -17,6 +17,9 @@ const AXE = "axe"
 # Carryable Objects
 var LOG = "log"
 
+# Buildings
+var WOOD_SPIKES = "wood_spikes"
+
 # Functional keywords
 const EMPTY = "empty"
 const DISABLED = "disabled"
@@ -30,3 +33,6 @@ var player_should_update_held_item = false
 
 var item_player_can_pick_up = ""
 var object_player_can_pick_up = ""
+
+# Other Game Variables
+var using_menu = false

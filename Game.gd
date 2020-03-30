@@ -1,9 +1,10 @@
 extends Node2D
 
 var player_pos = Vector2()
+var using_menu = false
 
 # Game settings
-var spawn_enemies = true
+var spawn_enemies = false
 
 # Handy methods
 func get_rotation_to_node(start_pos, end_pos):

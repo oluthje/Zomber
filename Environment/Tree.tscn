@@ -7,7 +7,7 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 9.0
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "blur"
 length = 0.3
 tracks/0/type = "value"
@@ -23,7 +23,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.333333 ) ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 resource_name = "unblur"
 length = 0.3
 tracks/0/type = "value"
@@ -39,7 +39,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0.333333 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=4]
 radius = 28.0
 
 [node name="Tree" type="StaticBody2D"]
@@ -61,12 +61,12 @@ z_index = 2
 texture = ExtResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Leaves"]
-anims/blur = SubResource( 3 )
-anims/unblur = SubResource( 4 )
+anims/blur = SubResource( 2 )
+anims/unblur = SubResource( 3 )
 
 [node name="Area2D" type="Area2D" parent="Leaves"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Leaves/Area2D"]
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 [connection signal="body_entered" from="Leaves/Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Leaves/Area2D" to="." method="_on_Area2D_body_exited"]

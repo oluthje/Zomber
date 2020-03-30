@@ -1,8 +1,9 @@
-extends Area2D
+extends KinematicBody2D
 
 export var pre_set_object = ""
 
 var object_name
+var player_vel = Vector2()
 
 func _ready():
 	if pre_set_object != "":
