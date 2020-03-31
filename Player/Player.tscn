@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
-[ext_resource path="res://Sprites/Player/player.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Player/PlayerHead.png" type="Texture" id=2]
 [ext_resource path="res://Weapons/SlotItemImage.tscn" type="PackedScene" id=3]
 [ext_resource path="res://HUD/Camera2D.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Sprites/Player/playerlegs.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Player/PlayerArmMelee.png" type="Texture" id=6]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Walk"
@@ -22,6 +23,37 @@ tracks/0/keys = {
 "values": [ 1, 2, 3, 4, 5, 6, 7, 8, 0 ]
 }
 
+[sub_resource type="Animation" id=4]
+resource_name = "meleeswing"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Arms:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "shootpos"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Arms:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
 [sub_resource type="CircleShape2D" id=2]
 radius = 6.05316
 
@@ -29,12 +61,33 @@ radius = 6.05316
 radius = 9.00011
 
 [node name="Player" type="KinematicBody2D"]
-z_index = 1
+z_index = 2
 collision_mask = 3
 script = ExtResource( 1 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="Legs" type="Sprite" parent="."]
+rotation = 1.5708
+texture = ExtResource( 5 )
+vframes = 3
+hframes = 3
+frame = 1
+
+[node name="Arms" type="Sprite" parent="."]
+rotation = 1.5708
+texture = ExtResource( 6 )
+vframes = 3
+hframes = 2
+
+[node name="Head" type="Sprite" parent="."]
+rotation = 1.5708
+texture = ExtResource( 2 )
+
+[node name="LegAnimPlayer" type="AnimationPlayer" parent="."]
 anims/Walk = SubResource( 1 )
+
+[node name="ArmAnimPlayer" type="AnimationPlayer" parent="."]
+anims/meleeswing = SubResource( 4 )
+anims/shootpos = SubResource( 5 )
 
 [node name="CarryableObject" type="Node2D" parent="."]
 position = Vector2( 0, 10 )
@@ -44,17 +97,6 @@ position = Vector2( 0, 10 )
 [node name="HandHeldItem" type="Node2D" parent="."]
 
 [node name="Camera2D" parent="." instance=ExtResource( 4 )]
-
-[node name="Legs" type="Sprite" parent="."]
-rotation = 1.5708
-texture = ExtResource( 5 )
-vframes = 3
-hframes = 3
-frame = 1
-
-[node name="Player" type="Sprite" parent="."]
-rotation = 1.5708
-texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )

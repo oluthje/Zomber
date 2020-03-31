@@ -6,7 +6,7 @@ var BuildingButtons = preload("res://HUD/BuildingButtons.tscn")
 var showing_buildings = false
 var game_node
 
-var time_before_auto_close = 10
+var time_before_auto_close = 8
 
 func spawn_building_buttons():
 	var buttons = BuildingButtons.instance()
@@ -40,4 +40,5 @@ func _on_TextureButton_mouse_exited():
 
 func _on_AutoCloseTimer_timeout():
 	remove_buttons()
+	get_node("TextureButton").set_pressed(false)
 	showing_buildings = false

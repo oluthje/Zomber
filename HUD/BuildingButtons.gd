@@ -1,6 +1,6 @@
 extends Node2D
 
-var ConstructionNode = preload("res://Construction/ConstructionNode.tscn")
+var ConstructionNode = load("res://Construction/ConstructionNode.tscn")
 var anim_speed = 2
 
 func _ready():
@@ -16,6 +16,7 @@ func hide_buttons():
 	
 func spawn_draggable_building(building):
 	var draggable_building = ConstructionNode.instance()
+	draggable_building.setup(Item.WOOD_SPIKES, true)
 	if building == Item.WOOD_SPIKES:
 		pass
 	

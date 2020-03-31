@@ -78,7 +78,7 @@ func get_input():
 	
 	# If there's input, accelerate to the input velocity
 	if input_velocity.length() > 0:
-		$AnimationPlayer.play("Walk")
+		$LegAnimPlayer.play("Walk")
 		velocity = velocity.linear_interpolate(input_velocity, acceleration)
 	else:
 		velocity = velocity.linear_interpolate(Vector2.ZERO, friction)

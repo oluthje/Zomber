@@ -1,6 +1,7 @@
 extends Node2D
 
 var Bullet = preload("res://Weapons/Bullet.tscn")
+var ShotFlash = preload("res://Weapons/GunshotParticles.tscn")
 
 # Gun information
 var shot_cooldown = 10 # Amount of time between each shot
@@ -54,15 +55,18 @@ func input():
 	if Input.is_action_pressed("reload") and loaded_ammo != reload_amount:
 		is_reloading = true
 		$AnimationPlayer.play("reload")
-		
+	
 	#Item.loaded_ammo = loaded_ammo  # Tell Scene script total current ammo count for this weapon
 	if should_save_loaded_ammo:
 		save_loaded_ammo()
-	
+
 func save_loaded_ammo():
 	Item.inv_ammo[Item.current_inventory_slot] = loaded_ammo
 	
 func shoot():
+	get_parent().get_parent().get_node("ArmAnimPlayer").play("shootpos")
+	
+	spawn_shot_flash()
 	shake_screen()
 	spawn_bullet()
 	$AnimationPlayer.play("shoot")
@@ -86,6 +90,11 @@ func get_added_dispersion():
 		return deg2rad(added_bullet_rot)
 	else:
 		return 0
+		
+func spawn_shot_flash():
+	var shot_flash = ShotFlash.instance()
+	shot_flash.set_position(get_node("BulletPos").get_position())
+	add_child(shot_flash)
 
 func reload_code():
 	if is_reloading:

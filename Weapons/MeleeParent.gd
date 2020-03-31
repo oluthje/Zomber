@@ -27,10 +27,10 @@ func _physics_process(delta):
 
 func input():
 	if automatic == true:
-		if Input.is_action_pressed("shoot") and not is_swinging:
+		if Input.is_action_pressed("shoot") and not is_swinging and not Item.using_menu:
 			swing()
 	else:
-		if Input.is_action_just_pressed("shoot") and not is_swinging:
+		if Input.is_action_just_pressed("shoot") and not is_swinging and not Item.using_menu:
 			swing()
 
 func swing():
@@ -38,14 +38,22 @@ func swing():
 	$AnimationPlayer.set_speed_scale(attack_speed)
 	if current_arm == "right":
 		current_arm = "left"
+		play_player_arm_swing(false)
 		$AnimationPlayer.play("swingleft")
 	elif current_arm == "left":
 		current_arm = "right"
+		play_player_arm_swing(true)
 		$AnimationPlayer.play("swingright")
 		
 	get_node("CoolDownTimer").set_wait_time(swing_cooldown)
 	get_node("CoolDownTimer").start()
 	spawn_swoosh_particles()
+	
+func play_player_arm_swing(flipped):
+	var arm_anim_player = get_parent().get_parent().get_node("ArmAnimPlayer")
+	arm_anim_player.set_speed_scale(3)
+	get_parent().get_parent().get_node("Arms").set_flip_h(flipped)
+	arm_anim_player.play("meleeswing")
 
 func spawn_swoosh_particles():
 	var particles = SwooshParticles.instance()

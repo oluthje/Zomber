@@ -14,7 +14,6 @@ var spacing = 16
 var building_name = ""
 
 func _ready():
-	setup(Item.WOOD_SPIKES)
 	setup_square_array()
 	draw_squares()
 
@@ -28,18 +27,31 @@ func _physics_process(delta):
 			Item.using_menu = false
 			queue_free()
 		elif Input.is_action_pressed("shoot"):
-			if can_place:
+			if can_place():
+				$AnimationPlayer.play("posfeedback")
 				Item.using_menu = false
 				draggable = false
 			else:
-				$AnimationPlayer.play("flash")
-			
-func setup(building):
+				$AnimationPlayer.play("negfeedback")
+
+func setup(building, to_be_dragged):
 	building_name = building
+	draggable = to_be_dragged
 	if building == Item.WOOD_SPIKES:
 		for i in range(4):
 			required_materials.append(Item.LOG)
+	
+	
+func can_place():
+	var placeable = true
+	var areas = get_overlapping_areas()
+	
+	for area in areas:
+		if area.is_in_group("building"):
+			placeable = false
 			
+	return placeable
+
 func spawn_building(building):
 	var building_node
 	if building == Item.WOOD_SPIKES:
@@ -91,12 +103,16 @@ func setup_square_array():
 			index += 1
 
 func _on_ConstructionNode_area_entered(area):
-	if "CarryableObject" in area.name:
-		add_resource_building(Item.LOG)
-		area.get_parent().queue_free()
-	if area.is_in_group("building"):
-		can_place = false
+#	if "CarryableObject" in area.name and not draggable:
+#		add_resource_building(Item.LOG)
+#		area.get_parent().queue_free()
+	pass
 
-func _on_ConstructionNode_area_exited(area):
-	if area.is_in_group("building"):
-		can_place = true
+func _on_ConstructionNode_body_entered(body):
+	if "Player" in body.name:
+		if body.carrying_object:
+			add_resource_building(Item.LOG)
+			body.get_node("CarryableObject").get_node("SlotItemImage").select_item_to_display("none")
+			body.carrying_object = false
+			body.object_carrying_name = ""
+			body.try_update_held_item()

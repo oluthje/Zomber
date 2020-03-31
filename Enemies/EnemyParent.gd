@@ -62,7 +62,7 @@ func spawn_blood_splatter():
 	blood_splatter.set_rotation(get_global_rotation() - deg2rad(180))
 	blood_splatter.set_global_position(get_global_position())
 	get_parent().add_child(blood_splatter)
-	
+
 func spawn_blood_splat():
 	var blood_splat = BloodSplat.instance()
 	

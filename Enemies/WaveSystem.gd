@@ -9,7 +9,7 @@ onready var spawn_timer = get_node("SpawnTimer")
 # Wave variables
 var wave_num = 0
 var wave_time = 12
-var wave_rest_time = 1
+var wave_rest_time = 8
 var can_advance_to_next_wave = true
 
 # Spawning variables
