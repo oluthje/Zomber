@@ -5,20 +5,29 @@ var BloodSplat = preload("res://Enemies/Gore/Bloodsplat.tscn")
 var Corpse = preload("res://Enemies/Gore/Corpse.tscn")
 
 var player_pos = Vector2()
-var velocity = Vector2()
 
+# Movement
 var speed = 115
+var friction = 0.18
+var acceleration = 0.5
+var velocity = Vector2.ZERO
+var knock_back_amount = 3
+var knock_back_num = 0
+
+# Animation
+var state = "walking"
+var ATTACKING = "attacking"
+var WALKING = "walking"
+var walk_anim_speed = 1
+var attack_anim_speed = 1
+
 var min_distance = 50
 var stun_time = 0.1
 var health = 35
 var can_move = true
+var knocked_back = false
 
 var stun_timer
-
-#func _ready():
-#	print(get_node("Timer").name)
-#	stun_timer = get_node("Timer")
-#	stun_timer.set_wait_time(stun_time)
 
 func _physics_process(delta):
 	move()
@@ -29,13 +38,35 @@ func rotate_towards_player():
 
 func move():
 	player_pos = get_player_pos()
+	var input_velocity = Vector2.ZERO
+	var rot_to_player = get_rotation_to_player()
 	var distance_to_player = get_global_position().distance_to(player_pos)
-	if can_move and distance_to_player >= 20:
-		velocity = Vector2()
-		velocity = (player_pos - get_global_position()).normalized()
-		move_and_slide(velocity * speed)
-		velocity = velocity.normalized() * speed
-		
+	input_velocity = (player_pos - get_global_position()).normalized()
+	input_velocity = input_velocity.normalized() * speed
+	
+	if input_velocity.length() > 0 and can_move and not knocked_back and distance_to_player >= 20:
+		velocity = velocity.linear_interpolate(input_velocity, acceleration)
+	elif knocked_back:
+		if knock_back_num <= 0.5:
+			knocked_back = false
+		input_velocity = -input_velocity
+		input_velocity = input_velocity.linear_interpolate(Vector2.ZERO, friction)
+		velocity = (input_velocity.normalized() * speed * knock_back_num)
+		knock_back_num -= 0.25
+	else:
+		velocity = velocity.linear_interpolate(Vector2.ZERO, friction)
+	play_animations()
+	velocity = move_and_slide(velocity)
+	
+func play_animations():
+	match state:
+		WALKING:
+			$AnimationPlayer.set_speed_scale(walk_anim_speed)
+			$AnimationPlayer.play("walk")
+		ATTACKING:
+			$AnimationPlayer.set_speed_scale(attack_anim_speed)
+			$AnimationPlayer.play("attack")
+	
 func get_player_pos():
 	var game_node
 	for child in get_tree().get_root().get_node("Main").get_children():
@@ -47,6 +78,8 @@ func get_player_pos():
 func take_damage(damage):
 	health -= damage
 	can_move = false
+	knocked_back = true
+	knock_back_num = knock_back_amount
 	spawn_blood_splat()
 	if health <= 0:
 		spawn_blood_splatter()

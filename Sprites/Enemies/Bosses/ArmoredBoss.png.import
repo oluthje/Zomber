@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/zombie.png-3fe43786fb64918ce9a948b57e0d005e.stex"
+path="res://.import/ArmoredBoss.png-72382485f3048f4b8fcad07110bc288c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Enemies/zombie.png"
-dest_files=[ "res://.import/zombie.png-3fe43786fb64918ce9a948b57e0d005e.stex" ]
+source_file="res://Sprites/Enemies/Bosses/ArmoredBoss.png"
+dest_files=[ "res://.import/ArmoredBoss.png-72382485f3048f4b8fcad07110bc288c.stex" ]
 
 [params]
 

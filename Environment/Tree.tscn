@@ -65,9 +65,9 @@ texture = ExtResource( 2 )
 anims/blur = SubResource( 2 )
 anims/unblur = SubResource( 3 )
 
-[node name="Area2D" type="Area2D" parent="Leaves"]
+[node name="Tree" type="Area2D" parent="Leaves"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Leaves/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Leaves/Tree"]
 shape = SubResource( 4 )
-[connection signal="body_entered" from="Leaves/Area2D" to="." method="_on_Area2D_body_entered"]
-[connection signal="body_exited" from="Leaves/Area2D" to="." method="_on_Area2D_body_exited"]
+[connection signal="body_entered" from="Leaves/Tree" to="." method="_on_Area2D_body_entered"]
+[connection signal="body_exited" from="Leaves/Tree" to="." method="_on_Area2D_body_exited"]

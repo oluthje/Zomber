@@ -3,7 +3,6 @@
 [ext_resource path="res://HUD/Labels/FFFFORWA.TTF" type="DynamicFontData" id=1]
 [ext_resource path="res://HUD/Labels/NewWaveLabel.gd" type="Script" id=2]
 
-
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 1 )
 
@@ -30,7 +29,7 @@ margin_right = -196.0
 margin_bottom = 42.0
 rect_scale = Vector2( 2, 2 )
 custom_fonts/font = SubResource( 1 )
-custom_colors/font_color = Color( 0.0235294, 0.0862745, 0.6, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Wave"
 script = ExtResource( 2 )
 __meta__ = {

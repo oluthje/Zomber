@@ -12,6 +12,7 @@ var reload_amount = 0 # Amount that the gun gets when reloaded
 var dispersion = 0 # The degree range that the bullet could possible go toward. (degrees)
 var bullet_speed = 180
 var bullet_damage = 15
+var reload_anim_speed = 1
 
 # Screen shake variables
 var duration = 0.2
@@ -25,6 +26,9 @@ var time = 0
 var is_reloading = false
 
 func _ready():
+	print(Item.inv_ammo)
+	print("first ready: " + str(first_ready))
+	print("loaded ammo: " + str(loaded_ammo))
 	if Item.inv_ammo[Item.current_inventory_slot] != -1:
 		loaded_ammo = Item.inv_ammo[Item.current_inventory_slot]
 	
@@ -54,6 +58,7 @@ func input():
 
 	if Input.is_action_pressed("reload") and loaded_ammo != reload_amount:
 		is_reloading = true
+		$AnimationPlayer.set_speed_scale(reload_anim_speed)
 		$AnimationPlayer.play("reload")
 	
 	#Item.loaded_ammo = loaded_ammo  # Tell Scene script total current ammo count for this weapon
@@ -69,6 +74,7 @@ func shoot():
 	spawn_shot_flash()
 	shake_screen()
 	spawn_bullet()
+	$AnimationPlayer.set_speed_scale(1)
 	$AnimationPlayer.play("shoot")
 	loaded_ammo -= 1
 	time = 0 
@@ -76,7 +82,7 @@ func shoot():
 func spawn_bullet():
 	var bullet = Bullet.instance()
 	bullet.set_global_position(get_node("BulletPos").global_position)
-	bullet.set_up(get_global_rotation() + get_added_dispersion(), bullet_speed, bullet_damage)
+	bullet.set_up(get_global_rotation() + get_added_dispersion(), bullet_speed, bullet_damage, "player")
 	get_parent().get_parent().get_parent().add_child(bullet)
 
 func get_added_dispersion():
@@ -84,8 +90,8 @@ func get_added_dispersion():
 		randomize()
 		var added_bullet_rot = rand_range(0, dispersion/2)
 		randomize()
-		var rand_num = rand_range(0, 1)
-		if rand_num == 0:
+		var rand_num = rand_range(0, 100)
+		if rand_num > 50:
 			added_bullet_rot = added_bullet_rot * -1
 		return deg2rad(added_bullet_rot)
 	else:

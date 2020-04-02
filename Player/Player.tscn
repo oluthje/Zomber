@@ -23,7 +23,7 @@ tracks/0/keys = {
 "values": [ 1, 2, 3, 4, 5, 6, 7, 8, 0 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=2]
 resource_name = "meleeswing"
 length = 0.5
 tracks/0/type = "value"
@@ -39,7 +39,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4, 5 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=3]
 resource_name = "shootpos"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Arms:frame")
@@ -54,10 +54,10 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=4]
 radius = 6.05316
 
-[sub_resource type="CircleShape2D" id=3]
+[sub_resource type="CircleShape2D" id=5]
 radius = 9.00011
 
 [node name="Player" type="KinematicBody2D"]
@@ -86,8 +86,8 @@ texture = ExtResource( 2 )
 anims/Walk = SubResource( 1 )
 
 [node name="ArmAnimPlayer" type="AnimationPlayer" parent="."]
-anims/meleeswing = SubResource( 4 )
-anims/shootpos = SubResource( 5 )
+anims/meleeswing = SubResource( 2 )
+anims/shootpos = SubResource( 3 )
 
 [node name="CarryableObject" type="Node2D" parent="."]
 position = Vector2( 0, 10 )
@@ -95,17 +95,18 @@ position = Vector2( 0, 10 )
 [node name="SlotItemImage" parent="CarryableObject" instance=ExtResource( 3 )]
 
 [node name="HandHeldItem" type="Node2D" parent="."]
+position = Vector2( 0, 3 )
 
 [node name="Camera2D" parent="." instance=ExtResource( 4 )]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( 0, -0.0436764 )
-shape = SubResource( 3 )
+shape = SubResource( 5 )
 
 [node name="PickupTimer" type="Timer" parent="."]
 one_shot = true

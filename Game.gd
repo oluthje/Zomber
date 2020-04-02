@@ -25,9 +25,9 @@ func spawn_trees_randomly():
 				var tree = TreeNode.instance()
 				tree.set_global_position(Vector2(x*32, y*32))
 				add_child(tree)
-			
+
 func should_spawn_tree():
-	var spawn_chance = 10
+	var spawn_chance = 5
 	randomize()
 	var rand_num = rand_range(0, 100)
 	if rand_num <= spawn_chance:

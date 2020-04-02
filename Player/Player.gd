@@ -8,6 +8,7 @@ var Corpse = preload("res://Enemies/Gore/Corpse.tscn")
 
 # Guns
 var Pistol = preload("res://Weapons/Pistol.tscn")
+var Shotgun = preload("res://Weapons/Shotgun.tscn")
 
 # Melee weapons
 var Axe = preload("res://Weapons/Axe.tscn")
@@ -88,7 +89,7 @@ func rotate_legs_toward_movement():
 	var legs_anim = get_node("Legs")
 	var angle = get_angle_to(velocity + get_global_position())
 	legs_anim.set_rotation(angle + deg2rad(90))
-	
+
 func try_to_pickup_item():
 	var ammo_num_to_item
 	if Input.is_action_just_pressed("interact") and not carrying_object:
@@ -175,6 +176,9 @@ func try_update_held_item():
 		pass
 	elif Item.inventory[Item.current_inventory_slot] == Item.PISTOL:
 		var item = Pistol.instance()
+		get_node("HandHeldItem").add_child(item)
+	elif Item.inventory[Item.current_inventory_slot] == Item.SHOTGUN:
+		var item = Shotgun.instance()
 		get_node("HandHeldItem").add_child(item)
 	elif Item.inventory[Item.current_inventory_slot] == Item.AXE:
 		var item = Axe.instance()

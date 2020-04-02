@@ -20,20 +20,20 @@ lifetime_randomness = 0.2
 emission_shape = 2
 emission_box_extents = Vector3( 4, 2, 1 )
 flag_disable_z = true
-spread = 20.0
+spread = 15.0
 gravity = Vector3( 0, 0, 0 )
-initial_velocity = 125.0
+initial_velocity = 175.0
 initial_velocity_random = 0.25
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-scale = 4.0
+scale = 3.0
 scale_curve = SubResource( 5 )
-color = Color( 0.976471, 0.729412, 0, 1 )
+color = Color( 0.976471, 0.670588, 0, 1 )
 hue_variation_curve = SubResource( 3 )
 
 [node name="GunshotParticles" type="Particles2D"]
 emitting = false
-lifetime = 0.1
+lifetime = 0.15
 one_shot = true
 explosiveness = 0.8
 process_material = SubResource( 1 )

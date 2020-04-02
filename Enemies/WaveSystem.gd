@@ -1,6 +1,11 @@
 extends Node2D
 
+# Enemies
 var Zombie = preload("res://Enemies/Zombie.tscn")
+
+# Bosses
+var ArmoredZombie = preload("res://Enemies/ArmoredZombieBoss.tscn")
+
 var PanningLabel = preload("res://HUD/Labels/NewWaveLabel.tscn")
 
 onready var rest_timer = get_node("RestTimer")
@@ -14,6 +19,8 @@ var can_advance_to_next_wave = true
 
 # Spawning variables
 var num_zombies = 3
+var num_bosses = 1
+var bosses_left = 1
 var zombies_left = 3
 var spawn_time = 0
 
@@ -23,7 +30,7 @@ func _physics_process(delta):
 		rest_timer.set_wait_time(wave_rest_time)
 		rest_timer.start()
 		can_advance_to_next_wave = false
-#
+
 #	zombies_alive = get_tree().get_nodes_in_group("enemies").size()
 #	var label = get_node("Label")
 #	label.set_text(str(zombies_alive))
@@ -54,6 +61,15 @@ func spawn_zombie():
 	zombie.set_global_position(get_rand_spawner_pos())
 	get_parent().add_child(zombie)
 
+func randomly_spawn_boss():
+	var percent_chance = 50
+	randomize()
+	var rand_num = rand_range(0, 100)
+	if rand_num <= percent_chance:
+		var armored_zombie = ArmoredZombie.instance()
+		armored_zombie.set_global_position(get_rand_spawner_pos())
+		get_parent().add_child(armored_zombie)
+
 func get_rand_spawner_pos():
 	var spawners = []
 	for child in get_node("Spawnpoints").get_children():
@@ -70,6 +86,11 @@ func _on_SpawnTimer_timeout():
 		zombies_left -= 1
 		spawn_zombie()
 		spawn_timer.start()
+#	elif bosses_left > 0:
+#		bosses_left -= 1
+#		print("randomly spawned boss")
+#		randomly_spawn_boss()
+#		spawn_timer.start()
 	else:
 		can_advance_to_next_wave = true
 

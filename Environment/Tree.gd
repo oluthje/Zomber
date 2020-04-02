@@ -28,7 +28,7 @@ func spawn_chop_particles():
 	chop_particles.set_global_position(get_global_position())
 	chop_particles.set_rotation(get_angle_to_player())
 	get_parent().add_child(chop_particles)
-	
+
 func get_angle_to_player():
 	var game_node = get_tree().get_root().get_node("Main").game_node
 	return game_node.get_rotation_to_node(get_global_position(), game_node.player_pos)
@@ -41,7 +41,6 @@ func place_logs_at_angle(degrees):
 		tree_log.set_global_position(log_pos.rotated(deg2rad(degrees)) + get_global_position())
 		tree_log.set_rotation(deg2rad(degrees))
 		get_parent().add_child(tree_log)
-		
 	queue_free()
 
 func _on_Area2D_body_entered(body):
