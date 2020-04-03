@@ -12,8 +12,8 @@ func _ready():
 	
 	# Screen shake variables
 	duration = 0.05
-	frequency = 50
-	amplitude = 6
+	frequency = 40
+	amplitude = 4
 	priority = 0
 	
 	._ready()

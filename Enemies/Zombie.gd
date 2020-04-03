@@ -1,7 +1,7 @@
 extends "res://Enemies/EnemyParent.gd"
 
 func _ready():
-	speed = 90
+	speed = 75
 	min_distance = 50
 	stun_time = 0.5
 	health = 35

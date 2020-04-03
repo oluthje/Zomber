@@ -20,12 +20,12 @@ func _physics_process(delta):
 		velocity = move_and_slide(velocity)
 
 func set_up(corpse):
-	if corpse == "zombie":
-		$AnimatedSprite.play("zombie")
 	if corpse == "player":
 		var camera = PlayerCamera.instance()
 		add_child(camera)
 		$AnimatedSprite.play("zombie")
+	else:
+		$AnimatedSprite.play(corpse)
 		
 	randomly_flip()
 	

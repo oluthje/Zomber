@@ -4,7 +4,7 @@
 [ext_resource path="res://Weapons/SlotItemImage.tscn" type="PackedScene" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 9, 8 )
+extents = Vector2( 12, 9 )
 
 [node name="CarryableObject" type="KinematicBody2D"]
 z_index = 1

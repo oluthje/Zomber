@@ -9,13 +9,16 @@ onready var leaves_node = get_node("Leaves")
 # Tree felling
 var health = 30
 var num_logs = 4
-var log_spacing = 28
+var log_spacing = 24
 
 func _ready():
 	pass
 
-func take_damage():
-	health -= 10
+func take_damage(chopped):
+	if chopped:
+		health -= 10
+	else:
+		health -= 2.5
 	spawn_chop_particles()
 	if health <= 0:
 		fell_tree()

@@ -15,11 +15,15 @@ var bullet_speed = 90
 var dispersion = 20
 var bullet_speed_variation = 0.50
 
+var total_health = 0
+var total_armor = 3
+
 func _ready():
 	speed = 75
 	min_distance = 50
 	stun_time = 0.5
 	health = 450
+	total_health = health
 	can_move = true
 	knock_back_amount = .2
 	
@@ -32,6 +36,47 @@ func _ready():
 	
 	walking_timer.set_wait_time(walking_time)
 	walking_timer.start()
+
+func take_damage(damage):
+	health -= damage
+	can_move = false
+	knocked_back = true
+	knock_back_num = knock_back_amount
+	check_for_armor_destruction()
+	spawn_blood_splat()
+	if health <= 0:
+		spawn_blood_splatter()
+		spawn_corpse()
+		queue_free()
+
+func check_for_armor_destruction():
+	var has_dropped_armor = false
+	if health <= 0.25 * total_health and total_armor == 1 and not has_dropped_armor:
+		drop_armor()
+		has_dropped_armor = true
+		total_armor -= 1
+	if health <= 0.50 * total_health and total_armor == 2 and not has_dropped_armor:
+		drop_armor()
+		has_dropped_armor = true
+		total_armor -= 1
+	if health <= 0.75 * total_health and total_armor == 3 and not has_dropped_armor:
+		drop_armor()
+		has_dropped_armor = true
+		total_armor -= 1
+
+func drop_armor():
+	randomize()
+	var rand_armor_num = rand_range(0, get_node("Armor").get_children().size())
+	var armor_pieces = []
+	for child in get_node("Armor").get_children():
+		armor_pieces.append(child)
+	armor_pieces[rand_armor_num].queue_free()
+	
+	var corpse = Corpse.instance()
+	corpse.set_global_position(get_global_position())
+	corpse.set_rotation(get_global_rotation() - deg2rad(90))
+	corpse.set_up("armor")
+	get_parent().add_child(corpse)
 
 func spawn_bullet_spray():
 	var bullet_pos_node = get_node("BulletPos")

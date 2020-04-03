@@ -23,6 +23,7 @@ func _on_Area2D_body_entered(body):
 		body.take_damage(DAMAGE)
 		queue_free()
 	if "Tree" in body.name:
+		body.take_damage(false)
 		queue_free()
 	if "Player" in body.name:
 		body.take_damage()

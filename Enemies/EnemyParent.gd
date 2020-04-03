@@ -97,10 +97,9 @@ func spawn_blood_splatter():
 	get_parent().add_child(blood_splatter)
 
 func spawn_blood_splat():
-	var blood_splat = BloodSplat.instance()
-	
 	randomize()
 	var rand_rot = rand_range(0, 360)
+	var blood_splat = BloodSplat.instance()
 	blood_splat.set_rotation(deg2rad(rand_rot))
 	blood_splat.set_global_position(get_global_position())
 	get_parent().add_child(blood_splat)
