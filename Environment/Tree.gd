@@ -11,20 +11,27 @@ var health = 30
 var num_logs = 4
 var log_spacing = 24
 
+var felled = false
+var angle_to_player
+
 func _ready():
 	pass
 
 func take_damage(chopped):
-	if chopped:
+	if chopped and not felled:
+		$Leaves/ShakeAnimPlayer.play("bigshake")
+		spawn_chop_particles()
 		health -= 10
-	else:
+	elif not felled:
+		$Leaves/ShakeAnimPlayer.play("smallshake")
 		health -= 2.5
-	spawn_chop_particles()
-	if health <= 0:
-		fell_tree()
+	if health <= 0 and not felled:
+		felled = true
+		angle_to_player = rad2deg(get_angle_to_player())
+		$Leaves/ShakeAnimPlayer.play("finalshake")
 
 func fell_tree():
-	place_logs_at_angle(rad2deg(get_angle_to_player()))
+	place_logs_at_angle(angle_to_player)
 	
 func spawn_chop_particles():
 	var chop_particles = TreeChopParticles.instance()
