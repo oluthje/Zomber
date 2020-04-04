@@ -6,8 +6,8 @@ onready var game_node = get_game_node()
 func _physics_process(delta):
 	if Input.is_action_just_pressed("restart_game"):
 		delete_game_node()
-		respawn_game_node()
 		reset_inventory()
+		respawn_game_node()
 
 func reset_inventory():
 	for index in Item.inv_ammo.size():

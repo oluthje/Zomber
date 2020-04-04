@@ -1,6 +1,7 @@
 extends "res://Enemies/EnemyParent.gd"
 
 var Bullet = preload("res://Weapons/Bullet.tscn")
+var GroundHitParticles = preload("res://Enemies/Bosses/GroundHitParticles.tscn")
 
 var walking_time = 2.5
 var attack_time = 5
@@ -21,7 +22,7 @@ func _ready():
 	speed = 75
 	min_distance = 50
 	stun_time = 0.5
-	health = 450
+	health = 650
 	total_health = health
 	can_move = true
 	can_be_stunned = false
@@ -80,6 +81,11 @@ func drop_armor():
 	corpse.set_rotation(get_global_rotation() - deg2rad(90))
 	corpse.set_up("armor")
 	get_parent().add_child(corpse)
+	
+func spawn_dirt_particles():
+	var ground_hit_particles = GroundHitParticles.instance()
+	ground_hit_particles.set_global_position($BulletPos.get_global_position())
+	get_parent().add_child(ground_hit_particles)
 
 func spawn_bullet_spray():
 	var bullet_pos_node = get_node("BulletPos")
@@ -89,6 +95,8 @@ func spawn_bullet_spray():
 		bullet.set_global_position(get_node("BulletPos").global_position)
 		bullet.set_up(get_global_rotation() + get_added_dispersion(), bullet_speed + get_bullet_speed_variation(), bullet_damage, "enemy")
 		get_parent().add_child(bullet)
+		
+	spawn_dirt_particles()
 	
 func get_added_dispersion():
 	if dispersion > 0:

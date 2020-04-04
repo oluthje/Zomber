@@ -29,7 +29,7 @@ func spawn_bullet_effect():
 	get_parent().add_child(bullet_effect)
 
 func _on_Area2D_body_entered(body):
-	if body.is_in_group("enemies"):
+	if body.is_in_group("enemies") and TYPE != "enemy":
 		body.take_damage(DAMAGE)
 		queue_free()
 	if "Tree" in body.name:

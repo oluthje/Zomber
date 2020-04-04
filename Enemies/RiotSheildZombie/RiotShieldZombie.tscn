@@ -58,7 +58,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 5, 12 )
+extents = Vector2( 4, 12 )
 
 [node name="RiotShieldZombie" type="KinematicBody2D" groups=[
 "enemies",
@@ -100,14 +100,6 @@ texture = ExtResource( 3 )
 anims/shieldhit = SubResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RiotShield"]
-position = Vector2( 18, 0 )
+position = Vector2( 17, 0 )
 shape = SubResource( 5 )
-
-[node name="Label" type="Label" parent="."]
-margin_top = 10.0
-margin_right = 40.0
-margin_bottom = 24.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

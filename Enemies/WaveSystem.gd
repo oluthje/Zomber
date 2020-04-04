@@ -2,6 +2,7 @@ extends Node2D
 
 # Enemies
 var Zombie = preload("res://Enemies/Zombie/Zombie.tscn")
+var RiotZombie = preload("res://Enemies/RiotSheildZombie/RiotShieldZombie.tscn")
 
 # Bosses
 var ArmoredZombie = preload("res://Enemies/Bosses/ArmoredZombieBoss.tscn")
@@ -31,10 +32,6 @@ func _physics_process(delta):
 		rest_timer.start()
 		can_advance_to_next_wave = false
 
-#	zombies_alive = get_tree().get_nodes_in_group("enemies").size()
-#	var label = get_node("Label")
-#	label.set_text(str(zombies_alive))
-
 func next_wave():
 	if get_parent().spawn_enemies:
 		wave_num += 1
@@ -58,9 +55,18 @@ func set_wave_label_text():
 	get_parent().get_node("CanvasLayer").get_node("WaveCountLabel").set_text(str(wave_num))
 
 func spawn_zombie():
-	var zombie = Zombie.instance()
-	zombie.set_global_position(get_rand_spawner_pos())
-	get_parent().add_child(zombie)
+	var percent_chance = 25
+	randomize()
+	var rand_num = rand_range(0, 100)
+	
+	if rand_num <= percent_chance and wave_num > 2:
+		var riot_zombie = RiotZombie.instance()
+		riot_zombie.set_global_position(get_rand_spawner_pos())
+		get_parent().add_child(riot_zombie)
+	else:
+		var zombie = Zombie.instance()
+		zombie.set_global_position(get_rand_spawner_pos())
+		get_parent().add_child(zombie)
 
 func randomly_spawn_boss():
 	var percent_chance = 25
@@ -88,7 +94,6 @@ func _on_SpawnTimer_timeout():
 		spawn_timer.start()
 	elif bosses_left > 0:
 		bosses_left -= 1
-		print("randomly spawned boss")
 		randomly_spawn_boss()
 		spawn_timer.start()
 	else:

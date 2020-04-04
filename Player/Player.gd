@@ -5,6 +5,7 @@ onready var pickup_timer = get_node("PickupTimer")
 var CarryableObject = preload("res://Environment/CarryableObject.tscn")
 var PhysicalItem = preload("res://Weapons/PhysicalItem.tscn")
 var Corpse = preload("res://Enemies/Gore/Corpse.tscn")
+var BloodSplatter = preload("res://Enemies/Gore/Bloodsplat.tscn")
 
 # Guns
 var Pistol = preload("res://Weapons/Pistol.tscn")
@@ -53,6 +54,7 @@ func get_rotation_toward_mouse():
 	
 func take_damage():
 	spawn_corpse()
+	spawn_blood_splatter()
 	queue_free()
 
 func spawn_corpse():
@@ -61,6 +63,12 @@ func spawn_corpse():
 	corpse.set_rotation(get_parent().get_rotation_to_node(get_global_position(), enemy_pos) + deg2rad(90))
 	corpse.set_up("player")
 	get_parent().add_child(corpse)
+	
+func spawn_blood_splatter():
+	var blood_splatter = BloodSplatter.instance()
+	blood_splatter.set_rotation(get_global_rotation() - deg2rad(180))
+	blood_splatter.set_global_position(get_global_position())
+	get_parent().add_child(blood_splatter)
 
 func get_input():
 	var input_velocity = Vector2.ZERO
