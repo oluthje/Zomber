@@ -25,11 +25,14 @@ var min_distance = 50
 var stun_time = 0.1
 var health = 35
 var can_move = true
+var can_be_stunned = true
 var knocked_back = false
+var delta_num = 0
 
 var stun_timer
 
 func _physics_process(delta):
+	delta_num = delta
 	move()
 	rotate_towards_player()
 
@@ -77,7 +80,8 @@ func get_player_pos():
 
 func take_damage(damage):
 	health -= damage
-	can_move = false
+	if can_be_stunned:
+		can_move = false
 	knocked_back = true
 	knock_back_num = knock_back_amount
 	spawn_blood_splat()

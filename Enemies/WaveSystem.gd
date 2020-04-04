@@ -1,10 +1,10 @@
 extends Node2D
 
 # Enemies
-var Zombie = preload("res://Enemies/Zombie.tscn")
+var Zombie = preload("res://Enemies/Zombie/Zombie.tscn")
 
 # Bosses
-var ArmoredZombie = preload("res://Enemies/ArmoredZombieBoss.tscn")
+var ArmoredZombie = preload("res://Enemies/Bosses/ArmoredZombieBoss.tscn")
 
 var PanningLabel = preload("res://HUD/Labels/NewWaveLabel.tscn")
 
@@ -14,7 +14,7 @@ onready var spawn_timer = get_node("SpawnTimer")
 # Wave variables
 var wave_num = 0
 var wave_time = 12
-var wave_rest_time = 8
+var wave_rest_time = 5
 var can_advance_to_next_wave = true
 
 # Spawning variables
@@ -40,6 +40,7 @@ func next_wave():
 		wave_num += 1
 		num_zombies += 1
 		zombies_left = num_zombies
+		bosses_left = num_bosses
 		
 		set_wave_label_text()
 		spawn_panning_wave_label()
@@ -62,10 +63,10 @@ func spawn_zombie():
 	get_parent().add_child(zombie)
 
 func randomly_spawn_boss():
-	var percent_chance = 50
+	var percent_chance = 25
 	randomize()
 	var rand_num = rand_range(0, 100)
-	if rand_num <= percent_chance:
+	if rand_num <= percent_chance and wave_num > 6:
 		var armored_zombie = ArmoredZombie.instance()
 		armored_zombie.set_global_position(get_rand_spawner_pos())
 		get_parent().add_child(armored_zombie)
@@ -78,7 +79,6 @@ func get_rand_spawner_pos():
 
 	randomize()
 	var rand_num = rand_range(0, spawners.size())
-
 	return spawners[rand_num].get_global_position()
 
 func _on_SpawnTimer_timeout():
@@ -86,11 +86,11 @@ func _on_SpawnTimer_timeout():
 		zombies_left -= 1
 		spawn_zombie()
 		spawn_timer.start()
-#	elif bosses_left > 0:
-#		bosses_left -= 1
-#		print("randomly spawned boss")
-#		randomly_spawn_boss()
-#		spawn_timer.start()
+	elif bosses_left > 0:
+		bosses_left -= 1
+		print("randomly spawned boss")
+		randomly_spawn_boss()
+		spawn_timer.start()
 	else:
 		can_advance_to_next_wave = true
 

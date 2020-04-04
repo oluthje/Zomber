@@ -1,0 +1,113 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Sprites/Enemies/zombie.png" type="Texture" id=1]
+[ext_resource path="res://Enemies/RiotSheildZombie/RiotShieldZombie.gd" type="Script" id=2]
+[ext_resource path="res://Sprites/Enemies/RiotShield.png" type="Texture" id=3]
+[ext_resource path="res://Enemies/RiotSheildZombie/RiotShield.gd" type="Script" id=4]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 7.60612
+
+[sub_resource type="Animation" id=6]
+resource_name = "carryshield"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 16 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "walk"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 3, 4, 5, 6, 7, 8 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "shieldhit"
+length = 0.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -3, 0 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 5, 12 )
+
+[node name="RiotShieldZombie" type="KinematicBody2D" groups=[
+"enemies",
+]]
+z_index = 2
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+vframes = 5
+hframes = 4
+frame = 1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -1.60094, -1.28075 )
+shape = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/carryshield = SubResource( 6 )
+anims/walk = SubResource( 2 )
+
+[node name="RiotShield" type="Area2D" parent="."]
+position = Vector2( -4, -1 )
+script = ExtResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="RiotShield"]
+texture = ExtResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="RiotShield"]
+anims/shieldhit = SubResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RiotShield"]
+position = Vector2( 18, 0 )
+shape = SubResource( 5 )
+
+[node name="Label" type="Label" parent="."]
+margin_top = 10.0
+margin_right = 40.0
+margin_bottom = 24.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

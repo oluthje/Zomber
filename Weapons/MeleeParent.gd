@@ -17,6 +17,7 @@ var priority = 0
 
 # Misc
 var is_swinging = false
+var has_hit = false
 var current_arm = "right"
 
 func _ready():
@@ -66,6 +67,7 @@ func swing_anim_finished():
 		get_node("Sprite").set_flip_h(false)
 	elif current_arm == "left":
 		get_node("Sprite").set_flip_h(true)
+	has_hit = false
 		
 func swing_cooldown_finished():
 	is_swinging = false

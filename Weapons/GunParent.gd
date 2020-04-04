@@ -26,9 +26,9 @@ var time = 0
 var is_reloading = false
 
 func _ready():
-	print(Item.inv_ammo)
-	print("first ready: " + str(first_ready))
-	print("loaded ammo: " + str(loaded_ammo))
+#	print(Item.inv_ammo)
+#	print("first ready: " + str(first_ready))
+#	print("loaded ammo: " + str(loaded_ammo))
 	if Item.inv_ammo[Item.current_inventory_slot] != -1:
 		loaded_ammo = Item.inv_ammo[Item.current_inventory_slot]
 	

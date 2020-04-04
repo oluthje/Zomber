@@ -18,12 +18,20 @@ func _ready():
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	swing_anim_finished()
-	
+
 func _on_CoolDownTimer_timeout():
 	swing_cooldown_finished()
 
 func _on_Area2D_body_entered(body):
-	if body.is_in_group("enemies"):
-		body.take_damage(damage)
-	elif "Tree" in body.name:
-		body.take_damage(true)
+	if not has_hit:
+		if body.is_in_group("enemies"):
+			body.take_damage(damage)
+			has_hit = true
+		elif "Tree" in body.name:
+			body.take_damage(true)
+			has_hit = true
+
+func _on_Area2D_area_entered(area):
+	if not has_hit:
+		if "RiotShield" in area.name:
+			has_hit = true

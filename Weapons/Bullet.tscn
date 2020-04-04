@@ -3,8 +3,8 @@
 [ext_resource path="res://Weapons/Bullet.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Weapons/Bullet.png" type="Texture" id=2]
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 3.65791
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 6, 2.78444 )
 
 [sub_resource type="Animation" id=2]
 resource_name = "enemybullet"
@@ -51,9 +51,11 @@ frame = 2
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource( 1 )
+position = Vector2( -2, 0 )
+shape = SubResource( 4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/enemybullet = SubResource( 2 )
 anims/playerbullet = SubResource( 3 )
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
