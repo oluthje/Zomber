@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/leaffalling.png-6cd81409cfafaf28bdda23b1311514eb.stex"
+path="res://.import/leaf.png-19925c86500d9d655acfb4451e3b0328.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Environment/leaffalling.png"
-dest_files=[ "res://.import/leaffalling.png-6cd81409cfafaf28bdda23b1311514eb.stex" ]
+source_file="res://Sprites/Environment/leaf.png"
+dest_files=[ "res://.import/leaf.png-19925c86500d9d655acfb4451e3b0328.stex" ]
 
 [params]
 

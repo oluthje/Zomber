@@ -1,6 +1,7 @@
 extends Area2D
 
 var ConstructionSquare = preload("res://Construction/ConstructionSquare.tscn")
+var ResourceAddedLabel = preload("res://Construction/ResourcedAddedLabel.tscn")
 
 # Buildings
 var WoodSpikes = preload("res://Obstacles/WoodenSpikes.tscn")
@@ -76,10 +77,18 @@ func draw_squares():
 			else:
 				square.play("square")
 				square.get_node("AnimationPlayer").play(square_array[x][y])
+				
+func spawn_added_resource_label():
+	var label = ResourceAddedLabel.instance()
+	label.setup("+", Item.LOG)
+	label.set_global_position(get_global_position())
+	get_parent().add_child(label)
 
 func add_resource_building(resource):
 	var has_all_resources = true
 	var added_resource = false
+	$AnimationPlayer.play("posbuildfeedback")
+	spawn_added_resource_label()
 	for x in range(size):
 		for y in range(size):
 			if square_array[x][y] == resource and not added_resource:
@@ -101,12 +110,6 @@ func setup_square_array():
 			square_array[x].append([])
 			square_array[x][y] = required_materials[index]
 			index += 1
-
-func _on_ConstructionNode_area_entered(area):
-#	if "CarryableObject" in area.name and not draggable:
-#		add_resource_building(Item.LOG)
-#		area.get_parent().queue_free()
-	pass
 
 func _on_ConstructionNode_body_entered(body):
 	if "Player" in body.name:

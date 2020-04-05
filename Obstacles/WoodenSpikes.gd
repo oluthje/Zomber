@@ -1,15 +1,24 @@
 extends StaticBody2D
 
 var ConstructionNode = load("res://Construction/ConstructionNode.tscn")
+var ConstructedParticles = preload("res://Construction/ConstructedParticles.tscn")
 
 var damage = 50
 var health = 5
+
+func _ready():
+	spawn_constructed_particles()
 
 func take_damage():
 	health -= 1
 	if health <= 0:
 		enter_damaged_state()
 		queue_free()
+		
+func spawn_constructed_particles():
+	var particles = ConstructedParticles.instance()
+	particles.set_global_position(get_global_position())
+	get_parent().add_child(particles)
 
 func enter_damaged_state():
 	var construction_node = ConstructionNode.instance()
