@@ -10,7 +10,10 @@ func _ready():
 	bullet_speed = 800
 	bullet_damage = 15
 	
-	# Screen shake variables
+	# Anim
+	reload_anim_speed = 0.5
+	
+	# Screen shake
 	duration = 0.05
 	frequency = 40
 	amplitude = 4

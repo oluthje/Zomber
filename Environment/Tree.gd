@@ -3,6 +3,7 @@ extends StaticBody2D
 var CarryableObject = preload("res://Environment/CarryableObject.tscn")
 var TreeTrunk = preload("res://Environment/TreeLog.tscn")
 var TreeChopParticles = preload("res://Environment/TreeChopParticles.tscn")
+var LeafParticles = preload("res://Environment/LeafFallingParticles.tscn")
 
 onready var leaves_node = get_node("Leaves")
 
@@ -39,6 +40,11 @@ func spawn_chop_particles():
 	chop_particles.set_rotation(get_angle_to_player())
 	get_parent().add_child(chop_particles)
 
+func spawn_leaf_particles(pos):
+	var particles = LeafParticles.instance()
+	particles.set_global_position(pos)
+	get_parent().add_child(particles)
+
 func get_angle_to_player():
 	var game_node = get_tree().get_root().get_node("Main").game_node
 	return game_node.get_rotation_to_node(get_global_position(), game_node.player_pos)
@@ -51,6 +57,10 @@ func place_logs_at_angle(degrees):
 		tree_log.set_global_position(log_pos.rotated(deg2rad(degrees)) + get_global_position())
 		tree_log.set_rotation(deg2rad(degrees))
 		get_parent().add_child(tree_log)
+		
+		if log_num == num_logs - 1:
+			var new_log_pos = Vector2(log_pos.x + 8, log_pos.y)
+			spawn_leaf_particles(new_log_pos.rotated(deg2rad(degrees)) + get_global_position())
 	queue_free()
 
 func _on_Area2D_body_entered(body):
