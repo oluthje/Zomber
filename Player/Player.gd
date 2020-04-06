@@ -34,8 +34,13 @@ var pickupable_item_area
 # Misc
 # not yet
 
+var god_mode = false
 func _ready():
 	try_update_held_item()
+	
+	if god_mode:
+		speed = 500
+		$CollisionShape2D.disabled = true
 
 func _physics_process(delta):
 	if Item.player_should_update_held_item:

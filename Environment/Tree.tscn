@@ -104,7 +104,6 @@ tracks/0/keys = {
 radius = 28.0
 
 [node name="Tree" type="StaticBody2D"]
-position = Vector2( 399, 294 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_group_": true

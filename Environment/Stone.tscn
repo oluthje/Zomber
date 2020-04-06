@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Environment/Stone.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/Environment/EnvironmentTileset.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Environment/breakstages.png" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 16, 16 )
+
+[node name="Stone" type="StaticBody2D" groups=[
+"mineable",
+]]
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+vframes = 3
+hframes = 2
+frame = 1
+
+[node name="BreakStage" type="Sprite" parent="."]
+texture = ExtResource( 3 )
+vframes = 3
+hframes = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
