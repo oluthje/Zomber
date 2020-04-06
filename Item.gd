@@ -1,7 +1,7 @@
 extends Node2D
 
 # Inventory related variables
-var inventory = ["pistol", "axe", "shotgun", "disabled", "disabled", "disabled", "disabled", "disabled"]
+var inventory = ["pistol", "pickaxe", "shotgun", "axe", "disabled", "disabled", "disabled", "disabled"]
 var inv_ammo = [-1, -1, -1, -1, -1, -1, -1, -1] # The amount of ammo for each slot (assuming gun is in slot)
 
 var resource_inv = ["wood", "coal", "components"]
@@ -13,9 +13,11 @@ const SHOTGUN = "shotgun"
 
 # Melee weapons
 const AXE = "axe"
+const PICKAXE = "pickaxe"
 
 # Carryable Objects
 var LOG = "log"
+var STONE = "stone"
 
 # Buildings
 var WOOD_SPIKES = "wood_spikes"

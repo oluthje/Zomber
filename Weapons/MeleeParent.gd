@@ -7,7 +7,9 @@ var swing_cooldown = 10 # Amount of time between each shot
 var swoosh_time = 1
 var automatic = false
 var damage = 15
-var attack_speed = 1
+
+# Anim
+var attack_anim_speed = 1
 
 # Screen shake variables
 var duration = 0.2
@@ -36,7 +38,7 @@ func input():
 
 func swing():
 	is_swinging = true
-	$AnimationPlayer.set_speed_scale(attack_speed)
+	$AnimationPlayer.set_speed_scale(attack_anim_speed)
 	if current_arm == "right":
 		current_arm = "left"
 		play_player_arm_swing(false)

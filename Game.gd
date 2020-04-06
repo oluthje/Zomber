@@ -42,7 +42,7 @@ func generate_terrain():
 				add_child(stone)
 			$TileMap.set_cellv(Vector2(x, y), get_tile_index(noise.get_noise_2d(float(x), float(y))))
 		
-	new_spawn_trees()
+	spawn_trees()
 
 func get_tile_index(noise_sample):
 	if noise_sample < 0.18 and noise_sample > 0.1:
@@ -51,19 +51,24 @@ func get_tile_index(noise_sample):
 		return TILES.stone
 	return TILES.grass
 
-func new_spawn_trees():
+func spawn_trees():
 	for x in range(map_size.x):
 		for y in range(map_size.y):
 			var cell_index = $TileMap.get_cellv(Vector2(x, y))
 			if cell_index == TILES.grass:
-				if new_should_spawn_tree(Vector2(x, y)):
+				if can_should_spawn_tree(Vector2(x, y)):
 					if should_spawn_tree():
 						var tree = TreeNode.instance()
 						tree.set_global_position(Vector2(x * 32 + 8, y * 32 + 8))
 						add_child(tree)
 						$TileMap.set_cellv(Vector2(x, y), TILES.tree)
+						
+				if should_spawn_scenic_feature(Vector2(x, y)):
+					randomize()
+					var rand_num = rand_range(0, 3)
+					$Scenery.set_cellv(Vector2(x, y), rand_num)
 
-func new_should_spawn_tree(pos):
+func can_should_spawn_tree(pos):
 	var tree_radius = 2
 	var increase_radius_chance = 50
 	var can_place = true
@@ -77,6 +82,28 @@ func new_should_spawn_tree(pos):
 		for y in range(tree_radius*2):
 			if $TileMap.get_cellv(Vector2(pos.x-tree_radius + x, pos.y-tree_radius + y)) != TILES.grass:
 				can_place = false
+	
+	if can_place:
+		return true
+	return false
+	
+func should_spawn_scenic_feature(pos):
+	var radius = 2
+	var increase_radius_chance = 75
+	var can_place = true
+	
+	randomize()
+	var rand_num = rand_range(0, 100)
+	if rand_num <= increase_radius_chance:
+		radius += 1
+	
+	for x in range(radius*2):
+		for y in range(radius*2):
+			if $Scenery.get_cellv(Vector2(pos.x-radius + x, pos.y-radius + y)) != -1:
+				can_place = false
+				
+	if $TileMap.get_cellv(pos) != TILES.grass:
+		can_place = false
 	
 	if can_place:
 		return true

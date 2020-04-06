@@ -1,12 +1,12 @@
 extends "res://Weapons/MeleeParent.gd"
 
 func _ready():
-	# Gun information
-	swing_cooldown = 0.5 # Amount of time between each shot
+	swing_cooldown = 1 # Amount of time between each shot
 	swoosh_time = 0.2
 	automatic = true
-	damage = 50
-	attack_anim_speed = 2
+	damage = 35
+	
+	attack_anim_speed = 1
 	
 	# Screen shake variables
 	duration = 0.2
@@ -15,6 +15,14 @@ func _ready():
 	priority = 0
 	
 	._ready()
+	
+func swing():
+	is_swinging = true
+	$AnimationPlayer.set_speed_scale(attack_anim_speed)
+	$AnimationPlayer.play("swingright")
+		
+	get_node("CoolDownTimer").set_wait_time(swing_cooldown)
+	get_node("CoolDownTimer").start()
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	swing_anim_finished()
@@ -28,7 +36,10 @@ func _on_Area2D_body_entered(body):
 			body.take_damage(damage)
 			has_hit = true
 		elif "Tree" in body.name:
-			body.take_damage(true)
+			body.take_damage(false)
+			has_hit = true
+		elif "Stone" in body.name:
+			body.take_damage(damage)
 			has_hit = true
 
 func _on_Area2D_area_entered(area):

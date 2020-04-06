@@ -13,6 +13,7 @@ var Shotgun = preload("res://Weapons/Shotgun.tscn")
 
 # Melee weapons
 var Axe = preload("res://Weapons/Axe.tscn")
+var Pickaxe = preload("res://Weapons/Pickaxe.tscn")
 
 # Movement
 var speed = 150
@@ -131,7 +132,7 @@ func try_pickup_object():
 	Item.object_player_can_pick_up = ""
 	pickupable_object_area.queue_free()
 	object_carrying_name = pickupable_object_area.object_name
-	get_node("CarryableObject").get_node("SlotItemImage").select_item_to_display(Item.LOG)
+	get_node("CarryableObject").get_node("SlotItemImage").select_item_to_display(object_carrying_name)
 
 func try_drop_object():
 	var carryable_object = CarryableObject.instance()
@@ -195,6 +196,9 @@ func try_update_held_item():
 		get_node("HandHeldItem").add_child(item)
 	elif Item.inventory[Item.current_inventory_slot] == Item.AXE:
 		var item = Axe.instance()
+		get_node("HandHeldItem").add_child(item)
+	elif Item.inventory[Item.current_inventory_slot] == Item.PICKAXE:
+		var item = Pickaxe.instance()
 		get_node("HandHeldItem").add_child(item)
 	
 	if carrying_object:

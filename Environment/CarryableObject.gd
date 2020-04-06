@@ -13,8 +13,7 @@ func _ready():
 func set_up_object(object):
 	object_name = object
 	
-	if object_name == Item.LOG:
-		get_node("SlotItemImage").select_item_to_display(Item.LOG)
+	get_node("SlotItemImage").select_item_to_display(object_name)
 
 func _on_CarryableObject_body_entered(body):
 	if "Player" in body.name:

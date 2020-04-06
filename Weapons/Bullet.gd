@@ -33,7 +33,7 @@ func _on_Area2D_body_entered(body):
 		body.take_damage(DAMAGE)
 		queue_free()
 	if body.is_in_group("mineable"):
-		body.take_damage(DAMAGE)
+		body.take_damage(DAMAGE/2)
 		queue_free()
 	if "Tree" in body.name:
 		body.take_damage(false)
