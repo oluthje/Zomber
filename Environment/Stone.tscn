@@ -13,6 +13,7 @@ extents = Vector2( 16, 16 )
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
+visible = false
 texture = ExtResource( 2 )
 vframes = 3
 hframes = 2

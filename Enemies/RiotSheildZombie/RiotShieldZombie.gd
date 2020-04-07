@@ -20,7 +20,7 @@ func _ready():
 	stun_timer.set_wait_time(stun_time)
 	
 func rotate_towards_player():
-	var rot_to_player = get_rotation_to_player()
+	var rot_to_player = get_rotation_to_pos(player_pos)
 	if rot_to_player < 0:
 		rotate(-angular_speed*delta_num)
 	elif rot_to_player > 0:

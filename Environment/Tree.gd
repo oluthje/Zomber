@@ -30,6 +30,12 @@ func take_damage(chopped):
 		felled = true
 		angle_to_player = rad2deg(get_angle_to_player())
 		$Leaves/ShakeAnimPlayer.play("finalshake")
+		remove_from_tilemap()
+		
+func remove_from_tilemap():
+	var tile_map = get_parent().get_node("TileMap")
+	tile_map.set_cellv(tile_map.world_to_map(get_global_position()), 3)
+	tile_map.update_pathfinding_map()
 
 func fell_tree():
 	place_logs_at_angle(angle_to_player)

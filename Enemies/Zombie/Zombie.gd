@@ -10,6 +10,8 @@ func _ready():
 	
 	stun_timer = get_node("Timer")
 	stun_timer.set_wait_time(stun_time)
+	
+	._ready()
 
 func _on_Timer_timeout():
 	stun_timer.set_wait_time(stun_time)

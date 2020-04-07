@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Weapons/SlotItemImage.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Environment/Trunk.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Sprites/ItemIcons/PistolIcon.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Weapons/WeaponIcons/ShotgunIcon.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/Environment/carryablestone.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/ItemIcons/pickaxeIcon.png" type="Texture" id=7]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -37,6 +38,11 @@ animations = [ {
 "frames": [ ExtResource( 6 ) ],
 "loop": true,
 "name": "stone",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ) ],
+"loop": true,
+"name": "pickaxe",
 "speed": 5.0
 } ]
 

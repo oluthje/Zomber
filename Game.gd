@@ -7,7 +7,7 @@ var player_pos = Vector2()
 var using_menu = false
 
 # Game settings
-var spawn_enemies = false
+var spawn_enemies = true
 var map_size = Vector2(36, 18)
 
 # Terrrain Generation
@@ -59,7 +59,7 @@ func spawn_trees():
 				if can_should_spawn_tree(Vector2(x, y)):
 					if should_spawn_tree():
 						var tree = TreeNode.instance()
-						tree.set_global_position(Vector2(x * 32 + 8, y * 32 + 8))
+						tree.set_global_position(Vector2(x * 32 + 16, y * 32 + 16))
 						add_child(tree)
 						$TileMap.set_cellv(Vector2(x, y), TILES.tree)
 						

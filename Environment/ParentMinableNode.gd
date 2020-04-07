@@ -13,16 +13,18 @@ var destroyed = false
 
 # Carryable object
 var object_name = "stone"
-var object_spawn_chance = 100#35
+var object_spawn_chance = 100
 
 func _ready():
 	add_to_tilemap()
 	
 func add_to_tilemap():
 	tile_map.set_cellv(tile_map.world_to_map(get_global_position()), cell_index)
+	#get_parent().get_node("TileMap").update_pathfinding_map()
 	
 func remove_from_tilemap():
 	tile_map.set_cellv(tile_map.world_to_map(get_global_position()), replacement_cell_index)
+	get_parent().get_node("TileMap").update_pathfinding_map()
 
 func take_damage(damage):
 	health -= damage

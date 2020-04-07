@@ -8,7 +8,7 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 7.60612
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=2]
 resource_name = "carryshield"
 length = 0.25
 tracks/0/type = "value"
@@ -24,8 +24,7 @@ tracks/0/keys = {
 "values": [ 16 ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "walk"
+[sub_resource type="Animation" id=3]
 length = 0.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -86,8 +85,8 @@ __meta__ = {
 autostart = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/carryshield = SubResource( 6 )
-anims/walk = SubResource( 2 )
+anims/carryshield = SubResource( 2 )
+anims/walk = SubResource( 3 )
 
 [node name="RiotShield" type="Area2D" parent="."]
 position = Vector2( -4, -1 )
@@ -102,4 +101,8 @@ anims/shieldhit = SubResource( 4 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RiotShield"]
 position = Vector2( 17, 0 )
 shape = SubResource( 5 )
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 0, 450 )
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
