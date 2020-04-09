@@ -68,7 +68,7 @@ position = Vector2( 8, -15 )
 texture = ExtResource( 2 )
 vframes = 5
 hframes = 4
-frame = 13
+frame = 8
 __meta__ = {
 "_edit_lock_": true
 }
@@ -119,6 +119,9 @@ margin_bottom = 5.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+cast_to = Vector2( 0, 450 )
 [connection signal="timeout" from="StunTimer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="WalkingSequenceTimer" to="." method="_on_WalkingSequenceTimer_timeout"]
 [connection signal="timeout" from="AttackSequenceTimer" to="." method="_on_AttackSequenceTimer_timeout"]

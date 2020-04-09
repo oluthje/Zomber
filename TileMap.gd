@@ -89,6 +89,7 @@ func astar_connect_walkable_cells_diagonal(points_array):
 
 
 func is_outside_map_bounds(point):
+	#return point.x < -2 or point.y < -2 or point.x >= map_size.x + 2 or point.y >= map_size.y + 2
 	return point.x < 0 or point.y < 0 or point.x >= map_size.x or point.y >= map_size.y
 
 

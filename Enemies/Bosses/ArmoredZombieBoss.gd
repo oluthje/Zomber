@@ -20,6 +20,7 @@ var total_armor = 3
 
 func _ready():
 	speed = 75
+	angular_speed = 1.5
 	min_distance = 50
 	stun_time = 0.5
 	health = 650

@@ -8,6 +8,7 @@ var player_pos = Vector2()
 
 # Movement
 var speed = 115
+var angular_speed = 1
 var friction = 0.18
 var acceleration = 0.5
 var velocity = Vector2.ZERO
@@ -33,6 +34,10 @@ var delta_num = 0
 # Pathfinding
 var path_to_player = []
 var next_pos = Vector2()
+var update_path = true
+var time_to_path_update = 1.5
+var has_started_pathupdate_timer = false
+var last_tilemap_pos = Vector2()
 
 func _ready():
 	pass
@@ -40,12 +45,16 @@ func _ready():
 func _physics_process(delta):
 	delta_num = delta
 	pathfindng_move_to_player()
+	draw_path()
 
 func pathfindng_move_to_player():
-	if move_directly_to_player():
-		move_to_player()
-		return
-	
+#	if move_directly_to_player():
+#		move_to_player()
+#		#$PathfindingTimer.set_wait_time(update_path_time)
+#		#$PathfindingTimer.start()
+#		#update_path = false
+#		return
+
 	player_pos = get_player_pos()
 	var input_velocity = Vector2.ZERO
 	input_velocity = (next_pos - get_global_position()).normalized()
@@ -67,8 +76,6 @@ func pathfindng_move_to_player():
 	play_animations()
 	rotate_towards_pos(next_pos)
 	update_pathing()
-	
-	move_directly_to_player()
 
 func move_directly_to_player():
 	var raycast = get_node("RayCast2D")
@@ -76,12 +83,11 @@ func move_directly_to_player():
 	if raycast.is_colliding():
 		if not "Stone" in raycast.get_collider().name:
 			return true
-		#return true
 	return false
-	# Raycast is constantly moving toward player and if no walls in racast, move toward player.
 
 func update_pathing():
-	if not path_to_player or len(path_to_player) == 1 or should_update_path():
+	if not path_to_player or len(path_to_player) == 1 or should_update_path() or update_path:
+		update_path = false
 		path_to_player = get_path_to_player()
 		path_to_player.remove(0)
 		if len(path_to_player) > 0:
@@ -97,8 +103,25 @@ func update_pathing():
 		next_pos = path_to_player[0]
 		
 func should_update_path():
+	var tilemap = get_parent().get_node("TileMap")
+	
+	# If self has not moved for a period of time
+	var tilemap_pos = tilemap.world_to_map(get_global_position())
+	if tilemap_pos == last_tilemap_pos and not has_started_pathupdate_timer:
+		has_started_pathupdate_timer = true
+		$PathfindingTimer.set_wait_time(time_to_path_update)
+		$PathfindingTimer.start()
+	else:
+		has_started_pathupdate_timer = false
+		$PathfindingTimer.stop()
+	last_tilemap_pos = tilemap_pos
+	
+	if tilemap_pos != last_tilemap_pos:
+		print("new tile")
+	
+	# If player has moved
 	var last_pos_in_path = path_to_player[len(path_to_player) - 1]
-	if not get_parent().get_node("TileMap").world_to_map(last_pos_in_path) == get_parent().get_node("TileMap").world_to_map(player_pos):
+	if not tilemap.world_to_map(last_pos_in_path) == tilemap.world_to_map(player_pos):
 		return true
 	return false
 		
@@ -106,7 +129,11 @@ func get_path_to_player():
 	return get_parent().get_node("TileMap").find_path(get_global_position(), player_pos)
 
 func rotate_towards_pos(pos):
-	rotate(get_rotation_to_pos(pos))
+	var angle = get_rotation_to_pos(pos)
+	if angle < 0:
+		rotate(-angular_speed*delta_num)
+	elif angle > 0:
+		rotate(angular_speed*delta_num)
 
 func arrived_at_next_point():
 	var arrive_distance = 4
@@ -115,18 +142,18 @@ func arrived_at_next_point():
 		return true
 	return false
 	
-#var WhiteCircle = preload("res://Sprite.tscn")
-#func draw_path():
-#	var node = get_parent().get_node("PathNodes")
-#
-#	if node.get_children().size() > 0:
-#		for child in node.get_children():
-#			child.queue_free()
-#
-#	for pos in path_to_player:
-#		var circle = WhiteCircle.instance()
-#		circle.set_position(pos)
-#		node.add_child(circle)
+var WhiteCircle = preload("res://Sprite.tscn")
+func draw_path():
+	var node = get_parent().get_node("PathNodes")
+
+	if node.get_children().size() > 0:
+		for child in node.get_children():
+			child.queue_free()
+
+	for pos in path_to_player:
+		var circle = WhiteCircle.instance()
+		circle.set_position(pos)
+		node.add_child(circle)
 	
 func play_animations():
 	match state:
