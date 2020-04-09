@@ -57,12 +57,11 @@ z_index = 1
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( -3, 6 )
+position = Vector2( -6, 7 )
 rotation = 1.5708
 texture = ExtResource( 2 )
 vframes = 4
 hframes = 5
-frame = 18
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/idle = SubResource( 1 )
@@ -70,5 +69,8 @@ anims/reload = SubResource( 2 )
 anims/shoot = SubResource( 3 )
 
 [node name="BulletPos" type="Node2D" parent="."]
-position = Vector2( 11, 5 )
+position = Vector2( 8, 6 )
+
+[node name="CasingPos" type="Node2D" parent="."]
+position = Vector2( -8, 6 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

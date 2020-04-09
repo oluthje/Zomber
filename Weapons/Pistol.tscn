@@ -70,4 +70,7 @@ anims/shoot = SubResource( 3 )
 
 [node name="BulletPos" type="Node2D" parent="."]
 position = Vector2( -1, 6 )
+
+[node name="CasingPos" type="Node2D" parent="."]
+position = Vector2( -7, 8 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

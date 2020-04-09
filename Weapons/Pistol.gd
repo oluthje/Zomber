@@ -9,6 +9,7 @@ func _ready():
 	dispersion = 15
 	bullet_speed = 800
 	bullet_damage = 15
+	release_bullet_casing = true
 	
 	# Anim
 	reload_anim_speed = 0.5

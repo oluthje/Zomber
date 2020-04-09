@@ -49,12 +49,12 @@ func _physics_process(delta):
 	pathfindng_move_to_player()
 
 func pathfindng_move_to_player():
-#	if move_directly_to_player():
-#		move_to_player()
-#		#$PathfindingTimer.set_wait_time(update_path_time)
-#		#$PathfindingTimer.start()
-#		#update_path = false
-#		return
+	if move_directly_to_player():
+		move_to_player()
+#		$PathfindingTimer.set_wait_time(update_path_time)
+#		$PathfindingTimer.start()
+#		update_path = false
+		return
 
 	player_pos = get_player_pos()
 	var input_velocity = Vector2.ZERO

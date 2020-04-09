@@ -15,6 +15,10 @@ func take_damage():
 		enter_damaged_state()
 		queue_free()
 		
+func get_rotation_to_pos(pos):
+	var angle = get_angle_to(pos)
+	return angle
+		
 func spawn_constructed_particles():
 	var particles = ConstructedParticles.instance()
 	particles.set_global_position(get_global_position())
@@ -29,5 +33,5 @@ func enter_damaged_state():
 
 func _on_Area2D_body_entered(body):
 	if body.is_in_group("enemies"):
-		body.take_damage(damage)
+		body.take_damage(damage, get_rotation_to_pos(body.get_global_position()))
 		take_damage()

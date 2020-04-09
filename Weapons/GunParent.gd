@@ -2,6 +2,7 @@ extends Node2D
 
 var Bullet = preload("res://Weapons/Bullet.tscn")
 var ShotFlash = preload("res://Weapons/GunshotParticles.tscn")
+var SpentCasing = preload("res://Weapons/SpentBulletParticle.tscn")
 
 # Gun information
 var shot_cooldown = 10 # Amount of time between each shot
@@ -12,6 +13,9 @@ var reload_amount = 0 # Amount that the gun gets when reloaded
 var dispersion = 0 # The degree range that the bullet could possible go toward. (degrees)
 var bullet_speed = 180
 var bullet_damage = 15
+var release_bullet_casing = false
+
+# Anim vars
 var reload_anim_speed = 1
 
 # Screen shake variables
@@ -70,6 +74,7 @@ func shoot():
 	get_parent().get_parent().get_node("ArmAnimPlayer").play("shootpos")
 	
 	spawn_shot_flash()
+	spawn_bullet_casing()
 	shake_screen()
 	spawn_bullet()
 	$AnimationPlayer.set_speed_scale(1)
@@ -99,6 +104,13 @@ func spawn_shot_flash():
 	var shot_flash = ShotFlash.instance()
 	shot_flash.set_position(get_node("BulletPos").get_position())
 	add_child(shot_flash)
+
+func spawn_bullet_casing():
+	if release_bullet_casing:
+		var casing = SpentCasing.instance()
+		casing.set_global_position((get_node("CasingPos").get_global_position()))
+		casing.set_rotation(get_global_rotation())
+		get_parent().get_parent().get_parent().add_child(casing)
 
 func reload_code():
 	if is_reloading:

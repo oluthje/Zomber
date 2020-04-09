@@ -4,7 +4,7 @@
 [ext_resource path="res://Enemies/Zombie/Zombie.gd" type="Script" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 7.60612
+radius = 6.60691
 
 [sub_resource type="Animation" id=2]
 resource_name = "idle"
@@ -64,6 +64,7 @@ anims/idle = SubResource( 2 )
 anims/walk = SubResource( 3 )
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2( -1, -2 )
 enabled = true
 cast_to = Vector2( 0, 450 )
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
