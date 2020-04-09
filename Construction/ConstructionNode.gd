@@ -46,11 +46,15 @@ func setup(building, to_be_dragged):
 func can_place():
 	var placeable = true
 	var areas = get_overlapping_areas()
-	
 	for area in areas:
 		if area.is_in_group("building"):
 			placeable = false
-			
+	
+	var bodies = get_overlapping_bodies()
+	for body in bodies:
+		if body.is_in_group("building"):
+			placeable = false
+	
 	return placeable
 
 func spawn_building(building):

@@ -8,7 +8,7 @@ var using_menu = false
 
 # Game settings
 var spawn_enemies = true
-var map_size = Vector2(36, 18)
+var map_size = Vector2(37, 19)
 
 # Terrrain Generation
 var noise
@@ -21,7 +21,7 @@ const TILES = {
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	#generate_terrain()
+	generate_terrain()
 
 func generate_terrain():
 	randomize()
@@ -35,13 +35,20 @@ func generate_terrain():
 	for x in range(map_size.x):
 		for y in range(map_size.y):
 			var tile_name = get_tile_index(noise.get_noise_2d(float(x), float(y)))
-			if tile_name == TILES.stone:
+			if tile_name == TILES.stone and is_in_bounds(Vector2(x, y)):
 				var stone = StoneNode.instance()
 				stone.set_global_position(Vector2(x * 32 + 16, y * 32 + 16))
 				add_child(stone)
-			$TileMap.set_cellv(Vector2(x, y), get_tile_index(noise.get_noise_2d(float(x), float(y))))
+			if is_in_bounds(Vector2(x, y)):
+				$TileMap.set_cellv(Vector2(x, y), get_tile_index(noise.get_noise_2d(float(x), float(y))))
 		
 	spawn_trees()
+
+func is_in_bounds(point):
+	var new_map_size = Vector2(map_size.x - 2, map_size.y - 2)
+	if point.x < 1 or point.y < 1 or point.x >= new_map_size.x or point.y >= new_map_size.y:
+		return false
+	return true
 
 func get_tile_index(noise_sample):
 	if noise_sample < 0.18 and noise_sample > 0.1:
@@ -79,7 +86,7 @@ func can_should_spawn_tree(pos):
 	
 	for x in range(tree_radius*2):
 		for y in range(tree_radius*2):
-			if $TileMap.get_cellv(Vector2(pos.x-tree_radius + x, pos.y-tree_radius + y)) != TILES.grass:
+			if $TileMap.get_cellv(Vector2(pos.x-tree_radius + x, pos.y-tree_radius + y)) != TILES.grass and not is_in_bounds(Vector2(x, y)):
 				can_place = false
 	
 	if can_place:
@@ -98,7 +105,7 @@ func should_spawn_scenic_feature(pos):
 	
 	for x in range(radius*2):
 		for y in range(radius*2):
-			if $Scenery.get_cellv(Vector2(pos.x-radius + x, pos.y-radius + y)) != -1:
+			if $Scenery.get_cellv(Vector2(pos.x-radius + x, pos.y-radius + y)) != -1 and is_in_bounds(Vector2(x, y)):
 				can_place = false
 				
 	if $TileMap.get_cellv(pos) != TILES.grass:

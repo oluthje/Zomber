@@ -25,6 +25,9 @@ var current_arm = "right"
 func _ready():
 	pass
 
+func _exit_tree():
+	get_parent().get_parent().get_node("Arms").set_flip_h(false)
+
 func _physics_process(delta):
 	input()
 
