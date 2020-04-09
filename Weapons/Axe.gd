@@ -25,7 +25,8 @@ func _on_CoolDownTimer_timeout():
 func _on_Area2D_body_entered(body):
 	if not has_hit:
 		if body.is_in_group("enemies"):
-			body.take_damage(damage)
+			var dir = get_parent().get_parent().get_global_rotation()
+			body.take_damage(damage, dir)
 			has_hit = true
 		elif "Tree" in body.name:
 			body.take_damage(true)

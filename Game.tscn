@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Obstacles/Boundary.tscn" type="PackedScene" id=1]
 [ext_resource path="res://HUD/InventoryHUD.tscn" type="PackedScene" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://TestSpawnTimer.gd" type="Script" id=13]
 [ext_resource path="res://Enemies/Zombie/Zombie.tscn" type="PackedScene" id=14]
 [ext_resource path="res://HUD/ConstructionButton.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Enemies/RiotSheildZombie/RiotShieldZombie.tscn" type="PackedScene" id=16]
 
 [sub_resource type="TileSet" id=1]
 0/name = "EnvironmentTileset.png 0"
@@ -161,17 +162,20 @@ autostart = true
 script = ExtResource( 13 )
 
 [node name="Turret" parent="." instance=ExtResource( 12 )]
-position = Vector2( 336, 272 )
+position = Vector2( 384, 256 )
 
 [node name="Zombie" parent="." instance=ExtResource( 14 )]
-position = Vector2( 56, 104 )
-
-[node name="Zombie3" parent="." instance=ExtResource( 14 )]
-position = Vector2( 880, 88 )
-
-[node name="Zombie4" parent="." instance=ExtResource( 14 )]
-position = Vector2( 696, 120 )
+position = Vector2( 128, 112 )
 
 [node name="Zombie2" parent="." instance=ExtResource( 14 )]
-position = Vector2( 184, -24 )
+position = Vector2( 320, 16 )
+
+[node name="Zombie3" parent="." instance=ExtResource( 14 )]
+position = Vector2( 768, 80 )
+
+[node name="RiotShieldZombie" parent="." instance=ExtResource( 16 )]
+position = Vector2( 1088, 368 )
+
+[node name="RiotShieldZombie2" parent="." instance=ExtResource( 16 )]
+position = Vector2( 1144, 568 )
 [connection signal="timeout" from="TestSpawnTimer" to="TestSpawnTimer" method="_on_TestSpawnTimer_timeout"]

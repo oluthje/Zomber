@@ -43,13 +43,15 @@ func _ready():
 #	get_node("Label").set_text(str(get_global_position().distance_to(get_player_pos())))
 #	#get_node("Label").set_global_rotation(0)
 
-func take_damage(damage):
+func take_damage(damage, dir):
 	health -= damage
 	knocked_back = true
 	knock_back_num = knock_back_amount
+	knock_back_dir = dir
 	check_for_armor_destruction()
 	spawn_blood_splat()
-	if health <= 0:
+	if health <= 0 and not has_died:
+		has_died = true
 		spawn_blood_splatter()
 		spawn_corpse()
 		queue_free()

@@ -14,6 +14,7 @@ var acceleration = 0.5
 var velocity = Vector2.ZERO
 var knock_back_amount = 3
 var knock_back_num = 0
+var knock_back_dir = 0
 var can_move = true
 var can_be_stunned = true
 var stun_timer
@@ -29,6 +30,7 @@ var attack_anim_speed = 1
 
 var min_distance = 50
 var health = 35
+var has_died = false
 var delta_num = 0
 
 # Pathfinding
@@ -45,7 +47,6 @@ func _ready():
 func _physics_process(delta):
 	delta_num = delta
 	pathfindng_move_to_player()
-	draw_path()
 
 func pathfindng_move_to_player():
 #	if move_directly_to_player():
@@ -63,6 +64,7 @@ func pathfindng_move_to_player():
 	if input_velocity.length() > 0 and can_move and not knocked_back:
 		velocity = velocity.linear_interpolate(input_velocity, acceleration)
 	elif knocked_back:
+		input_velocity = Vector2(-200, 0).rotated(knock_back_dir)
 		if knock_back_num <= 0.5:
 			knocked_back = false
 		input_velocity = -input_velocity
@@ -175,14 +177,16 @@ func get_player_pos():
 	
 	return game_node.player_pos
 
-func take_damage(damage):
+func take_damage(damage, dir):
 	health -= damage
 	if can_be_stunned:
 		can_move = false
 	knocked_back = true
 	knock_back_num = knock_back_amount
+	knock_back_dir = dir
 	spawn_blood_splat()
-	if health <= 0:
+	if health <= 0 and not has_died:
+		has_died = true
 		spawn_blood_splatter()
 		spawn_corpse()
 		queue_free()
@@ -208,7 +212,7 @@ func spawn_blood_splat():
 func spawn_corpse():
 	var corpse = Corpse.instance()
 	corpse.set_global_position(get_global_position())
-	corpse.set_rotation(get_global_rotation() - deg2rad(90))
+	corpse.set_rotation(knock_back_dir + deg2rad(90))
 	corpse.set_up("zombie")
 	get_parent().add_child(corpse)
 	

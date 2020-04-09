@@ -122,6 +122,8 @@ __meta__ = {
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 cast_to = Vector2( 0, 450 )
+
+[node name="PathfindingTimer" type="Timer" parent="."]
 [connection signal="timeout" from="StunTimer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="WalkingSequenceTimer" to="." method="_on_WalkingSequenceTimer_timeout"]
 [connection signal="timeout" from="AttackSequenceTimer" to="." method="_on_AttackSequenceTimer_timeout"]

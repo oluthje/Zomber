@@ -61,7 +61,7 @@ func move_idly():
 #		var rand_num = rand_range(0, 100)
 #		if rand_num > 50:
 #			num = -1
-		rotate((num*angular_speed/2)*delta_num)
+		$Gun.rotate((num*angular_speed/2)*delta_num)
 
 func get_target():
 	var enemies_in_range = []
@@ -81,7 +81,7 @@ func get_target():
 			target = enemy
 	
 	return target
-	
+
 func target_within_range():
 	var degree_range = 10
 	if abs(rad2deg(get_rotation_to_pos(target_body.get_global_position()))) <= degree_range:
@@ -94,18 +94,18 @@ func get_distance_to_pos(pos):
 func rotate_towards_pos(pos):
 	var angle = get_rotation_to_pos(pos)
 	if angle < 0:
-		rotate(-angular_speed*delta_num)
+		$Gun.rotate(-angular_speed*delta_num)
 	elif angle > 0:
-		rotate(angular_speed*delta_num)
+		$Gun.rotate(angular_speed*delta_num)
 
 func get_rotation_to_pos(pos):
-	var angle = get_angle_to(pos)
+	var angle = $Gun.get_angle_to(pos)
 	return angle
 
 func spawn_bullet():
 	var bullet = Bullet.instance()
-	bullet.set_global_position(get_node("BulletPos").global_position)
-	bullet.set_up(get_global_rotation() + get_added_dispersion(), bullet_speed, bullet_damage, "player")
+	bullet.set_global_position($Gun.get_node("BulletPos").global_position)
+	bullet.set_up($Gun.get_global_rotation() + get_added_dispersion(), bullet_speed, bullet_damage, "player")
 	get_parent().add_child(bullet)
 
 func get_added_dispersion():
@@ -119,11 +119,11 @@ func get_added_dispersion():
 		return deg2rad(added_bullet_rot)
 	else:
 		return 0
-		
+
 func spawn_shot_flash():
 	var shot_flash = ShotFlash.instance()
-	shot_flash.set_position(get_node("BulletPos").get_position())
-	add_child(shot_flash)
+	shot_flash.set_position($Gun.get_node("BulletPos").get_position())
+	$Gun.add_child(shot_flash)
 
 func _on_ShotCooldownTimer_timeout():
 	can_shoot = true

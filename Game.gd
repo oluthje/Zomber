@@ -21,7 +21,6 @@ const TILES = {
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	
 	#generate_terrain()
 
 func generate_terrain():
