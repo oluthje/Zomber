@@ -9,7 +9,7 @@ var using_menu = false
 
 # Game settings
 var spawn_enemies = true
-var map_size = Vector2(37, 19)
+var map_size = Vector2(38, 18)
 
 # Terrrain Generation
 var noise
@@ -38,27 +38,27 @@ func generate_terrain():
 	for x in range(map_size.x):
 		for y in range(map_size.y):
 			var tile_name = get_tile_index(noise.get_noise_2d(float(x), float(y)))
-			if tile_name == TILES.stone:
+			if tile_name == TILES.stone and is_in_bounds(Vector2(x, y)):
 				var stone = StoneNode.instance()
 				stone.set_global_position(Vector2(x * 32 + 16, y * 32 + 16))
 				add_child(stone)
-			$TileMap.set_cellv(Vector2(x, y), get_tile_index(noise.get_noise_2d(float(x), float(y))))
-	
+				$TileMap.set_cellv(Vector2(x, y), get_tile_index(noise.get_noise_2d(float(x), float(y))))
+			if tile_name != TILES.stone:
+				$TileMap.set_cellv(Vector2(x, y), get_tile_index(noise.get_noise_2d(float(x), float(y))))
+			else:
+				$TileMap.set_cellv(Vector2(x, y), TILES.grass)
 	spawn_trees()
 	
 func spawn_world_boundaries():
 	# North
 	for x in range(map_size.x):
 		spawn_boundary(Vector2(x * 32 + 16, -16))
-		
 	# East
 	for y in range(map_size.y):
 		spawn_boundary(Vector2(map_size.x * 32 + 16, y * 32 + 16))
-		
 	# South
 	for x in range(map_size.x):
-		spawn_boundary(Vector2(x * 32 + 16, map_size.y * 32 + 16))
-		
+		spawn_boundary(Vector2(x * 32 + 16, map_size.y * 32 + 16))	
 	# West
 	for y in range(map_size.y):
 		spawn_boundary(Vector2(-16, y * 32 + 16))
@@ -69,8 +69,7 @@ func spawn_boundary(pos):
 	get_node("WorldBoundaries").add_child(boundary)
 
 func is_in_bounds(point):
-	var new_map_size = Vector2(map_size.x - 2, map_size.y - 2)
-	if point.x < 1 or point.y < 1 or point.x >= new_map_size.x or point.y >= new_map_size.y:
+	if point.x < 1 or point.y < 1 or point.x >= map_size.x - 1 or point.y >= map_size.y - 1:
 		return false
 	return true
 
