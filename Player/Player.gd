@@ -21,6 +21,7 @@ var friction = 0.18
 var acceleration = 0.5
 var velocity = Vector2.ZERO
 var enemy_pos = Vector2()
+var knock_back_dir = 0
 
 # Object pickup
 var carrying_object = false
@@ -58,23 +59,24 @@ func get_rotation_toward_mouse():
 
 	return angle
 	
-func take_damage():
+func take_damage(damage, dir):
+	knock_back_dir = dir
 	spawn_corpse()
 	spawn_blood_splatter()
 	queue_free()
+	
+func spawn_blood_splatter():
+	var blood_splatter = BloodSplatter.instance()
+	blood_splatter.set_rotation(knock_back_dir)
+	blood_splatter.set_global_position(get_global_position())
+	get_parent().add_child(blood_splatter)
 
 func spawn_corpse():
 	var corpse = Corpse.instance()
 	corpse.set_global_position(get_global_position())
-	corpse.set_rotation(get_parent().get_rotation_to_node(get_global_position(), enemy_pos) + deg2rad(90))
+	corpse.set_rotation(knock_back_dir + deg2rad(90))
 	corpse.set_up("player")
 	get_parent().add_child(corpse)
-	
-func spawn_blood_splatter():
-	var blood_splatter = BloodSplatter.instance()
-	blood_splatter.set_rotation(get_global_rotation() - deg2rad(180))
-	blood_splatter.set_global_position(get_global_position())
-	get_parent().add_child(blood_splatter)
 
 func get_input():
 	var input_velocity = Vector2.ZERO
@@ -209,7 +211,8 @@ func try_update_held_item():
 func _on_Area2D_body_entered(body):
 	if "Zombie" in body.name:
 		enemy_pos = body.get_global_position()
-		take_damage()
+		var rot_to_body = get_angle_to(body.global_position)
+		take_damage(100, rot_to_body)
 
 func _on_PickupTimer_timeout():
 	can_pickup = true

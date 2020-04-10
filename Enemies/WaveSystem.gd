@@ -15,7 +15,7 @@ onready var spawn_timer = get_node("SpawnTimer")
 # Wave variables
 var wave_num = 0
 var wave_time = 12
-var wave_rest_time = 5
+var wave_rest_time = 0#5
 var can_advance_to_next_wave = true
 
 # Spawning variables
@@ -69,10 +69,10 @@ func spawn_zombie():
 		get_parent().add_child(zombie)
 
 func randomly_spawn_boss():
-	var percent_chance = 25
+	var percent_chance = 35
 	randomize()
 	var rand_num = rand_range(0, 100)
-	if rand_num <= percent_chance and wave_num > 6:
+	if rand_num <= percent_chance and wave_num > 3:
 		var armored_zombie = ArmoredZombie.instance()
 		armored_zombie.set_global_position(get_rand_spawner_pos())
 		get_parent().add_child(armored_zombie)

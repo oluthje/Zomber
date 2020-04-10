@@ -32,14 +32,14 @@ func _on_Area2D_body_entered(body):
 	if body.is_in_group("enemies") and TYPE != "enemy":
 		body.take_damage(DAMAGE, DIRECTION)
 		queue_free()
+	if "Player" in body.name and TYPE != "player":
+		body.take_damage(DAMAGE, DIRECTION)
+		queue_free()
 	if body.is_in_group("mineable"):
 		body.take_damage(DAMAGE/3)
 		queue_free()
 	if "Tree" in body.name:
 		body.take_damage(false)
-		queue_free()
-	if "Player" in body.name and TYPE != "player":
-		body.take_damage()
 		queue_free()
 
 func _on_Area2D_area_entered(area):

@@ -38,3 +38,30 @@ var object_player_can_pick_up = ""
 
 # Other Game Variables
 var using_menu = false
+
+# Loot table
+onready var loot_table = {
+	Item.PISTOL: 20,
+	Item.AXE: 10,
+	Item.SHOTGUN: 10,
+	Item.PICKAXE: 10
+}
+
+var weight_sum = 0
+
+#func _ready():
+#	for i in range(100):
+#		print(get_loot_drop())
+
+func get_loot_drop():
+	weight_sum = 0
+	for item in loot_table:
+		weight_sum += loot_table[item]
+
+	var rand_num = rand_range(0, weight_sum)
+	var current_weight = 0
+	for item in loot_table:
+		current_weight += loot_table[item]
+		if rand_num <= current_weight:
+			return item
+	return "no item found"

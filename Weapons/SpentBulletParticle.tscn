@@ -8,7 +8,7 @@
 [sub_resource type="ParticlesMaterial" id=1]
 lifetime_randomness = 0.5
 flag_disable_z = true
-direction = Vector3( -3, 2, 0 )
+direction = Vector3( -1, 2, 0 )
 spread = 10.0
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 150.0

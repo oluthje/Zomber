@@ -197,7 +197,7 @@ func get_rotation_to_pos(pos):
 
 func spawn_blood_splatter():
 	var blood_splatter = BloodSplatter.instance()
-	blood_splatter.set_rotation(get_global_rotation() - deg2rad(180))
+	blood_splatter.set_rotation(knock_back_dir)
 	blood_splatter.set_global_position(get_global_position())
 	get_parent().add_child(blood_splatter)
 

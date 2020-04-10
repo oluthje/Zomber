@@ -10,6 +10,10 @@ func _physics_process(delta):
 		respawn_game_node()
 
 func reset_inventory():
+	for index in Item.inventory.size():
+		if Item.inventory[index] != Item.DISABLED:
+			Item.inventory[index] = Item.EMPTY
+	Item.inventory[0] = Item.PISTOL
 	for index in Item.inv_ammo.size():
 		Item.inv_ammo[index] = -1
 	for index in Item.resource_inv_num.size():

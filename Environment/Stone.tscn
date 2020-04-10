@@ -10,10 +10,10 @@ extents = Vector2( 16, 16 )
 [node name="Stone" type="StaticBody2D" groups=[
 "mineable",
 ]]
+z_index = 1
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-visible = false
 texture = ExtResource( 2 )
 vframes = 3
 hframes = 2

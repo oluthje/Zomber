@@ -2,6 +2,7 @@ extends "res://Enemies/EnemyParent.gd"
 
 var Bullet = preload("res://Weapons/Bullet.tscn")
 var GroundHitParticles = preload("res://Enemies/Bosses/GroundHitParticles.tscn")
+var Crate = preload("res://Loot/Crate.tscn")
 
 var walking_time = 2.5
 var attack_time = 5
@@ -54,7 +55,13 @@ func take_damage(damage, dir):
 		has_died = true
 		spawn_blood_splatter()
 		spawn_corpse()
+		spawn_crate()
 		queue_free()
+
+func spawn_crate():
+	var crate = Crate.instance()
+	crate.set_global_position(get_global_position())
+	get_parent().add_child(crate)
 
 func check_for_armor_destruction():
 	var has_dropped_armor = false

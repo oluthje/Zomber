@@ -35,12 +35,12 @@ func generate_terrain():
 	for x in range(map_size.x):
 		for y in range(map_size.y):
 			var tile_name = get_tile_index(noise.get_noise_2d(float(x), float(y)))
-			if tile_name == TILES.stone and is_in_bounds(Vector2(x, y)):
+			if tile_name == TILES.stone: #and is_in_bounds(Vector2(x, y)):
 				var stone = StoneNode.instance()
 				stone.set_global_position(Vector2(x * 32 + 16, y * 32 + 16))
 				add_child(stone)
-			if is_in_bounds(Vector2(x, y)):
-				$TileMap.set_cellv(Vector2(x, y), get_tile_index(noise.get_noise_2d(float(x), float(y))))
+			#if is_in_bounds(Vector2(x, y)):
+			$TileMap.set_cellv(Vector2(x, y), get_tile_index(noise.get_noise_2d(float(x), float(y))))
 		
 	spawn_trees()
 
@@ -86,7 +86,7 @@ func can_should_spawn_tree(pos):
 	
 	for x in range(tree_radius*2):
 		for y in range(tree_radius*2):
-			if $TileMap.get_cellv(Vector2(pos.x-tree_radius + x, pos.y-tree_radius + y)) != TILES.grass and not is_in_bounds(Vector2(x, y)):
+			if $TileMap.get_cellv(Vector2(pos.x-tree_radius + x, pos.y-tree_radius + y)) != TILES.grass: #and is_in_bounds(Vector2(x, y)):
 				can_place = false
 	
 	if can_place:
@@ -122,7 +122,7 @@ func should_spawn_tree():
 	if rand_num <= spawn_chance:
 		return true
 	return false
-	
+
 # Handy methods
 func get_rotation_to_node(start_pos, end_pos):
 	var angle = start_pos.angle_to_point(end_pos)

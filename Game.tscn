@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Obstacles/Boundary.tscn" type="PackedScene" id=1]
 [ext_resource path="res://HUD/InventoryHUD.tscn" type="PackedScene" id=2]
@@ -11,7 +11,6 @@
 [ext_resource path="res://Sprites/Environment/ScenicFeatures.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/Environment/EnvironmentTileset.png" type="Texture" id=10]
 [ext_resource path="res://TileMap.gd" type="Script" id=11]
-[ext_resource path="res://Construction/Buildings/Turret.tscn" type="PackedScene" id=12]
 [ext_resource path="res://TestSpawnTimer.gd" type="Script" id=13]
 [ext_resource path="res://HUD/ConstructionButton.tscn" type="PackedScene" id=15]
 
@@ -157,7 +156,4 @@ wait_time = 2.0
 one_shot = true
 autostart = true
 script = ExtResource( 13 )
-
-[node name="Turret" parent="." instance=ExtResource( 12 )]
-position = Vector2( 385, 268 )
 [connection signal="timeout" from="TestSpawnTimer" to="TestSpawnTimer" method="_on_TestSpawnTimer_timeout"]
