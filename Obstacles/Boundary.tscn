@@ -1,7 +1,7 @@
 [gd_scene load_steps=2 format=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 16, 16 )
+extents = Vector2( 0.888889, 16 )
 
 [node name="Boundary" type="StaticBody2D"]
 collision_layer = 2

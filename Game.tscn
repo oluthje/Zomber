@@ -1,6 +1,5 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://Obstacles/Boundary.tscn" type="PackedScene" id=1]
 [ext_resource path="res://HUD/InventoryHUD.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Enemies/WaveSystem.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Game.gd" type="Script" id=4]
@@ -128,26 +127,6 @@ script = ExtResource( 6 )
 position = Vector2( 520, 320 )
 
 [node name="WorldBoundaries" type="Node2D" parent="."]
-
-[node name="Boundary" parent="WorldBoundaries" instance=ExtResource( 1 )]
-position = Vector2( 288, -16 )
-
-[node name="Boundary2" parent="WorldBoundaries" instance=ExtResource( 1 )]
-position = Vector2( 864, -16 )
-
-[node name="Boundary5" parent="WorldBoundaries" instance=ExtResource( 1 )]
-position = Vector2( 288, 592 )
-
-[node name="Boundary4" parent="WorldBoundaries" instance=ExtResource( 1 )]
-position = Vector2( 864, 592 )
-
-[node name="Boundary3" parent="WorldBoundaries" instance=ExtResource( 1 )]
-position = Vector2( 1168, 288 )
-rotation = 1.5708
-
-[node name="Boundary6" parent="WorldBoundaries" instance=ExtResource( 1 )]
-position = Vector2( -16, 280 )
-rotation = 1.5708
 
 [node name="PathNodes" type="Node2D" parent="."]
 

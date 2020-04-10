@@ -2,6 +2,7 @@ extends Node2D
 
 var TreeNode = preload("res://Environment/Tree.tscn")
 var StoneNode = preload("res://Environment/Stone.tscn")
+var Boundary = preload("res://Obstacles/Boundary.tscn")
 
 var player_pos = Vector2()
 var using_menu = false
@@ -21,6 +22,8 @@ const TILES = {
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	get_node("Player").set_global_position(Vector2(map_size/2)*32)
+	spawn_world_boundaries()
 	generate_terrain()
 
 func generate_terrain():
@@ -35,14 +38,35 @@ func generate_terrain():
 	for x in range(map_size.x):
 		for y in range(map_size.y):
 			var tile_name = get_tile_index(noise.get_noise_2d(float(x), float(y)))
-			if tile_name == TILES.stone: #and is_in_bounds(Vector2(x, y)):
+			if tile_name == TILES.stone:
 				var stone = StoneNode.instance()
 				stone.set_global_position(Vector2(x * 32 + 16, y * 32 + 16))
 				add_child(stone)
-			#if is_in_bounds(Vector2(x, y)):
 			$TileMap.set_cellv(Vector2(x, y), get_tile_index(noise.get_noise_2d(float(x), float(y))))
-		
+	
 	spawn_trees()
+	
+func spawn_world_boundaries():
+	# North
+	for x in range(map_size.x):
+		spawn_boundary(Vector2(x * 32 + 16, -16))
+		
+	# East
+	for y in range(map_size.y):
+		spawn_boundary(Vector2(map_size.x * 32 + 16, y * 32 + 16))
+		
+	# South
+	for x in range(map_size.x):
+		spawn_boundary(Vector2(x * 32 + 16, map_size.y * 32 + 16))
+		
+	# West
+	for y in range(map_size.y):
+		spawn_boundary(Vector2(-16, y * 32 + 16))
+
+func spawn_boundary(pos):
+	var boundary = Boundary.instance()
+	boundary.set_global_position(pos)
+	get_node("WorldBoundaries").add_child(boundary)
 
 func is_in_bounds(point):
 	var new_map_size = Vector2(map_size.x - 2, map_size.y - 2)
@@ -102,7 +126,7 @@ func should_spawn_scenic_feature(pos):
 	var rand_num = rand_range(0, 100)
 	if rand_num <= increase_radius_chance:
 		radius += 1
-	
+
 	for x in range(radius*2):
 		for y in range(radius*2):
 			if $Scenery.get_cellv(Vector2(pos.x-radius + x, pos.y-radius + y)) != -1 and is_in_bounds(Vector2(x, y)):
