@@ -102,9 +102,7 @@ anims/shieldhit = SubResource( 4 )
 position = Vector2( 17, 0 )
 shape = SubResource( 5 )
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
-enabled = true
-cast_to = Vector2( 0, 450 )
-
 [node name="PathfindingTimer" type="Timer" parent="."]
+one_shot = true
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="PathfindingTimer" to="." method="_on_PathfindingTimer_timeout"]

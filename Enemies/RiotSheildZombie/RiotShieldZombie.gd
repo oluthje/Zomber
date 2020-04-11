@@ -38,3 +38,7 @@ func _on_Timer_timeout():
 	stun_timer.set_wait_time(stun_time)
 	stun_timer.start()
 	can_move = true
+
+func _on_PathfindingTimer_timeout():
+	update_path = true
+	update_if_move_to_player()

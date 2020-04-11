@@ -20,5 +20,5 @@ func _on_Timer_timeout():
 	can_move = true
 
 func _on_PathfindingTimer_timeout():
-	print("update path zombie")
 	update_path = true
+	update_if_move_to_player()

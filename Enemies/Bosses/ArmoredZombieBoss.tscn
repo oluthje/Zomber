@@ -120,10 +120,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
-cast_to = Vector2( 0, 450 )
-
 [node name="PathfindingTimer" type="Timer" parent="."]
+one_shot = true
 [connection signal="timeout" from="StunTimer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="WalkingSequenceTimer" to="." method="_on_WalkingSequenceTimer_timeout"]
 [connection signal="timeout" from="AttackSequenceTimer" to="." method="_on_AttackSequenceTimer_timeout"]
+[connection signal="timeout" from="PathfindingTimer" to="." method="_on_PathfindingTimer_timeout"]
