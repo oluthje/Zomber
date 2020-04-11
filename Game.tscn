@@ -105,6 +105,8 @@ format = 1
 
 [node name="WaveCountLabel" type="Label" parent="CanvasLayer"]
 modulate = Color( 1, 0, 0, 1 )
+anchor_left = 0.00166667
+anchor_right = 0.00166667
 margin_right = 405.0
 margin_bottom = 97.0
 __meta__ = {

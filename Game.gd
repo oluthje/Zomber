@@ -9,7 +9,7 @@ var using_menu = false
 
 # Game settings
 var spawn_enemies = true
-var map_size = Vector2(38, 18)
+var map_size = Vector2(37, 19)
 
 # Terrrain Generation
 var noise
@@ -22,9 +22,8 @@ const TILES = {
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	get_node("Player").set_global_position(Vector2(map_size/2)*32)
-	spawn_world_boundaries()
 	generate_terrain()
+	spawn_world_boundaries()
 
 func generate_terrain():
 	randomize()
@@ -43,10 +42,10 @@ func generate_terrain():
 				stone.set_global_position(Vector2(x * 32 + 16, y * 32 + 16))
 				add_child(stone)
 				$TileMap.set_cellv(Vector2(x, y), get_tile_index(noise.get_noise_2d(float(x), float(y))))
-			if tile_name != TILES.stone:
-				$TileMap.set_cellv(Vector2(x, y), get_tile_index(noise.get_noise_2d(float(x), float(y))))
-			else:
+			elif tile_name == TILES.stone and not is_in_bounds(Vector2(x, y)):
 				$TileMap.set_cellv(Vector2(x, y), TILES.grass)
+			elif tile_name != TILES.stone:
+				$TileMap.set_cellv(Vector2(x, y), get_tile_index(noise.get_noise_2d(float(x), float(y))))
 	spawn_trees()
 	
 func spawn_world_boundaries():
@@ -125,7 +124,7 @@ func should_spawn_scenic_feature(pos):
 	var rand_num = rand_range(0, 100)
 	if rand_num <= increase_radius_chance:
 		radius += 1
-
+	
 	for x in range(radius*2):
 		for y in range(radius*2):
 			if $Scenery.get_cellv(Vector2(pos.x-radius + x, pos.y-radius + y)) != -1 and is_in_bounds(Vector2(x, y)):
