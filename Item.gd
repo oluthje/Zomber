@@ -3,6 +3,8 @@ extends Node2D
 # Inventory related variables
 var inventory = ["pistol", "pickaxe", "shotgun", "axe", "disabled", "disabled", "disabled", "disabled"]
 var inv_ammo = [-1, -1, -1, -1, -1, -1, -1, -1] # The amount of ammo for each slot (assuming gun is in slot)
+var player_health = 6
+var update_player_health = false
 
 var resource_inv = ["wood", "coal", "components"]
 var resource_inv_num = [0, 0, 0]
@@ -57,7 +59,8 @@ func get_loot_drop():
 	weight_sum = 0
 	for item in loot_table:
 		weight_sum += loot_table[item]
-
+	
+	randomize()
 	var rand_num = rand_range(0, weight_sum)
 	var current_weight = 0
 	for item in loot_table:

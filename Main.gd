@@ -18,6 +18,7 @@ func reset_inventory():
 		Item.inv_ammo[index] = -1
 	for index in Item.resource_inv_num.size():
 		Item.resource_inv_num[index] = 0
+	Item.player_health = 6
 
 func delete_game_node():
 	get_game_node().queue_free()

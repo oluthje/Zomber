@@ -4,7 +4,7 @@
 [ext_resource path="res://Enemies/Zombie/Zombie.gd" type="Script" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 6.60691
+radius = 7.0
 
 [sub_resource type="Animation" id=2]
 resource_name = "idle"
@@ -50,7 +50,7 @@ hframes = 4
 frame = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -1.60094, -1.28075 )
+position = Vector2( -2, -1 )
 shape = SubResource( 1 )
 
 [node name="Timer" type="Timer" parent="."]

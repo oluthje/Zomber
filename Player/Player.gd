@@ -5,7 +5,8 @@ onready var pickup_timer = get_node("PickupTimer")
 var CarryableObject = preload("res://Environment/CarryableObject.tscn")
 var PhysicalItem = preload("res://Weapons/PhysicalItem.tscn")
 var Corpse = preload("res://Enemies/Gore/Corpse.tscn")
-var BloodSplatter = preload("res://Enemies/Gore/Bloodsplat.tscn")
+var BloodSplat = preload("res://Enemies/Gore/Bloodsplat.tscn")
+var BloodSplatter = preload("res://Enemies/Gore/Bloodsplatter.tscn")
 
 # Guns
 var Pistol = preload("res://Weapons/Pistol.tscn")
@@ -22,6 +23,9 @@ var acceleration = 0.5
 var velocity = Vector2.ZERO
 var enemy_pos = Vector2()
 var knock_back_dir = 0
+var knocked_back = false
+var knock_back_amount = 1#2.5
+var knock_back_num = 0
 
 # Object pickup
 var carrying_object = false
@@ -34,7 +38,7 @@ var pickup_cooldown = 0.2
 var pickupable_item_area
 
 # Misc
-# not yet
+var can_take_damage = true
 
 var god_mode = false
 func _ready():
@@ -50,7 +54,6 @@ func _physics_process(delta):
 		Item.player_should_update_held_item = false
 	rotate(get_rotation_toward_mouse())
 	get_input()
-	
 	get_parent().player_pos = get_global_position()
 	
 func get_rotation_toward_mouse():
@@ -58,18 +61,35 @@ func get_rotation_toward_mouse():
 	var angle = get_angle_to(mouse_pos)
 
 	return angle
-	
+
 func take_damage(damage, dir):
-	knock_back_dir = dir
-	spawn_corpse()
-	spawn_blood_splatter()
-	queue_free()
+	if can_take_damage:
+		$AnimationPlayer.play("take_damage")
+		can_take_damage = false
+		knocked_back = true
+		knock_back_dir = dir
+		knock_back_num = knock_back_amount
+		Item.player_health -= 1
+		spawn_blood_splatter()
+	if Item.player_health <= 0:
+		spawn_corpse()
+		spawn_blood_splat()
+		spawn_blood_splatter()
+		queue_free()
 	
 func spawn_blood_splatter():
 	var blood_splatter = BloodSplatter.instance()
 	blood_splatter.set_rotation(knock_back_dir)
 	blood_splatter.set_global_position(get_global_position())
 	get_parent().add_child(blood_splatter)
+	
+func spawn_blood_splat():
+	randomize()
+	var rand_rot = rand_range(0, 360)
+	var blood_splat = BloodSplat.instance()
+	blood_splat.set_rotation(deg2rad(rand_rot))
+	blood_splat.set_global_position(get_global_position())
+	get_parent().add_child(blood_splat)
 
 func spawn_corpse():
 	var corpse = Corpse.instance()
@@ -97,6 +117,14 @@ func get_input():
 	if input_velocity.length() > 0:
 		$LegAnimPlayer.play("Walk")
 		velocity = velocity.linear_interpolate(input_velocity, acceleration)
+	elif knocked_back:
+		input_velocity = Vector2(-200, 0).rotated(knock_back_dir)
+		if knock_back_num <= 0.5:
+			knocked_back = false
+		input_velocity = -input_velocity
+		input_velocity = input_velocity.linear_interpolate(Vector2.ZERO, friction)
+		velocity = (input_velocity.normalized() * speed * knock_back_num)
+		knock_back_num -= 0.2
 	else:
 		velocity = velocity.linear_interpolate(Vector2.ZERO, friction)
 	velocity = move_and_slide(velocity)
@@ -211,8 +239,11 @@ func try_update_held_item():
 func _on_Area2D_body_entered(body):
 	if "Zombie" in body.name:
 		enemy_pos = body.get_global_position()
-		var rot_to_body = get_angle_to(body.global_position)
+		var rot_to_body = get_angle_to(enemy_pos)
 		take_damage(100, rot_to_body)
 
 func _on_PickupTimer_timeout():
 	can_pickup = true
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	can_take_damage = true
