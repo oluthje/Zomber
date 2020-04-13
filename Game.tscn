@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://HealthSystem.gd" type="Script" id=1]
 [ext_resource path="res://HUD/InventoryHUD.tscn" type="PackedScene" id=2]
@@ -11,7 +11,6 @@
 [ext_resource path="res://Sprites/Environment/ScenicFeatures.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/Environment/EnvironmentTileset.png" type="Texture" id=10]
 [ext_resource path="res://TileMap.gd" type="Script" id=11]
-[ext_resource path="res://Enemies/Bosses/ArmoredZombieBoss.tscn" type="PackedScene" id=12]
 [ext_resource path="res://TestSpawnTimer.gd" type="Script" id=13]
 [ext_resource path="res://HUD/ConstructionButton.tscn" type="PackedScene" id=15]
 
@@ -107,8 +106,8 @@ format = 1
 
 [node name="WaveCountLabel" type="Label" parent="CanvasLayer"]
 modulate = Color( 1, 0, 0, 1 )
-anchor_left = 0.00195312
-anchor_right = 0.00195312
+anchor_left = 0.00585938
+anchor_right = 0.00585938
 margin_left = -1.0
 margin_right = 404.0
 margin_bottom = 97.0
@@ -143,7 +142,4 @@ wait_time = 2.0
 one_shot = true
 autostart = true
 script = ExtResource( 13 )
-
-[node name="ArmoredZombieBoss" parent="." instance=ExtResource( 12 )]
-position = Vector2( 292, 192 )
 [connection signal="timeout" from="TestSpawnTimer" to="TestSpawnTimer" method="_on_TestSpawnTimer_timeout"]

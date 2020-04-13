@@ -1,5 +1,7 @@
 extends "res://Enemies/EnemyParent.gd"
 
+var Zombie = preload("res://Enemies/Zombie/Zombie.tscn")
+
 var CARRYING = "carrying"
 var lost_shield = false
 
@@ -39,7 +41,15 @@ func play_animations():
 			get_node("RiotShield").get_node("AnimationPlayer").play("shield_attack")
 		CARRYING:
 			$AnimationPlayer.play("carryshield")
-	
+			
+func replace_with_zombie():
+	var zombie = Zombie.instance()
+	zombie.set_global_position(get_global_position())
+	zombie.set_global_rotation(get_global_rotation())
+	zombie.health = health
+	get_parent().add_child(zombie)
+	queue_free()
+
 func _on_Timer_timeout():
 	stun_timer.set_wait_time(stun_time)
 	stun_timer.start()

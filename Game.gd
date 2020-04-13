@@ -8,7 +8,7 @@ var player_pos = Vector2()
 var using_menu = false
 
 # Game settingss
-var spawn_enemies = false
+var spawn_enemies = true
 var map_size = Vector2(30, 20)
 
 # Terrrain Generation

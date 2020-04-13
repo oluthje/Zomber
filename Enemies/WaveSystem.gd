@@ -25,19 +25,16 @@ var num_bosses = 1
 var bosses_left = 1
 var zombies_left = 3
 var spawn_time = 0
+var additional_zombies_per_round = 3
 
 # Loot table
 onready var spawn_table = {
-	Item.ZOMBIE: 25,
-	Item.RIOT_SHIELD_ZOMBIE: 15,
+	Item.ZOMBIE: 23,
+	Item.RIOT_SHIELD_ZOMBIE: 10,
 	Item.FAST_ZOMBIE: 10
 }
 
 var weight_sum = 0
-
-#func _ready():
-#	for i in range(100):
-#		print(get_enemy_by_weight())
 
 func get_enemy_by_weight():
 	weight_sum = 0
@@ -63,7 +60,7 @@ func _physics_process(delta):
 func next_wave():
 	if get_parent().spawn_enemies:
 		wave_num += 1
-		num_zombies += 1
+		num_zombies += additional_zombies_per_round
 		zombies_left = num_zombies
 		bosses_left = num_bosses
 		
