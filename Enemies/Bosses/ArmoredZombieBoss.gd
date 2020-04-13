@@ -29,6 +29,7 @@ func _ready():
 	can_move = true
 	can_be_stunned = false
 	knock_back_amount = 0.2
+	is_boss = true
 	
 	# Anim speeds
 	walk_anim_speed = 1
@@ -39,10 +40,6 @@ func _ready():
 	
 	walking_timer.set_wait_time(walking_time)
 	walking_timer.start()
-	
-#func _physics_process(delta):
-#	get_node("Label").set_text(str(get_global_position().distance_to(get_player_pos())))
-#	#get_node("Label").set_global_rotation(0)
 
 func take_damage(damage, dir):
 	health -= damage
@@ -98,6 +95,7 @@ func spawn_dirt_particles():
 	get_parent().add_child(ground_hit_particles)
 
 func spawn_bullet_spray():
+	print("bullet spray")
 	var bullet_pos_node = get_node("BulletPos")
 	bullet_pos_node.set_position(Vector2(bullet_pos_node.get_position().x, -bullet_pos_node.get_position().y))
 	for i in range(bullets_in_shot):

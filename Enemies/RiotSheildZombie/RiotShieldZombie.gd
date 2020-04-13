@@ -18,22 +18,28 @@ func _ready():
 	
 	stun_timer = get_node("Timer")
 	stun_timer.set_wait_time(stun_time)
+	
+	has_melee_attack = true
+	melee_attack_distance = 24
+	
+	._ready()
 
 func play_animations():
-	if not lost_shield:
+	if not lost_shield and state != ATTACKING:
 		state = CARRYING
-	else:
+	elif state != ATTACKING:
 		state = WALKING
 	match state:
 		WALKING:
 			$AnimationPlayer.set_speed_scale(walk_anim_speed)
 			$AnimationPlayer.play("walk")
 		ATTACKING:
-			$AnimationPlayer.set_speed_scale(attack_anim_speed)
-			$AnimationPlayer.play("attack")
+			print("shield attack")
+			get_node("RiotShield").get_node("AnimationPlayer").set_speed_scale(attack_anim_speed)
+			get_node("RiotShield").get_node("AnimationPlayer").play("shield_attack")
 		CARRYING:
 			$AnimationPlayer.play("carryshield")
-
+	
 func _on_Timer_timeout():
 	stun_timer.set_wait_time(stun_time)
 	stun_timer.start()

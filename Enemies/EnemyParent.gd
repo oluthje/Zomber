@@ -20,6 +20,7 @@ var can_be_stunned = true
 var stun_timer
 var stun_time = 0.1
 var knocked_back = false
+var is_boss = false
 
 # Animation
 var state = "walking"
@@ -40,6 +41,10 @@ var update_path = true
 var time_to_path_update = 1
 var move_direct_to_player = false
 
+# Misc
+var has_melee_attack = false
+var melee_attack_distance = 16
+
 func _ready():
 	get_node("PathfindingTimer").set_wait_time(1)
 	get_node("PathfindingTimer").start()
@@ -47,9 +52,10 @@ func _ready():
 func _physics_process(delta):
 	delta_num = delta
 	pathfindng_move_to_player()
-	#draw_path()
 
 func pathfindng_move_to_player():
+	melee_attack()
+	
 	if move_direct_to_player:
 		move_to_player()
 		return
@@ -76,6 +82,13 @@ func pathfindng_move_to_player():
 	rotate_towards_pos(next_pos)
 	update_pathing()
 	
+func melee_attack():
+	var distance_to_player = get_global_position().distance_to(player_pos)
+	if has_melee_attack and distance_to_player <= melee_attack_distance:
+		state = ATTACKING
+	elif not is_boss:
+		state = WALKING
+
 func is_player_in_view():
 	var space_state = get_world_2d().direct_space_state
 	var result = space_state.intersect_ray(get_global_position(), player_pos, [self], collision_mask)
@@ -157,6 +170,7 @@ func play_animations():
 			else:
 				$AnimationPlayer.play("idle")
 		ATTACKING:
+			print("attacking")
 			$AnimationPlayer.set_speed_scale(attack_anim_speed)
 			$AnimationPlayer.play("attack")
 
@@ -206,7 +220,7 @@ func spawn_corpse():
 	corpse.set_rotation(knock_back_dir + deg2rad(90))
 	corpse.set_up("zombie")
 	get_parent().add_child(corpse)
-	
+
 func move_to_player():
 	player_pos = get_player_pos()
 	var input_velocity = Vector2.ZERO

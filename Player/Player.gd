@@ -24,7 +24,7 @@ var velocity = Vector2.ZERO
 var enemy_pos = Vector2()
 var knock_back_dir = 0
 var knocked_back = false
-var knock_back_amount = 1#2.5
+var knock_back_amount = 1
 var knock_back_num = 0
 
 # Object pickup
@@ -235,10 +235,17 @@ func try_update_held_item():
 		if get_node("HandHeldItem").get_children().size() > 0:
 			for child in get_node("HandHeldItem").get_children():
 				child.queue_free()
-	
-func _on_Area2D_body_entered(body):
-	if "Zombie" in body.name:
-		enemy_pos = body.get_global_position()
+
+#func _on_Area2D_body_entered(body):
+#	#if "Zombie" in body.name:
+#	if 
+#		enemy_pos = body.get_global_position()
+#		var rot_to_body = get_angle_to(enemy_pos)
+#		take_damage(100, rot_to_body)
+		
+func _on_Area2D_area_entered(area):
+	if area.is_in_group("damageplayer"):
+		enemy_pos = area.get_global_position()
 		var rot_to_body = get_angle_to(enemy_pos)
 		take_damage(100, rot_to_body)
 

@@ -24,6 +24,12 @@ var STONE = "stone"
 # Buildings
 var WOOD_SPIKES = "wood_spikes"
 
+# Enemies
+var ZOMBIE = "zombie"
+var FAST_ZOMBIE = "fast_zombie"
+var RIOT_SHIELD_ZOMBIE = "riot_shield_zombie"
+var ARMORED_ZOMBIE_BOSS = "armored_zombie_boss"
+
 # Functional keywords
 const EMPTY = "empty"
 const DISABLED = "disabled"
@@ -43,7 +49,7 @@ var using_menu = false
 
 # Loot table
 onready var loot_table = {
-	Item.PISTOL: 20,
+	Item.PISTOL: 10,
 	Item.AXE: 10,
 	Item.SHOTGUN: 10,
 	Item.PICKAXE: 10

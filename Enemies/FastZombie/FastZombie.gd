@@ -1,11 +1,11 @@
 extends "res://Enemies/EnemyParent.gd"
 
 func _ready():
-	speed = 75
-	angular_speed = 3
+	speed = 135
+	angular_speed = 4
 	min_distance = 50
 	stun_time = 0.5
-	health = 35
+	health = 15
 	can_move = true
 	knock_back_amount = 2.5
 	
@@ -13,7 +13,7 @@ func _ready():
 	stun_timer.set_wait_time(stun_time)
 	
 	has_melee_attack = true
-	melee_attack_distance = 32
+	melee_attack_distance = 24
 	
 	._ready()
 

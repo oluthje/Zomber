@@ -2,6 +2,7 @@ extends Node2D
 
 # Enemies
 var Zombie = preload("res://Enemies/Zombie/Zombie.tscn")
+var FastZombie = preload("res://Enemies/FastZombie/FastZombie.tscn")
 var RiotZombie = preload("res://Enemies/RiotSheildZombie/RiotShieldZombie.tscn")
 
 # Bosses
@@ -24,6 +25,33 @@ var num_bosses = 1
 var bosses_left = 1
 var zombies_left = 3
 var spawn_time = 0
+
+# Loot table
+onready var spawn_table = {
+	Item.ZOMBIE: 25,
+	Item.RIOT_SHIELD_ZOMBIE: 15,
+	Item.FAST_ZOMBIE: 10
+}
+
+var weight_sum = 0
+
+#func _ready():
+#	for i in range(100):
+#		print(get_enemy_by_weight())
+
+func get_enemy_by_weight():
+	weight_sum = 0
+	for enemy in spawn_table:
+		weight_sum += spawn_table[enemy]
+	
+	randomize()
+	var rand_num = rand_range(0, weight_sum)
+	var current_weight = 0
+	for enemy in spawn_table:
+		current_weight += spawn_table[enemy]
+		if rand_num <= current_weight:
+			return enemy
+	return "no item found"
 
 func _physics_process(delta):
 	var zombies_alive = get_tree().get_nodes_in_group("enemies").size()
@@ -54,19 +82,20 @@ func spawn_panning_wave_label():
 func set_wave_label_text():
 	get_parent().get_node("CanvasLayer").get_node("WaveCountLabel").set_text(str(wave_num))
 
-func spawn_zombie():
-	var percent_chance = 25
-	randomize()
-	var rand_num = rand_range(0, 100)
+func spawn_enemy():
+	var enemy_name = get_enemy_by_weight()
+	var enemy
 	
-	if rand_num <= percent_chance and wave_num > 2:
-		var riot_zombie = RiotZombie.instance()
-		riot_zombie.set_global_position(get_rand_spawner_pos())
-		get_parent().add_child(riot_zombie)
-	else:
-		var zombie = Zombie.instance()
-		zombie.set_global_position(get_rand_spawner_pos())
-		get_parent().add_child(zombie)
+	match enemy_name:
+		Item.ZOMBIE:
+			enemy = Zombie.instance()
+		Item.FAST_ZOMBIE:
+			enemy = FastZombie.instance()
+		Item.RIOT_SHIELD_ZOMBIE:
+			enemy = RiotZombie.instance()
+	
+	enemy.set_global_position(get_rand_spawner_pos())
+	get_parent().add_child(enemy)
 
 func randomly_spawn_boss():
 	var percent_chance = 35
@@ -90,7 +119,7 @@ func get_rand_spawner_pos():
 func _on_SpawnTimer_timeout():
 	if zombies_left > 0:
 		zombies_left -= 1
-		spawn_zombie()
+		spawn_enemy()
 		spawn_timer.start()
 	elif bosses_left > 0:
 		bosses_left -= 1
