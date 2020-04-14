@@ -11,6 +11,7 @@ var BloodSplatter = preload("res://Enemies/Gore/Bloodsplatter.tscn")
 # Guns
 var Pistol = preload("res://Weapons/Pistol.tscn")
 var Shotgun = preload("res://Weapons/Shotgun.tscn")
+var Ak47 = preload("res://Weapons/Ak47.tscn")
 
 # Melee weapons
 var Axe = preload("res://Weapons/Axe.tscn")
@@ -223,6 +224,9 @@ func try_update_held_item():
 		get_node("HandHeldItem").add_child(item)
 	elif Item.inventory[Item.current_inventory_slot] == Item.SHOTGUN:
 		var item = Shotgun.instance()
+		get_node("HandHeldItem").add_child(item)
+	elif Item.inventory[Item.current_inventory_slot] == Item.AK47:
+		var item = Ak47.instance()
 		get_node("HandHeldItem").add_child(item)
 	elif Item.inventory[Item.current_inventory_slot] == Item.AXE:
 		var item = Axe.instance()

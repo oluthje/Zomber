@@ -17,6 +17,7 @@ var release_bullet_casing = false
 
 # Anim vars
 var reload_anim_speed = 1
+var shoot_anim_speed = 1
 
 # Screen shake variables
 var duration = 0.2
@@ -77,7 +78,7 @@ func shoot():
 	spawn_bullet_casing()
 	shake_screen()
 	spawn_bullet()
-	$AnimationPlayer.set_speed_scale(1)
+	$AnimationPlayer.set_speed_scale(shoot_anim_speed)
 	$AnimationPlayer.play("shoot")
 	loaded_ammo -= 1
 	time = 0 
