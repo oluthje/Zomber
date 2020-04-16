@@ -12,13 +12,13 @@ func _ready():
 	release_bullet_casing = true
 	
 	# Anim
-	reload_anim_speed = 0.35
-	shoot_anim_speed = 1.75
+	reload_anim_speed = 1.2
+	shoot_anim_speed = 2.5
 	
 	# Screen shake
 	duration = 0.05
-	frequency = 40
-	amplitude = 4
+	frequency = 25
+	amplitude = 5
 	priority = 0
 	
 	._ready()

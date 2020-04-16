@@ -36,6 +36,13 @@ onready var spawn_table = {
 
 var weight_sum = 0
 
+func _ready():
+#	wave_num = 5
+	num_zombies = wavenum_to_zombienum(wave_num)
+
+func wavenum_to_zombienum(wavenum):
+	return wavenum * 3 + 3
+
 func get_enemy_by_weight():
 	weight_sum = 0
 	for enemy in spawn_table:
@@ -56,10 +63,12 @@ func _physics_process(delta):
 		rest_timer.set_wait_time(wave_rest_time)
 		rest_timer.start()
 		can_advance_to_next_wave = false
+	set_wave_label_text()
 
 func next_wave():
 	if get_parent().spawn_enemies:
 		wave_num += 1
+		Item.wave_num = wave_num
 		num_zombies += additional_zombies_per_round
 		zombies_left = num_zombies
 		bosses_left = num_bosses
@@ -77,7 +86,9 @@ func spawn_panning_wave_label():
 	get_parent().get_node("CanvasLayer").add_child(wave_label)
 
 func set_wave_label_text():
-	get_parent().get_node("CanvasLayer").get_node("WaveCountLabel").set_text(str(wave_num))
+	var rest_timer_time = $RestTimer.get_time_left()
+	var spawn_timer_time = $SpawnTimer.get_time_left()
+	get_parent().get_node("CanvasLayer").get_node("WaveCountLabel").set_text(str(wave_num)) #+ " rest timer: " + str(rest_timer_time) + " spawn timer: " + str(spawn_timer_time) + " zombies left: " + str(zombies_left))
 
 func spawn_enemy():
 	var enemy_name = get_enemy_by_weight()
@@ -90,6 +101,9 @@ func spawn_enemy():
 			enemy = FastZombie.instance()
 		Item.RIOT_SHIELD_ZOMBIE:
 			enemy = RiotZombie.instance()
+	
+	if zombies_left == 1:
+		enemy.spawn_loot_on_death = true
 	
 	enemy.set_global_position(get_rand_spawner_pos())
 	get_parent().add_child(enemy)

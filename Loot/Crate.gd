@@ -17,8 +17,15 @@ func open_crate():
 	$AnimationPlayer.play("break")
 	$Particles2D.set_emitting(true)
 	set_rand_rotation()
-	spawn_physical_item(Item.get_loot_drop())
-	
+	spawn_physical_item(Item.get_loot_drop(get_tier_by_wavenum()))
+
+func get_tier_by_wavenum():
+	if Item.wave_num > 9:
+		return 3
+	if Item.wave_num > 4:
+		return 2
+	return 1
+
 func spawn_physical_item(item_name):
 	var item = PhysicalItem.instance()
 	item.set_global_position(get_global_position())

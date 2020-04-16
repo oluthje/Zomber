@@ -39,7 +39,7 @@ tracks/0/keys = {
 "values": [ 1, 2, 3, 4, 5, 6, 7, 8 ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=4]
 resource_name = "shield_attack"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:offset")
@@ -66,8 +66,7 @@ tracks/1/keys = {
 "values": [ true, false, true ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "shieldhit"
+[sub_resource type="Animation" id=5]
 length = 0.1
 step = 0.05
 tracks/0/type = "value"
@@ -83,10 +82,10 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( -3, 0 ), Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 4, 12 )
 
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 3, 11 )
 
 [node name="RiotShieldZombie" type="KinematicBody2D" groups=[
@@ -126,12 +125,12 @@ script = ExtResource( 4 )
 texture = ExtResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="RiotShield"]
-anims/shield_attack = SubResource( 7 )
-anims/shieldhit = SubResource( 4 )
+anims/shield_attack = SubResource( 4 )
+anims/shieldhit = SubResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RiotShield"]
 position = Vector2( 17, 0 )
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 
 [node name="Area2D" type="Area2D" parent="RiotShield" groups=[
 "damageplayer",
@@ -139,7 +138,7 @@ shape = SubResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RiotShield/Area2D"]
 position = Vector2( 15, 0 )
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 disabled = true
 
 [node name="PathfindingTimer" type="Timer" parent="."]

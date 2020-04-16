@@ -80,13 +80,13 @@ tracks/5/keys = {
 "values": [ 0.0, 145.0 ]
 }
 
-[sub_resource type="Curve" id=4]
+[sub_resource type="Curve" id=3]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=5]
-curve = SubResource( 4 )
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
 
-[sub_resource type="ParticlesMaterial" id=3]
+[sub_resource type="ParticlesMaterial" id=5]
 lifetime_randomness = 1.0
 flag_disable_z = true
 spread = 180.0
@@ -98,7 +98,7 @@ orbit_velocity_random = 0.0
 damping = 200.0
 scale = 3.0
 scale_random = 1.0
-scale_curve = SubResource( 5 )
+scale_curve = SubResource( 4 )
 color = Color( 0.286275, 0.188235, 0.00392157, 1 )
 
 [node name="Crate" type="Area2D"]
@@ -128,5 +128,5 @@ amount = 18
 lifetime = 8.0
 one_shot = true
 explosiveness = 1.0
-process_material = SubResource( 3 )
+process_material = SubResource( 5 )
 [connection signal="body_entered" from="." to="." method="_on_Crate_body_entered"]

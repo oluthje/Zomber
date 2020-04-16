@@ -2,7 +2,6 @@ extends "res://Enemies/EnemyParent.gd"
 
 var Bullet = preload("res://Weapons/Bullet.tscn")
 var GroundHitParticles = preload("res://Enemies/Bosses/GroundHitParticles.tscn")
-var Crate = preload("res://Loot/Crate.tscn")
 
 var walking_time = 2.5
 var attack_time = 5

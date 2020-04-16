@@ -3,6 +3,7 @@ extends KinematicBody2D
 var BloodSplatter = preload("res://Enemies/Gore/Bloodsplatter.tscn")
 var BloodSplat = preload("res://Enemies/Gore/Bloodsplat.tscn")
 var Corpse = preload("res://Enemies/Gore/Corpse.tscn")
+var Crate = preload("res://Loot/Crate.tscn")
 
 var player_pos = Vector2()
 
@@ -44,6 +45,7 @@ var move_direct_to_player = false
 # Misc
 var has_melee_attack = false
 var melee_attack_distance = 16
+var spawn_loot_on_death = false
 
 func _ready():
 	get_node("PathfindingTimer").set_wait_time(1)
@@ -52,6 +54,14 @@ func _ready():
 func _physics_process(delta):
 	delta_num = delta
 	pathfindng_move_to_player()
+	if_should_delete_zombie()
+
+func if_should_delete_zombie():
+	var distance_to_player = get_global_position().distance_to(player_pos)
+	#print(distance_to_player)
+	if distance_to_player > 2000:
+		print("deleted zombie because exited range of scene")
+		queue_free()
 
 func pathfindng_move_to_player():
 	melee_attack()
@@ -82,6 +92,12 @@ func pathfindng_move_to_player():
 	rotate_towards_pos(next_pos)
 	update_pathing()
 	
+func try_spawn_loot():
+	if spawn_loot_on_death:
+		var crate = Crate.instance()
+		crate.set_global_position(get_global_position())
+		get_parent().add_child(crate)
+	
 func melee_attack():
 	var distance_to_player = get_global_position().distance_to(player_pos)
 	if has_melee_attack and distance_to_player <= melee_attack_distance:
@@ -109,7 +125,8 @@ func update_pathing():
 	if not path_to_player or len(path_to_player) == 1 or should_update_path() or update_path:
 		update_path = false
 		path_to_player = get_path_to_player()
-		path_to_player.remove(0)
+		if path_to_player.size() > 0:
+			path_to_player.remove(0)
 		if len(path_to_player) > 0:
 			next_pos = path_to_player[0]
 		
@@ -194,6 +211,7 @@ func take_damage(damage, dir):
 		has_died = true
 		spawn_blood_splatter()
 		spawn_corpse()
+		try_spawn_loot()
 		queue_free()
 	
 func get_rotation_to_pos(pos):
