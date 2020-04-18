@@ -78,10 +78,22 @@ func shoot():
 	spawn_bullet_casing()
 	shake_screen()
 	spawn_bullet()
+	jerk_ammo_count_hud("down")
 	$AnimationPlayer.set_speed_scale(shoot_anim_speed)
 	$AnimationPlayer.play("shoot")
 	loaded_ammo -= 1
-	time = 0 
+	time = 0
+	
+func jerk_ammo_count_hud(dir):
+	get_ammo_hud_node().jerk_ammo_label(dir)
+	
+func get_ammo_hud_node():
+	var game_node
+	for child in get_tree().get_root().get_node("Main").get_children():
+		if "Game" in child.name:
+			game_node = child
+	
+	return game_node.get_node("CanvasLayer").get_node("WeaponInfo")
 
 func spawn_bullet():
 	var bullet = Bullet.instance()
@@ -118,4 +130,5 @@ func reload_code():
 		while loaded_ammo < reload_amount:
 			loaded_ammo += 1
 		is_reloading = false
+		jerk_ammo_count_hud("up")
 		save_loaded_ammo()

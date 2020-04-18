@@ -3,8 +3,8 @@ extends "res://Weapons/GunParent.gd"
 func _ready():
 	# Shoot variables
 	shot_cooldown = 5
-	loaded_ammo = 7
-	reload_amount = 15
+	loaded_ammo = 8
+	reload_amount = 8
 	automatic = false
 	dispersion = 15
 	bullet_speed = 800

@@ -14,11 +14,11 @@ func take_damage():
 	if health <= 0:
 		enter_damaged_state()
 		queue_free()
-		
+
 func get_rotation_to_pos(pos):
 	var angle = get_angle_to(pos)
 	return angle
-	
+
 func spawn_smoke_effect():
 	for i in range(2):
 		randomize()

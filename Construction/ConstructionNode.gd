@@ -48,6 +48,9 @@ func setup(building, to_be_dragged):
 	draggable = to_be_dragged
 	if building == Item.WOOD_SPIKES:
 		required_materials[Item.LOG] = 3
+	if not to_be_dragged:
+		spawn_required_materials_popup()
+		$AnimationPlayer.play("posfeedback")
 
 func spawn_required_materials_popup():
 	var popup = RequiredMaterialsPopup.instance()
