@@ -1,13 +1,13 @@
 extends StaticBody2D
 
 var ConstructionNode = load("res://Construction/ConstructionNode.tscn")
-var ConstructedParticles = preload("res://Construction/ConstructedParticles.tscn")
+var SmokeEffect = preload("res://Environment/SmokeEffect.tscn")
 
 var damage = 50
 var health = 5
 
 func _ready():
-	spawn_constructed_particles()
+	spawn_smoke_effect()
 
 func take_damage():
 	health -= 1
@@ -18,11 +18,28 @@ func take_damage():
 func get_rotation_to_pos(pos):
 	var angle = get_angle_to(pos)
 	return angle
+	
+func spawn_smoke_effect():
+	for i in range(2):
+		randomize()
+		var rand_x = rand_range(0, 24)
+		if flipped_heads():
+			rand_x = -rand_x
+		randomize()
+		var rand_y = rand_range(0, 24)
+		if flipped_heads():
+			rand_y = -rand_y
 		
-func spawn_constructed_particles():
-	var particles = ConstructedParticles.instance()
-	particles.set_global_position(get_global_position())
-	get_parent().add_child(particles)
+		var smoke = SmokeEffect.instance()
+		smoke.set_global_position(Vector2(get_global_position().x + rand_x, get_global_position().y + rand_y))
+		get_parent().add_child(smoke)
+		
+func flipped_heads():
+	randomize()
+	var rand_num = rand_range(0, 100)
+	if rand_num < 50:
+		return true
+	return false
 
 func enter_damaged_state():
 	var construction_node = ConstructionNode.instance()

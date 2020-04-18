@@ -129,4 +129,10 @@ lifetime = 8.0
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource( 5 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 32.0
+one_shot = true
 [connection signal="body_entered" from="." to="." method="_on_Crate_body_entered"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

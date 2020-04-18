@@ -239,13 +239,6 @@ func try_update_held_item():
 		if get_node("HandHeldItem").get_children().size() > 0:
 			for child in get_node("HandHeldItem").get_children():
 				child.queue_free()
-
-#func _on_Area2D_body_entered(body):
-#	#if "Zombie" in body.name:
-#	if 
-#		enemy_pos = body.get_global_position()
-#		var rot_to_body = get_angle_to(enemy_pos)
-#		take_damage(100, rot_to_body)
 		
 func _on_Area2D_area_entered(area):
 	if area.is_in_group("damageplayer"):

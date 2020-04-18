@@ -21,6 +21,13 @@ func _physics_process(delta):
 	else:
 		$AnimationPlayer.play("enemybullet")
 	move_and_collide(velocity * delta)
+	if_should_free_bullet()
+	
+func if_should_free_bullet():
+	var distance = 5000
+	var pos = get_global_position()
+	if abs(pos.x) > distance or abs(pos.y) > distance:
+		queue_free()
 
 func spawn_bullet_effect():
 	var bullet_effect = BulletEffect.instance()

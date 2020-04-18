@@ -36,7 +36,6 @@ func play_animations():
 			$AnimationPlayer.set_speed_scale(walk_anim_speed)
 			$AnimationPlayer.play("walk")
 		ATTACKING:
-			print("shield attack")
 			get_node("RiotShield").get_node("AnimationPlayer").set_speed_scale(attack_anim_speed)
 			get_node("RiotShield").get_node("AnimationPlayer").play("shield_attack")
 		CARRYING:

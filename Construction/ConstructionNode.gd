@@ -2,19 +2,26 @@ extends Area2D
 
 var ConstructionSquare = preload("res://Construction/ConstructionSquare.tscn")
 var ResourceAddedLabel = preload("res://Construction/ResourcedAddedLabel.tscn")
+var RequiredMaterialsPopup = preload("res://Construction/RequiredMaterialsNode.tscn")
 
 # Buildings
 var WoodSpikes = preload("res://Obstacles/WoodenSpikes.tscn")
 
 var draggable = true
 var can_place = true
-var required_materials = []
+var spacing = 16
+
+var building_name = ""
+var required_materials = {
+	Item.LOG: 0,
+	Item.STONE: 0
+}
+var total_resources = 0
 var square_array = []
 var size = 2
-var spacing = 16
-var building_name = ""
 
 func _ready():
+	total_resources = get_total_resources()
 	setup_square_array()
 	draw_squares()
 
@@ -29,6 +36,7 @@ func _physics_process(delta):
 			queue_free()
 		elif Input.is_action_pressed("shoot"):
 			if can_place():
+				spawn_required_materials_popup()
 				$AnimationPlayer.play("posfeedback")
 				Item.using_menu = false
 				draggable = false
@@ -39,9 +47,13 @@ func setup(building, to_be_dragged):
 	building_name = building
 	draggable = to_be_dragged
 	if building == Item.WOOD_SPIKES:
-		for i in range(4):
-			required_materials.append(Item.LOG)
-	
+		required_materials[Item.LOG] = 3
+
+func spawn_required_materials_popup():
+	var popup = RequiredMaterialsPopup.instance()
+	popup.set_position(Vector2(8, -16))
+	popup.setup(required_materials)
+	add_child(popup)
 	
 func can_place():
 	var placeable = true
@@ -52,7 +64,7 @@ func can_place():
 	
 	var bodies = get_overlapping_bodies()
 	for body in bodies:
-		if body.is_in_group("building"):
+		if body.is_in_group("building") or body.is_in_group("wall"):
 			placeable = false
 	
 	return placeable
@@ -71,16 +83,25 @@ func snap_position_to_grid():
 	set_global_position(Vector2(int(pos.x/snap_num) * snap_num + 8, int(pos.y/snap_num) * snap_num + 8))
 
 func draw_squares():
+	var percent = 0.25
+	var percent_filled = get_percent_resources_filled()
+	var current_num = 0
+	
+	if get_node("Squares").get_children().size() > 0:
+		for child in get_node("Squares").get_children():
+			child.queue_free()
+
 	for x in range(size):
 		for y in range(size):
 			var square = ConstructionSquare.instance()
 			square.set_position(Vector2(x * spacing, y * spacing))
 			get_node("Squares").add_child(square)
-			if square_array[x][y] == "filled":
+			if current_num < percent_filled:
 				square.play("filledsquare")
 			else:
 				square.play("square")
-				square.get_node("AnimationPlayer").play(square_array[x][y])
+			
+			current_num += percent
 				
 func spawn_added_resource_label():
 	var label = ResourceAddedLabel.instance()
@@ -88,22 +109,43 @@ func spawn_added_resource_label():
 	label.set_global_position(get_global_position())
 	get_parent().add_child(label)
 
-func add_resource_building(resource):
-	var has_all_resources = true
-	var added_resource = false
-	$AnimationPlayer.play("posbuildfeedback")
-	spawn_added_resource_label()
-	for x in range(size):
-		for y in range(size):
-			if square_array[x][y] == resource and not added_resource:
-				square_array[x][y] = "filled"
-				added_resource = true
-			if square_array[x][y] != "filled":
-				has_all_resources = false
+func requires_resource(resource):
+	if required_materials.has(resource):
+		if required_materials[resource] > 0:
+			return true
+	return false
 	
-	if has_all_resources:
-		spawn_building(building_name)
+func add_resource_to_building(resource):
+	required_materials[resource] -= 1
+	$AnimationPlayer.play("posbuildfeedback")
+	get_node("RequiredMaterialsNode").add_resource(resource)
+	spawn_added_resource_label()
 	draw_squares()
+	if has_all_required_materials():
+		$AnimationPlayer.play("completion_shake")
+
+func has_all_required_materials():
+	var has_all_required_materials = true
+	for resource in required_materials:
+		if required_materials[resource] != 0:
+			has_all_required_materials = false
+	
+	if has_all_required_materials:
+		return true
+	return false
+
+func get_total_resources():
+	var resource_num = 0
+	for resource in required_materials:
+		resource_num += required_materials[resource]
+	return resource_num
+
+func get_percent_resources_filled():
+	var resource_num = 0
+	for resource in required_materials:
+		resource_num += required_materials[resource]
+	resource_num = total_resources - resource_num
+	return float(resource_num)/float(total_resources)
 
 func setup_square_array():
 	var index = 0
@@ -112,14 +154,19 @@ func setup_square_array():
 		square_array[x]=[]
 		for y in range(size):
 			square_array[x].append([])
-			square_array[x][y] = required_materials[index]
+			square_array[x][y] = "unfilled"
 			index += 1
 
 func _on_ConstructionNode_body_entered(body):
 	if "Player" in body.name:
 		if body.carrying_object:
-			add_resource_building(Item.LOG)
-			body.get_node("CarryableObject").get_node("SlotItemImage").select_item_to_display("none")
-			body.carrying_object = false
-			body.object_carrying_name = ""
-			body.try_update_held_item()
+			if requires_resource(body.object_carrying_name):
+				add_resource_to_building(body.object_carrying_name)
+				body.get_node("CarryableObject").get_node("SlotItemImage").select_item_to_display("none")
+				body.carrying_object = false
+				body.object_carrying_name = ""
+				body.try_update_held_item()
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	if anim_name == "completion_shake":
+		spawn_building(building_name)

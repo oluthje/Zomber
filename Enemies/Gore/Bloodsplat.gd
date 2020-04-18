@@ -4,7 +4,6 @@ onready var removal_timer = get_node("RemovalTimer")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print("spawned splat")
 	set_up_removal()
 
 func set_up_removal():

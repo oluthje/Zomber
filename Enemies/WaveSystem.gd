@@ -16,7 +16,7 @@ onready var spawn_timer = get_node("SpawnTimer")
 # Wave variables
 var wave_num = 0
 var wave_time = 12
-var wave_rest_time = 0#5
+var wave_rest_time = 0
 var can_advance_to_next_wave = true
 
 # Spawning variables
@@ -39,6 +39,15 @@ var weight_sum = 0
 func _ready():
 #	wave_num = 5
 	num_zombies = wavenum_to_zombienum(wave_num)
+	place_spawners()
+	
+func _physics_process(delta):
+	var zombies_alive = get_tree().get_nodes_in_group("enemies").size()
+	if zombies_alive <= 0 and can_advance_to_next_wave:
+		rest_timer.set_wait_time(wave_rest_time)
+		rest_timer.start()
+		can_advance_to_next_wave = false
+	set_wave_label_text()
 
 func wavenum_to_zombienum(wavenum):
 	return wavenum * 3 + 3
@@ -56,14 +65,6 @@ func get_enemy_by_weight():
 		if rand_num <= current_weight:
 			return enemy
 	return "no item found"
-
-func _physics_process(delta):
-	var zombies_alive = get_tree().get_nodes_in_group("enemies").size()
-	if zombies_alive <= 0 and can_advance_to_next_wave:
-		rest_timer.set_wait_time(wave_rest_time)
-		rest_timer.start()
-		can_advance_to_next_wave = false
-	set_wave_label_text()
 
 func next_wave():
 	if get_parent().spawn_enemies:
@@ -116,12 +117,34 @@ func randomly_spawn_boss():
 		var armored_zombie = ArmoredZombie.instance()
 		armored_zombie.set_global_position(get_rand_spawner_pos())
 		get_parent().add_child(armored_zombie)
+	
+func place_spawners():
+	var map_size = get_parent().map_size
+	var margin = 250
+	
+	# North
+	for x in range(map_size.x):
+		spawn_spawn_pos(Vector2(x * 32 + 16, -margin))
+	# East
+	for y in range(map_size.y):
+		spawn_spawn_pos(Vector2(map_size.x * 32 + margin, y * 32 + 16))
+	# South
+	for x in range(map_size.x):
+		spawn_spawn_pos(Vector2(x * 32 + 16, map_size.y * 32 + margin))
+	# West
+	for y in range(map_size.y):
+		spawn_spawn_pos(Vector2(-16, y * 32 + margin))
+
+func spawn_spawn_pos(pos):
+	var spawn_pos = Node2D.new()
+	spawn_pos.set_global_position(pos)
+	get_node("Spawnpoints").add_child(spawn_pos)
 
 func get_rand_spawner_pos():
 	var spawners = []
 	for child in get_node("Spawnpoints").get_children():
-		if "Spawnpoint" in child.name:
-			spawners.append(child)
+		#if "Spawnpoint" in child.name:
+		spawners.append(child)
 
 	randomize()
 	var rand_num = rand_range(0, spawners.size())

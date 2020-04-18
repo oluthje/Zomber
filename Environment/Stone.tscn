@@ -9,6 +9,7 @@ extents = Vector2( 16, 16 )
 
 [node name="Stone" type="StaticBody2D" groups=[
 "mineable",
+"wall",
 ]]
 z_index = 1
 collision_layer = 3

@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Weapons/SlotItemImage.tscn" type="PackedScene" id=1]
+[ext_resource path="res://HUD/Labels/FFFFORWA.TTF" type="DynamicFontData" id=2]
+[ext_resource path="res://HUD/ResourceIconLabel.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 8
+font_data = ExtResource( 2 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "label_bounce"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Label:rect_position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 15, 3 ), Vector2( 15, -6 ), Vector2( 15, 3 ) ]
+}
+
+[node name="ResourceIconLabel" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="SlotItemImage" parent="." instance=ExtResource( 1 )]
+position = Vector2( 8, 8 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 15.0
+margin_top = 3.0
+margin_right = 36.0
+margin_bottom = 17.0
+custom_fonts/font = SubResource( 1 )
+text = "x2"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/label_bounce = SubResource( 2 )
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

@@ -87,7 +87,7 @@ func spawn_bullet():
 	var bullet = Bullet.instance()
 	bullet.set_global_position(get_node("BulletPos").global_position)
 	bullet.set_up(get_global_rotation() + get_added_dispersion(), bullet_speed, bullet_damage, "player")
-	get_parent().get_parent().get_parent().add_child(bullet)
+	get_parent().get_parent().get_parent().call_deferred("add_child", bullet)
 
 func get_added_dispersion():
 	if dispersion > 0:

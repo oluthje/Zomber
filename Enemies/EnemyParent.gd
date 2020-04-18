@@ -58,7 +58,6 @@ func _physics_process(delta):
 
 func if_should_delete_zombie():
 	var distance_to_player = get_global_position().distance_to(player_pos)
-	#print(distance_to_player)
 	if distance_to_player > 2000:
 		print("deleted zombie because exited range of scene")
 		queue_free()
@@ -187,7 +186,6 @@ func play_animations():
 			else:
 				$AnimationPlayer.play("idle")
 		ATTACKING:
-			print("attacking")
 			$AnimationPlayer.set_speed_scale(attack_anim_speed)
 			$AnimationPlayer.play("attack")
 

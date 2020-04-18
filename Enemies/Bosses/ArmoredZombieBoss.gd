@@ -101,7 +101,7 @@ func spawn_bullet_spray():
 		var bullet = Bullet.instance()
 		bullet.set_global_position(get_node("BulletPos").global_position)
 		bullet.set_up(get_global_rotation() + get_added_dispersion(), bullet_speed + get_bullet_speed_variation(), bullet_damage, "enemy")
-		get_parent().add_child(bullet)
+		get_parent().call_deferred("add_child", bullet)
 		
 	spawn_dirt_particles()
 	

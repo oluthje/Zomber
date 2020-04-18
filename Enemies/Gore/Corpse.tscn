@@ -7,15 +7,15 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 2 ) ],
-"loop": false,
-"name": "zombie",
-"speed": 1.0
-}, {
 "frames": [ ExtResource( 4 ) ],
 "loop": true,
 "name": "riotshield",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": false,
+"name": "zombie",
+"speed": 1.0
 }, {
 "frames": [ ExtResource( 3 ) ],
 "loop": true,
