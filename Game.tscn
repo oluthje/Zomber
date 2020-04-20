@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://HealthSystem.gd" type="Script" id=1]
 [ext_resource path="res://HUD/InventoryHUD.tscn" type="PackedScene" id=2]
@@ -13,7 +13,11 @@
 [ext_resource path="res://TileMap.gd" type="Script" id=11]
 [ext_resource path="res://Time.gd" type="Script" id=12]
 [ext_resource path="res://TestSpawnTimer.gd" type="Script" id=13]
+[ext_resource path="res://Environment/CarryableObject.tscn" type="PackedScene" id=14]
 [ext_resource path="res://HUD/ConstructionButton.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Construction/Buildings/Turret.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Construction/Buildings/StoneWall.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Sprites/Construction/Buildings/stonewall.png" type="Texture" id=18]
 
 [sub_resource type="TileSet" id=1]
 0/name = "EnvironmentTileset.png 0"
@@ -89,6 +93,18 @@
 2/shapes = [  ]
 2/z_index = 0
 
+[sub_resource type="TileSet" id=3]
+0/name = "stonewall.png 0"
+0/texture = ExtResource( 18 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 32, 32 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shapes = [  ]
+0/z_index = 0
+
 [node name="Game" type="Node2D"]
 script = ExtResource( 4 )
 
@@ -103,6 +119,12 @@ script = ExtResource( 11 )
 tile_set = SubResource( 2 )
 cell_size = Vector2( 32, 32 )
 format = 1
+
+[node name="Buildings" type="TileMap" parent="."]
+tile_set = SubResource( 3 )
+cell_size = Vector2( 32, 32 )
+format = 1
+tile_data = PoolIntArray( 196617, 0, 0 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -154,4 +176,52 @@ wait_time = 2.0
 one_shot = true
 autostart = true
 script = ExtResource( 13 )
+
+[node name="CarryableObject" parent="." instance=ExtResource( 14 )]
+position = Vector2( 408, 264 )
+pre_set_object = "stone"
+
+[node name="CarryableObject3" parent="." instance=ExtResource( 14 )]
+position = Vector2( 416, 216 )
+pre_set_object = "stone"
+
+[node name="CarryableObject2" parent="." instance=ExtResource( 14 )]
+position = Vector2( 460, 233 )
+pre_set_object = "stone"
+
+[node name="CarryableObject6" parent="." instance=ExtResource( 14 )]
+position = Vector2( 448, 320 )
+pre_set_object = "stone"
+
+[node name="CarryableObject5" parent="." instance=ExtResource( 14 )]
+position = Vector2( 456, 272 )
+pre_set_object = "stone"
+
+[node name="CarryableObject4" parent="." instance=ExtResource( 14 )]
+position = Vector2( 500, 289 )
+pre_set_object = "stone"
+
+[node name="CarryableObject9" parent="." instance=ExtResource( 14 )]
+position = Vector2( 336, 336 )
+pre_set_object = "stone"
+
+[node name="CarryableObject8" parent="." instance=ExtResource( 14 )]
+position = Vector2( 344, 288 )
+pre_set_object = "stone"
+
+[node name="CarryableObject7" parent="." instance=ExtResource( 14 )]
+position = Vector2( 388, 305 )
+pre_set_object = "stone"
+
+[node name="Turret" parent="." instance=ExtResource( 16 )]
+position = Vector2( 399, 348 )
+
+[node name="StoneWall" parent="." instance=ExtResource( 17 )]
+position = Vector2( 592, 272 )
+
+[node name="StoneWall2" parent="." instance=ExtResource( 17 )]
+position = Vector2( 560, 272 )
+
+[node name="StoneWall3" parent="." instance=ExtResource( 17 )]
+position = Vector2( 560, 240 )
 [connection signal="timeout" from="TestSpawnTimer" to="TestSpawnTimer" method="_on_TestSpawnTimer_timeout"]

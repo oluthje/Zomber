@@ -17,6 +17,7 @@ func update_pathfinding_map():
 	astar_node.clear()
 	obstacles = get_used_cells_by_id(0)
 	obstacles += get_used_cells_by_id(2)
+	obstacles += get_parent().get_node("Buildings").get_used_cells_by_id(0)
 	var walkable_cells_list = astar_add_walkable_cells(obstacles)
 	astar_connect_walkable_cells(walkable_cells_list)
 

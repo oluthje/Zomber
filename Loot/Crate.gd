@@ -2,6 +2,7 @@ extends Area2D
 
 var SmokeEffect = preload("res://Environment/SmokeEffect.tscn")
 var PhysicalItem = preload("res://Weapons/PhysicalItem.tscn")
+var CarryableObject = preload("res://Environment/CarryableObject.tscn")
 
 var broken = false
 
@@ -13,7 +14,11 @@ func open_crate():
 	$AnimationPlayer.play("break")
 	$Particles2D.set_emitting(true)
 	set_rand_rotation()
-	spawn_physical_item(Item.get_loot_drop(get_tier_by_wavenum()))
+	var item_name = Item.get_loot_drop(get_tier_by_wavenum())
+	if item_name == Item.COMPONENT:
+		spawn_carryable_object(item_name)
+	else:
+		spawn_physical_item(item_name)
 	
 func spawn_smoke_effect():
 	for i in range(2):
@@ -43,6 +48,12 @@ func get_tier_by_wavenum():
 	if Item.wave_num > 4:
 		return 2
 	return 1
+	
+func spawn_carryable_object(object_name):
+	var object = CarryableObject.instance()
+	object.set_global_position(get_global_position())
+	object.set_up_object(object_name)
+	get_parent().add_child(object)
 
 func spawn_physical_item(item_name):
 	var item = PhysicalItem.instance()

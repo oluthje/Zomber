@@ -2,6 +2,7 @@ extends StaticBody2D
 
 var Bullet = preload("res://Weapons/Bullet.tscn")
 var ShotFlash = preload("res://Weapons/GunshotParticles.tscn")
+var SmokeEffect = preload("res://Environment/SmokeEffect.tscn")
 
 var delta_num = 0
 
@@ -22,6 +23,11 @@ var move_idly = true
 var turn_idly = true
 var idle_turn_time = 2
 
+var health = 200
+
+func _ready():
+	spawn_smoke_effect()
+
 func _physics_process(delta):
 	delta_num = delta
 	move()
@@ -41,6 +47,34 @@ func move():
 		if can_shoot and target_within_range():
 			shoot()
 
+func take_damage(damage):
+	health -= damage
+	if health <= 0:
+		spawn_smoke_effect()
+		get_node("DeathTimer").start()
+		
+func spawn_smoke_effect():
+	for i in range(2):
+		randomize()
+		var rand_x = rand_range(0, 24)
+		if flipped_heads():
+			rand_x = -rand_x
+		randomize()
+		var rand_y = rand_range(0, 24)
+		if flipped_heads():
+			rand_y = -rand_y
+		
+		var smoke = SmokeEffect.instance()
+		smoke.set_global_position(Vector2(get_global_position().x + rand_x, get_global_position().y + rand_y))
+		get_parent().add_child(smoke)
+		
+func flipped_heads():
+	randomize()
+	var rand_num = rand_range(0, 100)
+	if rand_num < 50:
+		return true
+	return false
+
 func shoot():
 	spawn_bullet()
 	spawn_shot_flash()
@@ -57,10 +91,6 @@ func move_idly():
 		move_idly = false
 	if turn_idly:
 		var num = 1
-#		randomize()
-#		var rand_num = rand_range(0, 100)
-#		if rand_num > 50:
-#			num = -1
 		$Gun.rotate((num*angular_speed/2)*delta_num)
 
 func get_target():
@@ -138,3 +168,6 @@ func _on_IdleTimer_timeout():
 func _on_Area2D_body_exited(body):
 	if body == target_body:
 		target_body = null
+
+func _on_DeathTimer_timeout():
+	queue_free()

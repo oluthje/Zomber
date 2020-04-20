@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Weapons/SlotItemImage.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Environment/Trunk.png" type="Texture" id=2]
@@ -8,8 +8,10 @@
 [ext_resource path="res://Sprites/Environment/carryablestone.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/ItemIcons/pickaxeIcon.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/ItemIcons/ak47.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/ItemIcons/SmallResourceIcons.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/ItemIcons/SmallResourceIcons/SmallWoodIcon.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/Environment/stoneparticle.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/Environment/component.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/ItemIcons/SmallResourceIcons/SmallComponentIcon.png" type="Texture" id=12]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -61,6 +63,16 @@ animations = [ {
 "frames": [ ExtResource( 10 ) ],
 "loop": true,
 "name": "stone_icon",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 11 ) ],
+"loop": true,
+"name": "component",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 12 ) ],
+"loop": true,
+"name": "component_icon",
 "speed": 5.0
 } ]
 

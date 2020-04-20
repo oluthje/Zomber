@@ -42,8 +42,12 @@ func _on_Area2D_body_entered(body):
 	if "Player" in body.name and TYPE != "player":
 		body.take_damage(DAMAGE, DIRECTION)
 		queue_free()
-	if body.is_in_group("mineable"):
-		body.take_damage(DAMAGE/3)
+	if body.is_in_group("destructable"):
+		if "Stone" in body.name:
+			body.take_damage(DAMAGE/3)
+		else:
+			body.take_damage(DAMAGE)
+		spawn_bullet_effect()
 		queue_free()
 	if "Tree" in body.name:
 		body.take_damage(false)

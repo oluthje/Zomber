@@ -6,10 +6,13 @@ var RequiredMaterialsPopup = preload("res://Construction/RequiredMaterialsNode.t
 
 # Buildings
 var WoodSpikes = preload("res://Obstacles/WoodenSpikes.tscn")
+var Turret = preload("res://Construction/Buildings/Turret.tscn")
+var StoneWall = preload("res://Construction/Buildings/StoneWall.tscn")
 
 var draggable = true
 var can_place = true
 var spacing = 16
+var grid_snap_num = 16
 
 var building_name = ""
 var required_materials = {
@@ -43,11 +46,20 @@ func _physics_process(delta):
 			else:
 				$AnimationPlayer.play("negfeedback")
 
-func setup(building, to_be_dragged):
+func setup(building, to_be_dragged, resource_dict):
 	building_name = building
 	draggable = to_be_dragged
-	if building == Item.WOOD_SPIKES:
-		required_materials[Item.LOG] = 3
+	if resource_dict == null:
+		if building == Item.WOOD_SPIKES:
+			required_materials[Item.LOG] = 3
+		if building == Item.TURRET:
+			required_materials[Item.STONE] = 2
+			required_materials[Item.COMPONENT] = 1
+		if building == Item.STONE_WALL:
+			required_materials[Item.STONE] = 2
+			grid_snap_num = 32
+	else:
+		required_materials = resource_dict
 	if not to_be_dragged:
 		spawn_required_materials_popup()
 		$AnimationPlayer.play("posfeedback")
@@ -76,14 +88,17 @@ func spawn_building(building):
 	var building_node
 	if building == Item.WOOD_SPIKES:
 		building_node = WoodSpikes.instance()
+	if building == Item.TURRET:
+		building_node = Turret.instance()
+	if building == Item.STONE_WALL:
+		building_node = StoneWall.instance()
 	building_node.set_global_position(Vector2(get_global_position().x + 8, get_global_position().y + 8))
 	get_parent().add_child(building_node)
 	queue_free()
 
 func snap_position_to_grid():
-	var snap_num = 16
 	var pos = get_global_position()
-	set_global_position(Vector2(int(pos.x/snap_num) * snap_num + 8, int(pos.y/snap_num) * snap_num + 8))
+	set_global_position(Vector2(int(pos.x/grid_snap_num) * grid_snap_num + 8, int(pos.y/grid_snap_num) * grid_snap_num + 8))
 
 func draw_squares():
 	var percent = 0.25

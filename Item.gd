@@ -21,9 +21,12 @@ const PICKAXE = "pickaxe"
 # Carryable Objects
 var LOG = "log"
 var STONE = "stone"
+var COMPONENT = "component"
 
 # Buildings
 var WOOD_SPIKES = "wood_spikes"
+var TURRET = "turret"
+var STONE_WALL = "stone_wall"
 
 # Enemies
 var ZOMBIE = "zombie"
@@ -53,21 +56,24 @@ var wave_num = 0
 onready var tier1_loot_table = {
 	Item.PISTOL: 5,
 	Item.AXE: 10,
-	Item.PICKAXE: 10
+	Item.PICKAXE: 10,
+	Item.COMPONENT: 2
 }
 
 onready var tier2_loot_table = {
 	Item.SHOTGUN: 10,
 	Item.AK47: 5,
 	Item.AXE: 5,
-	Item.PICKAXE: 5
+	Item.PICKAXE: 5,
+	Item.COMPONENT: 3
 }
 
 onready var tier3_loot_table = {
 	Item.SHOTGUN: 8,
 	Item.AK47: 10,
 	Item.AXE: 2,
-	Item.PICKAXE: 2
+	Item.PICKAXE: 2,
+	Item.COMPONENT: 4
 }
 
 var weight_sum = 0
