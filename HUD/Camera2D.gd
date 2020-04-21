@@ -6,6 +6,9 @@ var min_offset = 50
 onready var cursor = get_parent().get_node("CanvasLayer").get_node("Cursor")
 onready var player = get_parent().get_node("Player")
 
+func _ready():
+	set_limits()
+
 func _physics_process(delta):
 	if is_instance_valid(player):
 		align_camera_to_mouse()
@@ -23,3 +26,10 @@ func get_clamped_distance_to_cursor():
 
 func get_distance_to_player_from_cursor():
 	return player.get_global_position().distance_to(get_global_mouse_position())
+
+func set_limits():
+	var map_size = get_parent().map_size
+	limit_top = 0
+	limit_right = map_size.x * 32
+	limit_bottom = map_size.y * 32
+	limit_left = 0

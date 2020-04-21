@@ -7,10 +7,10 @@ var SmokeEffect = preload("res://Environment/SmokeEffect.tscn")
 var delta_num = 0
 
 # Gun info
-var shot_cooldown = 0.5
+var shot_cooldown = 0.25
 var can_shoot = true
 var dispersion = 10
-var bullet_speed = 650
+var bullet_speed = 450
 var bullet_damage = 15
 
 # Rotation info

@@ -43,9 +43,9 @@ func flipped_heads():
 	return false
 
 func get_tier_by_wavenum():
-	if Item.wave_num > 9:
+	if Item.wave_num >= 9:
 		return 3
-	if Item.wave_num > 4:
+	if Item.wave_num >= 4:
 		return 2
 	return 1
 	

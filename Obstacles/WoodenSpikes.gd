@@ -12,7 +12,7 @@ func _ready():
 func take_damage():
 	health -= 1
 	if health <= 0:
-		enter_damaged_state()
+		#enter_damaged_state()
 		queue_free()
 
 func get_rotation_to_pos(pos):
@@ -44,7 +44,7 @@ func flipped_heads():
 func enter_damaged_state():
 	var construction_node = ConstructionNode.instance()
 	construction_node.set_global_position(Vector2(get_global_position().x - 8, get_global_position().y - 8))
-	construction_node.setup(Item.WOOD_SPIKES, false)
+	construction_node.setup(Item.WOOD_SPIKES, false, null)
 	get_parent().add_child(construction_node)
 	queue_free()
 

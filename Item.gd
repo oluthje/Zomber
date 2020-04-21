@@ -54,7 +54,7 @@ var wave_num = 0
 
 # Loot tables
 onready var tier1_loot_table = {
-	Item.PISTOL: 5,
+	Item.PISTOL: 1,
 	Item.AXE: 10,
 	Item.PICKAXE: 10,
 	Item.COMPONENT: 2
@@ -63,8 +63,8 @@ onready var tier1_loot_table = {
 onready var tier2_loot_table = {
 	Item.SHOTGUN: 10,
 	Item.AK47: 5,
-	Item.AXE: 5,
-	Item.PICKAXE: 5,
+	Item.AXE: 1,
+	Item.PICKAXE: 1,
 	Item.COMPONENT: 3
 }
 
@@ -77,10 +77,6 @@ onready var tier3_loot_table = {
 }
 
 var weight_sum = 0
-
-#func _ready():
-#	for i in range(100):
-#		print(get_loot_drop(1))
 
 func get_loot_drop(tier):
 	var loot_table

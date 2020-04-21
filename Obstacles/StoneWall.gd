@@ -26,7 +26,7 @@ func take_damage(damage):
 	if health <= 0:
 		remove_from_tilemap()
 		update_neighbors()
-		enter_damaged_state()
+		#enter_damaged_state()
 		queue_free()
 		
 func get_snapped_pos_to_grid():

@@ -4,7 +4,7 @@ func _ready():
 	swing_cooldown = 1 # Amount of time between each shot
 	swoosh_time = 0.2
 	automatic = true
-	damage = 25
+	damage = 50
 	
 	attack_anim_speed = 1
 	
@@ -34,7 +34,7 @@ func _on_Area2D_body_entered(body):
 	if not has_hit:
 		if body.is_in_group("enemies"):
 			var dir = get_parent().get_parent().get_global_rotation()
-			body.take_damage(damage, dir)
+			body.take_damage(damage/2, dir)
 			has_hit = true
 		elif "Tree" in body.name:
 			body.take_damage(false)

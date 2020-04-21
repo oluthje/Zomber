@@ -117,10 +117,10 @@ func randomly_spawn_boss():
 		var armored_zombie = ArmoredZombie.instance()
 		armored_zombie.set_global_position(get_rand_spawner_pos())
 		get_parent().add_child(armored_zombie)
-	
+
 func place_spawners():
 	var map_size = get_parent().map_size
-	var margin = 250
+	var margin = 32
 	
 	# North
 	for x in range(map_size.x):
