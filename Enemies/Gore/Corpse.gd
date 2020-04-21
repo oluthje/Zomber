@@ -21,8 +21,8 @@ func _physics_process(delta):
 
 func set_up(corpse):
 	if corpse == "player":
-		var camera = PlayerCamera.instance()
-		add_child(camera)
+		#var camera = PlayerCamera.instance()
+		##add_child(camera)
 		$AnimatedSprite.play("zombie")
 	else:
 		$AnimatedSprite.play(corpse)

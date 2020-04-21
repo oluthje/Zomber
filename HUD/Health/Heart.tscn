@@ -74,7 +74,7 @@ tracks/2/keys = {
 "values": [ Vector2( 0, 16 ), Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 resource_name = "lose_half_heart"
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
@@ -115,13 +115,13 @@ tracks/2/keys = {
 "values": [ Vector2( 0, 16 ), Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Curve" id=6]
+[sub_resource type="Curve" id=5]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=7]
-curve = SubResource( 6 )
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
 
-[sub_resource type="ParticlesMaterial" id=4]
+[sub_resource type="ParticlesMaterial" id=7]
 lifetime_randomness = 1.0
 flag_disable_z = true
 direction = Vector3( 1, 1, 0 )
@@ -132,7 +132,7 @@ initial_velocity_random = 1.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 3.0
-scale_curve = SubResource( 7 )
+scale_curve = SubResource( 6 )
 color = Color( 0.54902, 0.0156863, 0.0156863, 1 )
 
 [node name="Heart" type="Sprite"]
@@ -146,7 +146,7 @@ script = ExtResource( 1 )
 anims/full = SubResource( 1 )
 anims/half = SubResource( 2 )
 anims/lose_full_heart = SubResource( 3 )
-anims/lose_half_heart = SubResource( 5 )
+anims/lose_half_heart = SubResource( 4 )
 
 [node name="Particles2D" type="Particles2D" parent="."]
 show_behind_parent = true
@@ -156,5 +156,5 @@ amount = 25
 lifetime = 1.5
 one_shot = true
 explosiveness = 1.0
-process_material = SubResource( 4 )
+process_material = SubResource( 7 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

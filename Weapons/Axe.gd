@@ -5,7 +5,7 @@ func _ready():
 	swing_cooldown = 0.5 # Amount of time between each shot
 	swoosh_time = 0.2
 	automatic = true
-	damage = 50
+	damage = 25
 	attack_anim_speed = 2
 	
 	# Screen shake variables

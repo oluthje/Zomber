@@ -24,6 +24,7 @@ var duration = 0.2
 var frequency = 15
 var amplitude = 4
 var priority = 0
+onready var player_camera = get_parent().get_parent().get_parent().get_node("Camera2D")
 
 # Misc
 var first_ready = true
@@ -45,7 +46,7 @@ func _physics_process(delta):
 	input()
 
 func shake_screen():
-	get_parent().get_parent().get_node("Camera2D").get_node("ScreenShake").start(duration, frequency, amplitude, priority)
+	player_camera.get_node("ScreenShake").start(duration, frequency, amplitude, priority)
 	
 func input():
 	var should_save_loaded_ammo = false
