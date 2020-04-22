@@ -73,6 +73,7 @@ func take_damage(damage, dir):
 		Item.player_health -= 1
 		spawn_blood_splatter()
 	if Item.player_health <= 0:
+		get_parent().save_stats()
 		spawn_corpse()
 		spawn_blood_splat()
 		spawn_blood_splatter()

@@ -60,12 +60,10 @@ margin_bottom = 184.0
 text = "Play"
 
 [node name="StatsButton" parent="Buttons" instance=ExtResource( 1 )]
-modulate = Color( 0.419608, 0.419608, 0.419608, 1 )
 margin_left = 16.0
 margin_top = 200.0
 margin_right = 80.0
 margin_bottom = 232.0
-disabled = true
 text = "Stats"
 
 [node name="QuitGameButton" parent="Buttons" instance=ExtResource( 1 )]

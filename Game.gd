@@ -13,6 +13,16 @@ var using_menu = false
 var spawn_enemies = true
 var map_size = Vector2(30, 20)
 
+# Current stats
+var current_stats_dict = {
+	"wave_record": 0,
+	"enemies_killed": 0,
+	"trees_chopped": 0,
+	"stone_mined": 0,
+	"buildings_built": 0,
+	"minutes_played:": 0
+}
+
 # Terrrain Generation
 var noise
 const TILES = {
@@ -49,6 +59,9 @@ func generate_terrain():
 			elif tile_name != TILES.stone:
 				$TileMap.set_cellv(Vector2(x, y), get_tile_index(noise.get_noise_2d(float(x), float(y))))
 	spawn_trees()
+	
+func save_stats():
+	get_parent().save_stats(current_stats_dict)
 	
 func spawn_player():
 	var player = Player.instance()

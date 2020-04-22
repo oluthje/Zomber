@@ -1,0 +1,151 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://HUD/Labels/FFFFORWA.TTF" type="DynamicFontData" id=1]
+[ext_resource path="res://Sprites/icon.png" type="Texture" id=2]
+[ext_resource path="res://HUD/Menu/MenuLabel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://HUD/Menu/StatsMenu.gd" type="Script" id=4]
+[ext_resource path="res://HUD/Menu/MenuButton.tscn" type="PackedScene" id=5]
+
+[sub_resource type="DynamicFont" id=1]
+size = 24
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "enter"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("BackButton:rect_position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.2, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 224, 320 ), Vector2( 224, 256 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "exit"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("BackButton:rect_position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 224, 256 ), Vector2( 224, 320 ) ]
+}
+
+[node name="StatsMenu" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="DarkBackground" type="Sprite" parent="."]
+modulate = Color( 0, 0, 0, 1 )
+position = Vector2( 256, 160 )
+scale = Vector2( 4.5625, 2.75 )
+texture = ExtResource( 2 )
+
+[node name="Title" type="Label" parent="."]
+margin_left = 216.0
+margin_top = 16.0
+margin_right = 303.0
+margin_bottom = 49.0
+custom_fonts/font = SubResource( 1 )
+text = "Stats"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StatNameLabels" type="Node2D" parent="."]
+
+[node name="MenuLabel" parent="StatNameLabels" instance=ExtResource( 3 )]
+margin_left = 24.0
+margin_top = 80.0
+margin_right = 90.0
+margin_bottom = 96.0
+text = "Wave Record"
+
+[node name="MenuLabel2" parent="StatNameLabels" instance=ExtResource( 3 )]
+margin_left = 24.0
+margin_top = 112.0
+margin_right = 97.0
+margin_bottom = 128.0
+text = "Enemies Killed"
+
+[node name="MenuLabel3" parent="StatNameLabels" instance=ExtResource( 3 )]
+margin_left = 24.0
+margin_top = 144.0
+margin_right = 100.0
+margin_bottom = 160.0
+text = "Trees Chopped"
+
+[node name="MenuLabel4" parent="StatNameLabels" instance=ExtResource( 3 )]
+margin_left = 24.0
+margin_top = 176.0
+margin_right = 100.0
+margin_bottom = 192.0
+text = "Stone Mined"
+
+[node name="MenuLabel5" parent="StatNameLabels" instance=ExtResource( 3 )]
+margin_left = 24.0
+margin_top = 208.0
+margin_right = 100.0
+margin_bottom = 224.0
+text = "Buildings Built"
+
+[node name="StatNumLabels" type="Node2D" parent="."]
+
+[node name="MenuLabel" parent="StatNumLabels" instance=ExtResource( 3 )]
+margin_left = 120.0
+margin_top = 80.0
+margin_right = 186.0
+margin_bottom = 96.0
+text = "0"
+
+[node name="MenuLabel2" parent="StatNumLabels" instance=ExtResource( 3 )]
+margin_left = 120.0
+margin_top = 112.0
+margin_right = 193.0
+margin_bottom = 128.0
+text = "0"
+
+[node name="MenuLabel3" parent="StatNumLabels" instance=ExtResource( 3 )]
+margin_left = 120.0
+margin_top = 144.0
+margin_right = 196.0
+margin_bottom = 160.0
+text = "0"
+
+[node name="MenuLabel4" parent="StatNumLabels" instance=ExtResource( 3 )]
+margin_left = 120.0
+margin_top = 176.0
+margin_right = 196.0
+margin_bottom = 192.0
+text = "0"
+
+[node name="MenuLabel5" parent="StatNumLabels" instance=ExtResource( 3 )]
+margin_left = 120.0
+margin_top = 208.0
+margin_right = 196.0
+margin_bottom = 224.0
+text = "0"
+
+[node name="BackButton" parent="." instance=ExtResource( 5 )]
+margin_left = 224.0
+margin_top = 320.0
+margin_right = 288.0
+margin_bottom = 352.0
+text = "Back"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_speed = 1.25
+anims/enter = SubResource( 2 )
+anims/exit = SubResource( 3 )
+[connection signal="pressed" from="BackButton" to="." method="_on_MenuButton_pressed"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
