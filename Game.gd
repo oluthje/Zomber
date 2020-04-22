@@ -4,6 +4,8 @@ var TreeNode = preload("res://Environment/Tree.tscn")
 var StoneNode = preload("res://Environment/Stone.tscn")
 var Boundary = preload("res://Obstacles/Boundary.tscn")
 
+var Player = preload("res://Player/Player.tscn")
+
 var player_pos = Vector2()
 var using_menu = false
 
@@ -23,6 +25,7 @@ const TILES = {
 func _ready():
 	generate_terrain()
 	spawn_world_boundaries()
+	spawn_player()
 
 func generate_terrain():
 	randomize()
@@ -47,6 +50,12 @@ func generate_terrain():
 				$TileMap.set_cellv(Vector2(x, y), get_tile_index(noise.get_noise_2d(float(x), float(y))))
 	spawn_trees()
 	
+func spawn_player():
+	var player = Player.instance()
+	player.set_global_position((map_size/2) * 32)
+	player.name = "Player"
+	add_child(player)
+
 func spawn_world_boundaries():
 	# North
 	for x in range(map_size.x):

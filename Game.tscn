@@ -1,13 +1,11 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://HealthSystem.gd" type="Script" id=1]
 [ext_resource path="res://HUD/InventoryHUD.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Enemies/WaveSystem.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Game.gd" type="Script" id=4]
 [ext_resource path="res://HUD/WeaponInfo.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Cursor.gd" type="Script" id=6]
-[ext_resource path="res://Player/Player.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Sprites/HUD/Cursor.png" type="Texture" id=8]
+[ext_resource path="res://HUD/Menu/Cursor.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Sprites/Environment/ScenicFeatures.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/Environment/EnvironmentTileset.png" type="Texture" id=10]
 [ext_resource path="res://TileMap.gd" type="Script" id=11]
@@ -105,6 +103,7 @@
 0/z_index = 0
 
 [node name="Game" type="Node2D"]
+pause_mode = 1
 script = ExtResource( 4 )
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -130,8 +129,8 @@ format = 1
 modulate = Color( 1, 0, 0, 1 )
 anchor_left = 0.00585938
 anchor_right = 0.00585938
-margin_left = -1.0
-margin_right = 404.0
+margin_left = -3.0
+margin_right = 402.0
 margin_bottom = 97.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -153,9 +152,7 @@ __meta__ = {
 
 [node name="ConstructionButton" parent="CanvasLayer" instance=ExtResource( 15 )]
 
-[node name="Cursor" type="Sprite" parent="CanvasLayer"]
-texture = ExtResource( 8 )
-script = ExtResource( 6 )
+[node name="Cursor" parent="CanvasLayer" instance=ExtResource( 6 )]
 
 [node name="HealthSystem" type="Node2D" parent="CanvasLayer"]
 script = ExtResource( 1 )
@@ -170,9 +167,6 @@ __meta__ = {
 }
 
 [node name="WaveSystem" parent="." instance=ExtResource( 3 )]
-
-[node name="Player" parent="." instance=ExtResource( 7 )]
-position = Vector2( 520, 320 )
 
 [node name="Camera2D" parent="." instance=ExtResource( 19 )]
 
