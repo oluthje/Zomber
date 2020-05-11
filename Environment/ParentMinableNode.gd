@@ -5,6 +5,8 @@ var StoneBreakParticles = preload("res://Environment/StoneBreakParticles.tscn")
 var CarryableObject = preload("res://Environment/CarryableObject.tscn")
 onready var tile_map = get_parent().get_node("TileMap")
 
+var SoundEffectPlayer = preload("res://SoundEffectPlayer.tscn")
+
 var total_health = 100
 var health = 100
 var cell_index = 0
@@ -34,6 +36,7 @@ func take_damage(damage):
 		if object_name == "stone":
 			get_parent().current_stats_dict["stone_mined"] += 1
 		destroyed = true
+		spawn_sound_effect_player(Item.STONE_BREAK)
 		remove_from_tilemap()
 		spawn_break_particles_and_pieces()
 		try_spawn_carryable_object()
@@ -49,6 +52,12 @@ func get_break_stage_index():
 	if health <= 0.80 * total_health:
 		return 1
 	return 0
+	
+func spawn_sound_effect_player(sound):
+	var player = SoundEffectPlayer.instance()
+	player.set_global_position(get_global_position())
+	player.setup(sound, 5)
+	get_parent().add_child(player)
 	
 func try_spawn_carryable_object():
 	var rand_num = rand_range(0, 100)
