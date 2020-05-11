@@ -76,7 +76,8 @@ margin_left = 24.0
 margin_top = 112.0
 margin_right = 97.0
 margin_bottom = 128.0
-text = "Enemies Killed"
+text = "Enemies Murdered
+"
 
 [node name="MenuLabel3" parent="StatNameLabels" instance=ExtResource( 3 )]
 margin_left = 24.0
@@ -99,7 +100,15 @@ margin_right = 100.0
 margin_bottom = 224.0
 text = "Buildings Built"
 
+[node name="MenuLabel6" parent="StatNameLabels" instance=ExtResource( 3 )]
+margin_left = 24.0
+margin_top = 236.0
+margin_right = 100.0
+margin_bottom = 252.0
+text = "Minutes Wasted"
+
 [node name="StatNumLabels" type="Node2D" parent="."]
+position = Vector2( 30, 0 )
 
 [node name="MenuLabel" parent="StatNumLabels" instance=ExtResource( 3 )]
 margin_left = 120.0
@@ -134,6 +143,13 @@ margin_left = 120.0
 margin_top = 208.0
 margin_right = 196.0
 margin_bottom = 224.0
+text = "0"
+
+[node name="MenuLabel6" parent="StatNumLabels" instance=ExtResource( 3 )]
+margin_left = 120.0
+margin_top = 236.0
+margin_right = 196.0
+margin_bottom = 252.0
 text = "0"
 
 [node name="BackButton" parent="." instance=ExtResource( 5 )]

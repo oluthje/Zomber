@@ -7,6 +7,7 @@ var PhysicalItem = preload("res://Weapons/PhysicalItem.tscn")
 var Corpse = preload("res://Enemies/Gore/Corpse.tscn")
 var BloodSplat = preload("res://Enemies/Gore/Bloodsplat.tscn")
 var BloodSplatter = preload("res://Enemies/Gore/Bloodsplatter.tscn")
+var SoundEffectPlayer = preload("res://SoundEffectPlayer.tscn")
 
 # Guns
 var Pistol = preload("res://Weapons/Pistol.tscn")
@@ -50,6 +51,8 @@ func _ready():
 		$CollisionShape2D.disabled = true
 
 func _physics_process(delta):
+	material.set_shader_param("global_transform", get_global_transform())
+	
 	if Item.player_should_update_held_item:
 		try_update_held_item()
 		Item.player_should_update_held_item = false
@@ -78,6 +81,12 @@ func take_damage(damage, dir):
 		spawn_blood_splat()
 		spawn_blood_splatter()
 		queue_free()
+		
+func spawn_sound_effect_player(sound):
+	var player = SoundEffectPlayer.instance()
+	player.set_global_position(get_global_position())
+	player.setup(sound, 5)
+	get_parent().add_child(player)
 	
 func spawn_blood_splatter():
 	var blood_splatter = BloodSplatter.instance()
@@ -128,6 +137,7 @@ func get_input():
 		velocity = (input_velocity.normalized() * speed * knock_back_num)
 		knock_back_num -= 0.2
 	else:
+		$LegAnimPlayer.stop()
 		velocity = velocity.linear_interpolate(Vector2.ZERO, friction)
 	velocity = move_and_slide(velocity)
 

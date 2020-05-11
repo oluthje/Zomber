@@ -1,4 +1,4 @@
-extends Sprite
+extends Node2D
 
 var ResourceIconLabel = preload("res://HUD/ResourceIconLabel.tscn")
 
@@ -18,7 +18,7 @@ func setup(resources):
 func draw_icons_and_labels():
 	if get_children().size() > 0:
 		for child in get_children():
-			if child.name != "AnimationPlayer":
+			if child.name != "AnimationPlayer" and child.name != "RequiredSprite":
 				child.queue_free()
 	
 	var index = 0
@@ -32,11 +32,11 @@ func draw_icons_and_labels():
 		if resource_dict[resource] > 0:
 			spawn_material_icon(resource, Vector2(x_pos + (index*spacing), -10))
 			index += 1
-			
+
 func should_appear_or_disappear():
 	var distance_to_player = get_global_position().distance_to(get_player_pos())
 	if is_visible and distance_to_player > show_ui_range:
-		$AnimationPlayer.play("disappear")
+		$AnimationPlayer.play_backwards("appear")
 		is_visible = false
 	elif not is_visible and distance_to_player < show_ui_range:
 		$AnimationPlayer.play("appear")
@@ -52,7 +52,7 @@ func get_player_pos():
 
 func add_resource(resource):
 	for child in get_children():
-		if child.name != "AnimationPlayer" and child.resource == resource:
+		if child.name != "AnimationPlayer" and child.name != "RequiredSprite" and child.resource == resource:
 			child.reduce_required_resource()
 
 func spawn_material_icon(icon_name, pos):

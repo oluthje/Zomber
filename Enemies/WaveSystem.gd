@@ -74,6 +74,7 @@ func next_wave():
 		zombies_left = num_zombies
 		bosses_left = num_bosses
 		
+		get_parent().current_stats_dict["wave_record"] = wave_num
 		set_wave_label_text()
 		spawn_panning_wave_label()
 		

@@ -207,6 +207,7 @@ func take_damage(damage, dir):
 	spawn_blood_splat()
 	if health <= 0 and not has_died:
 		has_died = true
+		get_parent().current_stats_dict["enemies_killed"] += 1
 		spawn_blood_splatter()
 		spawn_corpse()
 		try_spawn_loot()

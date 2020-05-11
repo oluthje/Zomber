@@ -13,6 +13,8 @@ var using_menu = false
 var spawn_enemies = true
 var map_size = Vector2(30, 20)
 
+var time_played = 0
+
 # Current stats
 var current_stats_dict = {
 	"wave_record": 0,
@@ -36,6 +38,9 @@ func _ready():
 	generate_terrain()
 	spawn_world_boundaries()
 	spawn_player()
+
+func _physics_process(delta):
+	time_played += delta
 
 func generate_terrain():
 	randomize()
@@ -61,8 +66,11 @@ func generate_terrain():
 	spawn_trees()
 	
 func save_stats():
+	print("time_played: " + str(time_played))
+	current_stats_dict["minutes_played"] = float(time_played)/float(60)
+	print(current_stats_dict["minutes_played"])
 	get_parent().save_stats(current_stats_dict)
-	
+
 func spawn_player():
 	var player = Player.instance()
 	player.set_global_position((map_size/2) * 32)

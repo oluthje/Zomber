@@ -7,11 +7,12 @@ var SmokeEffect = preload("res://Environment/SmokeEffect.tscn")
 var delta_num = 0
 
 # Gun info
-var shot_cooldown = 0.25
+var shot_cooldown = 0.20
 var can_shoot = true
 var dispersion = 10
 var bullet_speed = 450
 var bullet_damage = 15
+var use_right_barrel = true
 
 # Rotation info
 var angular_speed = 2.5
@@ -23,7 +24,7 @@ var move_idly = true
 var turn_idly = true
 var idle_turn_time = 2
 
-var health = 200
+var health = 225
 
 func _ready():
 	spawn_smoke_effect()
@@ -79,7 +80,13 @@ func shoot():
 	spawn_bullet()
 	spawn_shot_flash()
 	can_shoot = false
-	$AnimationPlayer.play("recoil")
+	if use_right_barrel:
+		$AnimationPlayer.play("rightshoot")
+		use_right_barrel = false
+	else:
+		$AnimationPlayer.play("leftshoot")
+		use_right_barrel = true
+	$RecoilPlayer.play("recoil")
 	$ShotCooldownTimer.set_wait_time(shot_cooldown)
 	$ShotCooldownTimer.start()
 

@@ -4,6 +4,7 @@ var CarryableObject = preload("res://Environment/CarryableObject.tscn")
 var TreeTrunk = preload("res://Environment/TreeLog.tscn")
 var TreeChopParticles = preload("res://Environment/TreeChopParticles.tscn")
 var LeafParticles = preload("res://Environment/LeafFallingParticles.tscn")
+var SoundEffectPlayer = preload("res://SoundEffectPlayer.tscn")
 
 onready var leaves_node = get_node("Leaves")
 
@@ -21,6 +22,7 @@ func _ready():
 func take_damage(chopped):
 	if chopped and not felled:
 		$Leaves/ShakeAnimPlayer.play("bigshake")
+		spawn_sound_effect_player(Item.TREE_CHOP)
 		spawn_chop_particles()
 		health -= 10
 	elif not felled:
@@ -30,7 +32,15 @@ func take_damage(chopped):
 		felled = true
 		angle_to_player = rad2deg(get_angle_to_player())
 		$Leaves/ShakeAnimPlayer.play("finalshake")
+		spawn_sound_effect_player(Item.TREE_SNAPPING)
+		get_parent().current_stats_dict["trees_chopped"] += 1
 		remove_from_tilemap()
+
+func spawn_sound_effect_player(sound):
+	var player = SoundEffectPlayer.instance()
+	player.set_global_position(get_global_position())
+	player.setup(sound, 5)
+	get_parent().add_child(player)
 		
 func remove_from_tilemap():
 	var tile_map = get_parent().get_node("TileMap")

@@ -12,7 +12,7 @@ var can_pause = false
 var game_paused = false
 var pause_menu_exists = false
 
-func _ready():	
+func _ready():
 	if start_with_menu:
 		spawn_main_menu()
 
@@ -75,9 +75,24 @@ func respawn_game_node():
 
 func save_stats(current_stats_dict):
 	var stats_dict = get_saved_stats_dict()
-	
+
 	for key in stats_dict:
+		if key == "wave_record":
+			if current_stats_dict[key] > stats_dict[key]:
+				stats_dict[key] = current_stats_dict[key]
+			continue
 		stats_dict[key] += current_stats_dict[key]
+	
+	var save_game = File.new()
+	save_game.open("user://savegame.save", File.WRITE)
+	save_game.store_line(to_json(stats_dict))
+	save_game.close()
+
+func reset_stats():
+	var stats_dict = get_saved_stats_dict()
+
+	for key in stats_dict:
+		stats_dict[key] = 0
 	
 	var save_game = File.new()
 	save_game.open("user://savegame.save", File.WRITE)

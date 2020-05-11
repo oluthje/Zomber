@@ -73,6 +73,9 @@ func save_loaded_ammo():
 	Item.inv_ammo[Item.current_inventory_slot] = loaded_ammo
 	
 func shoot():
+	if get_node("AudioStreamPlayer"):
+		get_node("AudioStreamPlayer").play()
+	
 	get_parent().get_parent().get_node("ArmAnimPlayer").play("shootpos")
 	
 	spawn_shot_flash()

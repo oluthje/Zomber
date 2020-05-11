@@ -10,6 +10,8 @@ func _on_UnpauseButton_pressed():
 func _on_UnpauseButton2_pressed():
 	if not option_selected:
 		option_selected = true
+		#get_parent().save_stats(get_parent().get_game_node().current_stats_dict)
+		#print(get_parent().save_stats(get_parent().get_game_node().name))
 		get_parent().delete_game_node()
 		get_parent().spawn_main_menu()
 		$AnimationPlayer.play("exit")

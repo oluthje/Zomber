@@ -66,7 +66,7 @@ func setup(building, to_be_dragged, resource_dict):
 
 func spawn_required_materials_popup():
 	var popup = RequiredMaterialsPopup.instance()
-	popup.set_position(Vector2(8, -16))
+	popup.set_position(Vector2(-8, -32))
 	popup.setup(required_materials)
 	add_child(popup)
 	
@@ -81,7 +81,7 @@ func can_place():
 	for body in bodies:
 		if body.is_in_group("building") or body.is_in_group("wall"):
 			placeable = false
-	
+
 	return placeable
 
 func spawn_building(building):
@@ -92,13 +92,16 @@ func spawn_building(building):
 		building_node = Turret.instance()
 	if building == Item.STONE_WALL:
 		building_node = StoneWall.instance()
-	building_node.set_global_position(Vector2(get_global_position().x + 8, get_global_position().y + 8))
+	building_node.set_global_position(Vector2(get_global_position().x - 8, get_global_position().y - 8))
 	get_parent().add_child(building_node)
 	queue_free()
 
 func snap_position_to_grid():
 	var pos = get_global_position()
-	set_global_position(Vector2(int(pos.x/grid_snap_num) * grid_snap_num + 8, int(pos.y/grid_snap_num) * grid_snap_num + 8))
+	if building_name == Item.STONE_WALL:
+		set_global_position(Vector2(int(round(pos.x/grid_snap_num)) * grid_snap_num - 8, int(round(pos.y/grid_snap_num)) * grid_snap_num - 8))
+		return
+	set_global_position(Vector2(int(round(pos.x/grid_snap_num)) * grid_snap_num + 8, int(round(pos.y/grid_snap_num)) * grid_snap_num + 8))
 
 func draw_squares():
 	var percent = 0.25
@@ -112,7 +115,7 @@ func draw_squares():
 	for x in range(size):
 		for y in range(size):
 			var square = ConstructionSquare.instance()
-			square.set_position(Vector2(x * spacing, y * spacing))
+			square.set_position(Vector2(x * spacing - 16, y * spacing - 16))
 			get_node("Squares").add_child(square)
 			if current_num < percent_filled:
 				square.play("filledsquare")
@@ -187,4 +190,5 @@ func _on_ConstructionNode_body_entered(body):
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "completion_shake":
+		get_parent().current_stats_dict["buildings_built"] += 1
 		spawn_building(building_name)

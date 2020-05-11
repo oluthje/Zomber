@@ -28,7 +28,7 @@ func take_damage(damage):
 		update_neighbors()
 		#enter_damaged_state()
 		queue_free()
-		
+
 func get_snapped_pos_to_grid():
 	var grid_snap_num = 16
 	var pos = get_global_position()

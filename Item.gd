@@ -1,7 +1,7 @@
 extends Node2D
 
 # Inventory related variables
-var inventory = ["pistol", "empty", "empty", "empty", "disabled", "disabled", "disabled", "disabled"]
+var inventory = ["pistol", "axe", "empty", "empty", "disabled", "disabled", "disabled", "disabled"]
 var inv_ammo = [-1, -1, -1, -1, -1, -1, -1, -1] # The amount of ammo for each slot (assuming gun is in slot)
 var player_health = 6
 var update_player_health = false
@@ -33,6 +33,13 @@ var ZOMBIE = "zombie"
 var FAST_ZOMBIE = "fast_zombie"
 var RIOT_SHIELD_ZOMBIE = "riot_shield_zombie"
 var ARMORED_ZOMBIE_BOSS = "armored_zombie_boss"
+
+# Sounds
+const TREE_CHOP = "tree_chop"
+const TREE_SNAPPING = "tree_snapping"
+const TREE_HIT_GROUND = "tree_hit_ground"
+const PISTOL_SHOT = "pistol_shot"
+const GRASS_FOOT_STEP = "grass_foot_step"
 
 # Functional keywords
 const EMPTY = "empty"

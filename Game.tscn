@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://HealthSystem.gd" type="Script" id=1]
 [ext_resource path="res://HUD/InventoryHUD.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Game.gd" type="Script" id=4]
 [ext_resource path="res://HUD/WeaponInfo.tscn" type="PackedScene" id=5]
 [ext_resource path="res://HUD/Menu/Cursor.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Construction/Buildings/Turret.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Sprites/Environment/ScenicFeatures.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/Environment/EnvironmentTileset.png" type="Texture" id=10]
 [ext_resource path="res://TileMap.gd" type="Script" id=11]
@@ -57,6 +58,16 @@
 3/navigation_offset = Vector2( 0, 0 )
 3/shapes = [  ]
 3/z_index = 0
+4/name = "EnvironmentTileset.png 4"
+4/texture = ExtResource( 10 )
+4/tex_offset = Vector2( 0, 0 )
+4/modulate = Color( 1, 1, 1, 1 )
+4/region = Rect2( 64, 0, 32, 32 )
+4/tile_mode = 0
+4/occluder_offset = Vector2( 0, 0 )
+4/navigation_offset = Vector2( 0, 0 )
+4/shapes = [  ]
+4/z_index = 0
 
 [sub_resource type="TileSet" id=2]
 0/name = "ScenicFeatures.png 0"
@@ -179,4 +190,7 @@ wait_time = 2.0
 one_shot = true
 autostart = true
 script = ExtResource( 13 )
+
+[node name="Turret" parent="." instance=ExtResource( 7 )]
+position = Vector2( 344, 272 )
 [connection signal="timeout" from="TestSpawnTimer" to="TestSpawnTimer" method="_on_TestSpawnTimer_timeout"]

@@ -9,9 +9,17 @@ onready var player_pos = get_parent().player_pos
 func _ready():
 	set_limits()
 
+var zoom_in = true
 func _physics_process(delta):
 	player_pos = get_parent().player_pos
 	align_camera_to_mouse()
+	
+	if Input.is_action_just_pressed("right_click") and zoom_in:
+		zoom_in = false
+		$AnimationPlayer.play("in")
+	elif Input.is_action_just_pressed("right_click") and not zoom_in:
+		zoom_in = true
+		$AnimationPlayer.play_backwards("in")
 
 func align_camera_to_mouse():
 	set_global_position(player_pos.linear_interpolate(get_global_mouse_position(), 0.25))

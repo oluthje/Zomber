@@ -31,6 +31,8 @@ func take_damage(damage):
 	spawn_hit_particles()
 	$BreakStage.set_frame(get_break_stage_index())
 	if health <= 0 and not destroyed:
+		if object_name == "stone":
+			get_parent().current_stats_dict["stone_mined"] += 1
 		destroyed = true
 		remove_from_tilemap()
 		spawn_break_particles_and_pieces()

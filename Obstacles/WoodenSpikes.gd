@@ -4,7 +4,7 @@ var ConstructionNode = load("res://Construction/ConstructionNode.tscn")
 var SmokeEffect = preload("res://Environment/SmokeEffect.tscn")
 
 var damage = 50
-var health = 5
+var health = 8
 
 func _ready():
 	spawn_smoke_effect()
@@ -12,7 +12,6 @@ func _ready():
 func take_damage():
 	health -= 1
 	if health <= 0:
-		#enter_damaged_state()
 		queue_free()
 
 func get_rotation_to_pos(pos):

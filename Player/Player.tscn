@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Player/PlayerHead.png" type="Texture" id=2]
@@ -6,9 +6,11 @@
 [ext_resource path="res://Sprites/Player/playerlegs.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/Player/PlayerArm.png" type="Texture" id=6]
 
-[sub_resource type="Animation" id=1]
-resource_name = "Walk"
+[sub_resource type="ShaderMaterial" id=1]
+
+[sub_resource type="Animation" id=2]
 length = 0.9
+step = 0.05
 tracks/0/type = "value"
 tracks/0/path = NodePath("Legs:frame")
 tracks/0/interp = 1
@@ -21,9 +23,25 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 1, 2, 3, 4, 5, 6, 7, 8, 0 ]
 }
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.45 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ "grass_foot_step" ],
+"method": "spawn_sound_effect_player"
+}, {
+"args": [ "grass_foot_step" ],
+"method": "spawn_sound_effect_player"
+} ]
+}
 
-[sub_resource type="Animation" id=2]
-resource_name = "meleeswing"
+[sub_resource type="Animation" id=3]
 length = 0.5
 step = 0.05
 tracks/0/type = "value"
@@ -39,8 +57,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3 ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "shootpos"
+[sub_resource type="Animation" id=4]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Arms:frame")
 tracks/0/interp = 1
@@ -54,8 +71,7 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "take_damage"
+[sub_resource type="Animation" id=5]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:visible")
 tracks/0/interp = 1
@@ -69,13 +85,14 @@ tracks/0/keys = {
 "values": [ true, false, true, false, true, false, true, false, true, false, true ]
 }
 
-[sub_resource type="CircleShape2D" id=5]
+[sub_resource type="CircleShape2D" id=6]
 radius = 6.05316
 
-[sub_resource type="CircleShape2D" id=6]
+[sub_resource type="CircleShape2D" id=7]
 radius = 9.0
 
 [node name="Player" type="KinematicBody2D"]
+material = SubResource( 1 )
 z_index = 2
 collision_mask = 2
 script = ExtResource( 1 )
@@ -88,10 +105,12 @@ hframes = 3
 frame = 1
 
 [node name="Arms" type="Sprite" parent="."]
+use_parent_material = true
 rotation = 1.5708
 texture = ExtResource( 6 )
 vframes = 2
 hframes = 2
+frame = 3
 
 [node name="Head" type="Sprite" parent="."]
 position = Vector2( 0, 1 )
@@ -99,14 +118,14 @@ rotation = 1.5708
 texture = ExtResource( 2 )
 
 [node name="LegAnimPlayer" type="AnimationPlayer" parent="."]
-anims/Walk = SubResource( 1 )
+anims/Walk = SubResource( 2 )
 
 [node name="ArmAnimPlayer" type="AnimationPlayer" parent="."]
-anims/meleeswing = SubResource( 2 )
-anims/shootpos = SubResource( 3 )
+anims/meleeswing = SubResource( 3 )
+anims/shootpos = SubResource( 4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/take_damage = SubResource( 4 )
+anims/take_damage = SubResource( 5 )
 
 [node name="CarryableObject" type="Node2D" parent="."]
 position = Vector2( 0, 10 )
@@ -116,12 +135,12 @@ position = Vector2( 0, 10 )
 [node name="HandHeldItem" type="Node2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 
 [node name="PickupTimer" type="Timer" parent="."]
 one_shot = true
