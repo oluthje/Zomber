@@ -6,6 +6,7 @@ var PauseMenu = preload("res://HUD/Menu/PauseMenu.tscn")
 
 onready var game_node = get_game_node()
 
+# Game development settings
 var start_with_menu = true
 
 var can_pause = false
@@ -15,6 +16,8 @@ var pause_menu_exists = false
 func _ready():
 	if start_with_menu:
 		spawn_main_menu()
+	else:
+		respawn_game_node()
 
 func _physics_process(delta):
 	if Input.is_action_just_pressed("restart_game") and can_pause:
