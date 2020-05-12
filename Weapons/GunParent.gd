@@ -3,6 +3,7 @@ extends Node2D
 var Bullet = preload("res://Weapons/Bullet.tscn")
 var ShotFlash = preload("res://Weapons/GunshotParticles.tscn")
 var SpentCasing = preload("res://Weapons/SpentBulletParticle.tscn")
+var SoundEffectPlayer = preload("res://SoundEffectPlayer.tscn")
 
 # Gun information
 var shot_cooldown = 10 # Amount of time between each shot
@@ -14,6 +15,9 @@ var dispersion = 0 # The degree range that the bullet could possible go toward. 
 var bullet_speed = 180
 var bullet_damage = 15
 var release_bullet_casing = false
+var shoot_sound = ""
+var reload_sound = ""
+var cock_sound = ""
 
 # Anim vars
 var reload_anim_speed = 1
@@ -71,11 +75,9 @@ func input():
 
 func save_loaded_ammo():
 	Item.inv_ammo[Item.current_inventory_slot] = loaded_ammo
-	
+
 func shoot():
-	if get_node("AudioStreamPlayer"):
-		get_node("AudioStreamPlayer").play()
-	
+	spawn_sound_effect_player(shoot_sound)
 	get_parent().get_parent().get_node("ArmAnimPlayer").play("shootpos")
 	
 	spawn_shot_flash()
@@ -87,6 +89,12 @@ func shoot():
 	$AnimationPlayer.play("shoot")
 	loaded_ammo -= 1
 	time = 0
+	
+func spawn_sound_effect_player(sound):
+	var player = SoundEffectPlayer.instance()
+	player.set_global_position(get_global_position())
+	player.setup(sound, 5)
+	get_parent().add_child(player)
 	
 func jerk_ammo_count_hud(dir):
 	get_ammo_hud_node().jerk_ammo_label(dir)
@@ -116,7 +124,7 @@ func get_added_dispersion():
 		return deg2rad(added_bullet_rot)
 	else:
 		return 0
-		
+
 func spawn_shot_flash():
 	var shot_flash = ShotFlash.instance()
 	shot_flash.set_position(get_node("BulletPos").get_position())

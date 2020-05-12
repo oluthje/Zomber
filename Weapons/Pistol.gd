@@ -10,9 +10,10 @@ func _ready():
 	bullet_speed = 800
 	bullet_damage = 15
 	release_bullet_casing = true
+	shoot_sound = Item.PISTOL_SHOT
 	
 	# Anim
-	reload_anim_speed = .8
+	reload_anim_speed = .6
 	
 	# Screen shake
 	duration = 0.05

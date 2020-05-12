@@ -9,4 +9,5 @@ func _ready():
 func _physics_process(delta):
 	$AnimationPlayer.set_speed_scale(scroll_speed)
 	$AnimationPlayer.play("scroll")
+	get_node("Sprite").get_node("HumveeAnimPlayer").play("drive")
 	get_parent().get_node("ScrollWobblePlayer").play("wobble")

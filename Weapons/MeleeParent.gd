@@ -1,6 +1,7 @@
 extends Node2D
 
 var SwooshParticles = preload("res://Weapons/SwooshParticles.tscn")
+var SoundEffectPlayer = preload("res://SoundEffectPlayer.tscn")
 
 # Gun information
 var swing_cooldown = 10 # Amount of time between each shot
@@ -54,6 +55,12 @@ func swing():
 	get_node("CoolDownTimer").set_wait_time(swing_cooldown)
 	get_node("CoolDownTimer").start()
 	spawn_swoosh_particles()
+	
+func spawn_sound_effect_player(sound):
+	var player = SoundEffectPlayer.instance()
+	player.set_global_position(get_global_position())
+	player.setup(sound, 5)
+	get_parent().add_child(player)
 	
 func play_player_arm_swing(flipped):
 	var arm_anim_player = get_parent().get_parent().get_node("ArmAnimPlayer")

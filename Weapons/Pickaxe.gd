@@ -40,6 +40,7 @@ func _on_Area2D_body_entered(body):
 			body.take_damage(false)
 			has_hit = true
 		elif "Stone" in body.name:
+			spawn_sound_effect_player(Item.STONE_HIT)
 			body.take_damage(damage)
 			has_hit = true
 

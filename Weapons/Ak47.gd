@@ -10,6 +10,7 @@ func _ready():
 	bullet_speed = 800
 	bullet_damage = 15
 	release_bullet_casing = true
+	shoot_sound = Item.AK47_SHOT
 	
 	# Anim
 	reload_anim_speed = 1.2

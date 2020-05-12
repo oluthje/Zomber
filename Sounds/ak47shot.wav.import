@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/ak47shot.wav-fba370dbc1a898b61bb74ee96b58048a.sample"
+
+[deps]
+
+source_file="res://Sounds/ak47shot.wav"
+dest_files=[ "res://.import/ak47shot.wav-fba370dbc1a898b61bb74ee96b58048a.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

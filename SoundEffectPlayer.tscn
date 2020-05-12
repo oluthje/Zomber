@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://SoundEffectPlayer.gd" type="Script" id=1]
 [ext_resource path="res://Sounds/TreeSnapping.wav" type="AudioStream" id=2]
@@ -6,6 +6,11 @@
 [ext_resource path="res://Sounds/Woodchop.wav" type="AudioStream" id=4]
 [ext_resource path="res://Sounds/GrassFootstep.wav" type="AudioStream" id=5]
 [ext_resource path="res://Sounds/stone_break.wav" type="AudioStream" id=6]
+[ext_resource path="res://Sounds/StoneHit.wav" type="AudioStream" id=7]
+[ext_resource path="res://Sounds/pistolloadbullet.wav" type="AudioStream" id=8]
+[ext_resource path="res://Sounds/pistolgunshot.wav" type="AudioStream" id=9]
+[ext_resource path="res://Sounds/pistolinsertammoclip.wav" type="AudioStream" id=10]
+[ext_resource path="res://Sounds/ak47shot.wav" type="AudioStream" id=11]
 
 [node name="SoundEffectPlayer" type="Node2D"]
 script = ExtResource( 1 )
@@ -28,4 +33,25 @@ stream = ExtResource( 5 )
 
 [node name="stone_break" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 6 )
+
+[node name="stone_hit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 7 )
+
+[node name="pistol_shot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 9 )
+volume_db = -8.0
+pitch_scale = 1.5
+
+[node name="pistol_cocking" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 8 )
+volume_db = -15.0
+
+[node name="pistol_load" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 10 )
+volume_db = -15.0
+
+[node name="ak47_shot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 11 )
+volume_db = 16.0
+pitch_scale = 0.8
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
