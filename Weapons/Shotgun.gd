@@ -13,6 +13,7 @@ func _ready():
 	bullet_speed = 300
 	bullet_damage = 15
 	reload_anim_speed = 0.5
+	shoot_sound = Item.PISTOL_SHOT
 	
 	# Screen shake variables
 	duration = 0.1

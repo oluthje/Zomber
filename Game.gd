@@ -38,7 +38,7 @@ func _ready():
 	$AnimationPlayer.play("fade_in")
 	generate_terrain()
 	spawn_world_boundaries()
-	spawn_player()
+	get_node("CrashSiteScript").spawn_crash_site()
 
 func _physics_process(delta):
 	time_played += delta
@@ -65,16 +65,17 @@ func generate_terrain():
 			elif tile_name != TILES.stone:
 				$TileMap.set_cellv(Vector2(x, y), get_tile_index(noise.get_noise_2d(float(x), float(y))))
 	spawn_trees()
-	
+
 func save_stats():
 	print("time_played: " + str(time_played))
 	current_stats_dict["minutes_played"] = float(time_played)/float(60)
 	print(current_stats_dict["minutes_played"])
 	get_parent().save_stats(current_stats_dict)
 
-func spawn_player():
+func spawn_player(pos):
+	print("spawned player")
 	var player = Player.instance()
-	player.set_global_position((map_size/2) * 32)
+	player.set_global_position(pos)
 	player.name = "Player"
 	add_child(player)
 
@@ -114,7 +115,7 @@ func spawn_trees():
 		for y in range(map_size.y):
 			var cell_index = $TileMap.get_cellv(Vector2(x, y))
 			if cell_index == TILES.grass:
-				if can_should_spawn_tree(Vector2(x, y)):
+				if can_spawn_object_with_radius(Vector2(x, y), 2, [TILES.stone, TILES.dirt, TILES.tree]):
 					if should_spawn_tree():
 						var tree = TreeNode.instance()
 						tree.set_global_position(Vector2(x * 32 + 16, y * 32 + 16))
@@ -125,20 +126,19 @@ func spawn_trees():
 					randomize()
 					var rand_num = rand_range(0, 3)
 					$Scenery.set_cellv(Vector2(x, y), rand_num)
-
-func can_should_spawn_tree(pos):
-	var tree_radius = 2
+					
+func can_spawn_object_with_radius(pos, radius, obstacles):
 	var increase_radius_chance = 50
 	var can_place = true
 	
 	randomize()
 	var rand_num = rand_range(0, 100)
 	if rand_num <= increase_radius_chance:
-		tree_radius += 1
+		radius += 1
 	
-	for x in range(tree_radius*2):
-		for y in range(tree_radius*2):
-			if $TileMap.get_cellv(Vector2(pos.x-tree_radius + x, pos.y-tree_radius + y)) != TILES.grass: #and is_in_bounds(Vector2(x, y)):
+	for x in range(radius*2):
+		for y in range(radius*2):
+			if obstacles.has($TileMap.get_cellv(Vector2(pos.x-radius + x, pos.y-radius + y))):
 				can_place = false
 	
 	if can_place:
