@@ -149,7 +149,24 @@ func should_update_path():
 
 func get_path_to_player():
 	var player_tile_pos = get_parent().player_tile_pos
-	return get_parent().get_node("TileMap").find_path(get_global_position(), player_tile_pos * 32)
+	print("get_global_position: " + str(get_global_position()))
+	return get_parent().get_node("TileMap").find_path(get_nearest_free_tile() * 32, player_tile_pos * 32)
+	
+func get_nearest_free_tile():
+	var map_size = get_parent().map_size
+	var pos = get_global_position()
+	var tile_pos = get_parent().get_node("TileMap").world_to_map(pos)
+	
+	if tile_pos.x < 0:
+		tile_pos.x = 0
+	if tile_pos.y < 0:
+		tile_pos.y = 0
+	if tile_pos.y > map_size.y:
+		tile_pos.y = map_size.y
+	if tile_pos.x > map_size.x:
+		tile_pos.x = map_size.x
+		
+	return tile_pos
 
 func rotate_towards_pos(pos):
 	var angle = get_rotation_to_pos(pos)
