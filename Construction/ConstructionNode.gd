@@ -3,6 +3,7 @@ extends Area2D
 var ConstructionSquare = preload("res://Construction/ConstructionSquare.tscn")
 var ResourceAddedLabel = preload("res://Construction/ResourcedAddedLabel.tscn")
 var RequiredMaterialsPopup = preload("res://Construction/RequiredMaterialsNode.tscn")
+var SoundEffectPlayer = preload("res://SoundEffectPlayer.tscn")
 
 # Buildings
 var WoodSpikes = preload("res://Obstacles/WoodenSpikes.tscn")
@@ -45,6 +46,8 @@ func _physics_process(delta):
 				draggable = false
 			else:
 				$AnimationPlayer.play("negfeedback")
+	else:
+		check_for_player_adding_resource()
 
 func setup(building, to_be_dragged, resource_dict):
 	building_name = building
@@ -63,6 +66,24 @@ func setup(building, to_be_dragged, resource_dict):
 	if not to_be_dragged:
 		spawn_required_materials_popup()
 		$AnimationPlayer.play("posfeedback")
+		
+func spawn_sound_effect_player(sound):
+	var player = SoundEffectPlayer.instance()
+	player.set_global_position(get_global_position())
+	player.setup(sound, 5)
+	get_parent().add_child(player)
+		
+func check_for_player_adding_resource():
+	var bodies = get_overlapping_bodies()
+	for body in bodies:
+		if "Player" in body.name:
+			if body.carrying_object:
+				if requires_resource(body.object_carrying_name):
+					add_resource_to_building(body.object_carrying_name)
+					body.get_node("CarryableObject").get_node("SlotItemImage").select_item_to_display("none")
+					body.carrying_object = false
+					body.object_carrying_name = ""
+					body.try_update_held_item()
 
 func spawn_required_materials_popup():
 	var popup = RequiredMaterialsPopup.instance()
@@ -79,7 +100,7 @@ func can_place():
 	
 	var bodies = get_overlapping_bodies()
 	for body in bodies:
-		if body.is_in_group("building") or body.is_in_group("wall"):
+		if body.is_in_group("building") or body.is_in_group("wall") or "Tree" in body.name:
 			placeable = false
 
 	return placeable
@@ -143,7 +164,10 @@ func add_resource_to_building(resource):
 	spawn_added_resource_label()
 	draw_squares()
 	if has_all_required_materials():
+		spawn_sound_effect_player(Item.BUILD_COMPLETE)
 		$AnimationPlayer.play("completion_shake")
+	else:
+		spawn_sound_effect_player(Item.ADDED_RESOURCE)
 
 func has_all_required_materials():
 	var has_all_required_materials = true
@@ -179,14 +203,15 @@ func setup_square_array():
 			index += 1
 
 func _on_ConstructionNode_body_entered(body):
-	if "Player" in body.name:
-		if body.carrying_object:
-			if requires_resource(body.object_carrying_name):
-				add_resource_to_building(body.object_carrying_name)
-				body.get_node("CarryableObject").get_node("SlotItemImage").select_item_to_display("none")
-				body.carrying_object = false
-				body.object_carrying_name = ""
-				body.try_update_held_item()
+	pass
+#	if "Player" in body.name:
+#		if body.carrying_object:
+#			if requires_resource(body.object_carrying_name):
+#				add_resource_to_building(body.object_carrying_name)
+#				body.get_node("CarryableObject").get_node("SlotItemImage").select_item_to_display("none")
+#				body.carrying_object = false
+#				body.object_carrying_name = ""
+#				body.try_update_held_item()
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "completion_shake":

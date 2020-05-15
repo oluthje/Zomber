@@ -46,6 +46,10 @@ const PISTOL_SHOT = "pistol_shot"
 const PISTOL_COCKING = "pistol_cocking"
 const PISTOL_LOAD = "pistol_load"
 const AK47_SHOT = "ak47_shot"
+const TURRET_SHOT = "turret_shot"
+# Building
+const BUILD_COMPLETE = "build_complete"
+const ADDED_RESOURCE = "added_resource"
 
 # Functional keywords
 const EMPTY = "empty"

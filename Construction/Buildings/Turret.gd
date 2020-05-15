@@ -3,6 +3,7 @@ extends StaticBody2D
 var Bullet = preload("res://Weapons/Bullet.tscn")
 var ShotFlash = preload("res://Weapons/GunshotParticles.tscn")
 var SmokeEffect = preload("res://Environment/SmokeEffect.tscn")
+var SoundEffectPlayer = preload("res://SoundEffectPlayer.tscn")
 
 var delta_num = 0
 
@@ -47,6 +48,12 @@ func move():
 		rotate_towards_pos(target_body.get_global_position())
 		if can_shoot and target_within_range():
 			shoot()
+			
+func spawn_sound_effect_player(sound):
+	var player = SoundEffectPlayer.instance()
+	player.set_global_position(get_global_position())
+	player.setup(sound, 5)
+	get_parent().add_child(player)
 
 func take_damage(damage):
 	health -= damage
@@ -77,6 +84,7 @@ func flipped_heads():
 	return false
 
 func shoot():
+	spawn_sound_effect_player(Item.TURRET_SHOT)
 	spawn_bullet()
 	spawn_shot_flash()
 	can_shoot = false

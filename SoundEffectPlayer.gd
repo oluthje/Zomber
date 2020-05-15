@@ -1,9 +1,14 @@
 extends Node2D
 
-func setup(sound_effect, life_time):
+var time = 0
+
+func _ready():
 	var timer = get_node("Timer")
-	timer.set_wait_time(life_time)
+	timer.set_wait_time(time)
 	timer.start()
+
+func setup(sound_effect, life_time):
+	time = life_time
 	
 	set_sound_pitch(sound_effect)
 	get_node(sound_effect).play()

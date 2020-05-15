@@ -89,12 +89,12 @@ func shoot():
 	$AnimationPlayer.play("shoot")
 	loaded_ammo -= 1
 	time = 0
-	
+
 func spawn_sound_effect_player(sound):
 	var player = SoundEffectPlayer.instance()
 	player.set_global_position(get_global_position())
 	player.setup(sound, 5)
-	get_parent().add_child(player)
+	get_parent().get_parent().get_parent().add_child(player)
 	
 func jerk_ammo_count_hud(dir):
 	get_ammo_hud_node().jerk_ammo_label(dir)
