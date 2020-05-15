@@ -7,6 +7,7 @@ var Boundary = preload("res://Obstacles/Boundary.tscn")
 var Player = preload("res://Player/Player.tscn")
 
 var player_pos = Vector2()
+var player_tile_pos = Vector2()
 var using_menu = false
 
 # Game settingss

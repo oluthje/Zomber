@@ -148,7 +148,8 @@ func should_update_path():
 	return false
 
 func get_path_to_player():
-	return get_parent().get_node("TileMap").find_path(get_global_position(), player_pos)
+	var player_tile_pos = get_parent().player_tile_pos
+	return get_parent().get_node("TileMap").find_path(get_global_position(), player_tile_pos * 32)
 
 func rotate_towards_pos(pos):
 	var angle = get_rotation_to_pos(pos)
