@@ -6,7 +6,7 @@
 [ext_resource path="res://Game.gd" type="Script" id=4]
 [ext_resource path="res://HUD/WeaponInfo.tscn" type="PackedScene" id=5]
 [ext_resource path="res://HUD/Menu/Cursor.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Construction/Buildings/Turret.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Loot/Crate.tscn" type="PackedScene" id=7]
 [ext_resource path="res://CrashSiteScript.gd" type="Script" id=8]
 [ext_resource path="res://Sprites/Environment/ScenicFeatures.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/Environment/EnvironmentTileset.png" type="Texture" id=10]
@@ -143,7 +143,6 @@ tracks/1/keys = {
 
 [node name="Game" type="Node2D"]
 pause_mode = 1
-modulate = Color( 0, 0, 0, 1 )
 script = ExtResource( 4 )
 
 [node name="CrashSiteScript" type="Node2D" parent="."]
@@ -170,9 +169,9 @@ cell_size = Vector2( 32, 32 )
 format = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = -1
 
 [node name="WaveCountLabel" type="Label" parent="CanvasLayer"]
+visible = false
 modulate = Color( 1, 0, 0, 1 )
 anchor_left = 0.00585938
 anchor_right = 0.00585938
@@ -184,6 +183,7 @@ __meta__ = {
 }
 
 [node name="Time" type="Label" parent="CanvasLayer"]
+visible = false
 margin_left = 4.0
 margin_top = 50.0
 margin_right = 44.0
@@ -205,6 +205,7 @@ __meta__ = {
 script = ExtResource( 1 )
 
 [node name="FPSlabel" type="Label" parent="CanvasLayer"]
+visible = false
 margin_top = 16.0
 margin_right = 40.0
 margin_bottom = 30.0
@@ -227,6 +228,42 @@ one_shot = true
 autostart = true
 script = ExtResource( 13 )
 
-[node name="Turret" parent="." instance=ExtResource( 7 )]
-position = Vector2( 344, 272 )
+[node name="Crate" parent="." instance=ExtResource( 7 )]
+position = Vector2( 299, 75 )
+
+[node name="Crate2" parent="." instance=ExtResource( 7 )]
+position = Vector2( 473, 119 )
+
+[node name="Crate3" parent="." instance=ExtResource( 7 )]
+position = Vector2( 366, 218 )
+
+[node name="Crate4" parent="." instance=ExtResource( 7 )]
+position = Vector2( 540, 218 )
+
+[node name="Crate5" parent="." instance=ExtResource( 7 )]
+position = Vector2( 552, 145 )
+
+[node name="Crate6" parent="." instance=ExtResource( 7 )]
+position = Vector2( 568, 62 )
+
+[node name="Crate7" parent="." instance=ExtResource( 7 )]
+position = Vector2( 684, 117 )
+
+[node name="Crate8" parent="." instance=ExtResource( 7 )]
+position = Vector2( 683, 214 )
+
+[node name="Crate9" parent="." instance=ExtResource( 7 )]
+position = Vector2( 765, 185 )
+
+[node name="Crate10" parent="." instance=ExtResource( 7 )]
+position = Vector2( 765, 271 )
+
+[node name="Crate11" parent="." instance=ExtResource( 7 )]
+position = Vector2( 681, 298 )
+
+[node name="Crate12" parent="." instance=ExtResource( 7 )]
+position = Vector2( 586, 298 )
+
+[node name="Crate13" parent="." instance=ExtResource( 7 )]
+position = Vector2( 630, 358 )
 [connection signal="timeout" from="TestSpawnTimer" to="TestSpawnTimer" method="_on_TestSpawnTimer_timeout"]

@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Sprites/Loot/crate.png" type="Texture" id=1]
 [ext_resource path="res://Loot/Crate.gd" type="Script" id=2]
+[ext_resource path="res://Sprites/ItemIcons/SmallResourceIcons/weaponsicon.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -109,7 +110,6 @@ script = ExtResource( 2 )
 texture = ExtResource( 1 )
 vframes = 2
 hframes = 2
-frame = 2
 
 [node name="Piece2" type="Sprite" parent="."]
 texture = ExtResource( 1 )
@@ -133,6 +133,11 @@ process_material = SubResource( 5 )
 [node name="Timer" type="Timer" parent="."]
 wait_time = 32.0
 one_shot = true
+
+[node name="WeaponsIcon" type="Sprite" parent="."]
+visible = false
+position = Vector2( 1, -1 )
+texture = ExtResource( 3 )
 [connection signal="body_entered" from="." to="." method="_on_Crate_body_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

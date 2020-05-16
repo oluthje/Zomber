@@ -67,6 +67,7 @@ tracks/0/keys = {
 extents = Vector2( 8, 8 )
 
 [node name="StoneWall" type="StaticBody2D" groups=[
+"building",
 "destructable",
 ]]
 z_index = 1

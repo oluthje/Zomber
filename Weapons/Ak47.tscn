@@ -33,6 +33,23 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 25, 26, 27, 28, 29, 30, 31, 32, 33, 5, 4 ]
 }
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1.6, 2.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ "pistol_load" ],
+"method": "spawn_sound_effect_player"
+}, {
+"args": [ "pistol_cocking" ],
+"method": "spawn_sound_effect_player"
+} ]
+}
 
 [sub_resource type="Animation" id=3]
 length = 0.4

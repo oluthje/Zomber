@@ -136,7 +136,7 @@ func draw_squares():
 	for x in range(size):
 		for y in range(size):
 			var square = ConstructionSquare.instance()
-			square.set_position(Vector2(x * spacing - 16, y * spacing - 16))
+			square.set_position(Vector2(x * spacing - 8, y * spacing - 8))
 			get_node("Squares").add_child(square)
 			if current_num < percent_filled:
 				square.play("filledsquare")

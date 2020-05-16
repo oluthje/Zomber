@@ -5,20 +5,30 @@ var PhysicalItem = preload("res://Weapons/PhysicalItem.tscn")
 var CarryableObject = preload("res://Environment/CarryableObject.tscn")
 
 var broken = false
+var is_weapon_crate = true#false
 
 func _ready():
 	spawn_smoke_effect()
 
+func setup(weapon_crate):
+	is_weapon_crate = weapon_crate
+	if is_weapon_crate:
+		get_node("WeaponsIcon").set_visible(true)
+
 func open_crate():
+	var item_name
 	spawn_smoke_effect()
 	$AnimationPlayer.play("break")
 	$Particles2D.set_emitting(true)
 	set_rand_rotation()
-	var item_name = Item.get_loot_drop(get_tier_by_wavenum())
-	if item_name == Item.COMPONENT:
-		spawn_carryable_object(item_name)
-	else:
+	get_node("WeaponsIcon").set_visible(false)
+	
+	if is_weapon_crate:
+		item_name = Item.get_loot_drop(get_tier_by_wavenum())
 		spawn_physical_item(item_name)
+	else:
+		item_name = Item.get_loot_drop(0)
+		spawn_carryable_object(item_name)
 	
 func spawn_smoke_effect():
 	for i in range(2):

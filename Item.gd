@@ -70,11 +70,21 @@ var using_menu = false
 var wave_num = 0
 
 # Loot tables
+onready var items_loot_table = {
+	Item.COMPONENT: 1
+}
+
+onready var max_droppings = {
+	Item.AXE: 1,
+	Item.PICKAXE: 1
+}
+
+# Loot tables
 onready var tier1_loot_table = {
-	Item.PISTOL: 1,
 	Item.AXE: 10,
 	Item.PICKAXE: 10,
-	Item.COMPONENT: 2
+	Item.PISTOL: 1,
+	Item.SHOTGUN: 10
 }
 
 onready var tier2_loot_table = {
@@ -89,31 +99,47 @@ onready var tier3_loot_table = {
 	Item.SHOTGUN: 8,
 	Item.AK47: 10,
 	Item.AXE: 2,
-	Item.PICKAXE: 2,
-	Item.COMPONENT: 4
+	Item.PICKAXE: 2
 }
 
 var weight_sum = 0
 
 func get_loot_drop(tier):
-	var loot_table
-	match tier:
-		1:
-			loot_table = tier1_loot_table
-		2:
-			loot_table = tier2_loot_table
-		3:
-			loot_table = tier3_loot_table
+	var dropped_item = false
+	while not dropped_item:
+		var loot_table
+		match tier:
+			0:
+				loot_table = items_loot_table
+			1:
+				loot_table = tier1_loot_table
+			2:
+				loot_table = tier2_loot_table
+			3:
+				loot_table = tier3_loot_table
+		
+		weight_sum = 0
+		for item in loot_table:
+			weight_sum += loot_table[item]
+		
+		randomize()
+		var rand_num = rand_range(0, weight_sum)
+		var current_weight = 0
+		for item in loot_table:
+			current_weight += loot_table[item]
+			if rand_num <= current_weight:
+				if can_drop(item):
+					return item
+				continue
+		return "no item found"
 	
-	weight_sum = 0
-	for item in loot_table:
-		weight_sum += loot_table[item]
-	
-	randomize()
-	var rand_num = rand_range(0, weight_sum)
-	var current_weight = 0
-	for item in loot_table:
-		current_weight += loot_table[item]
-		if rand_num <= current_weight:
-			return item
-	return "no item found"
+func can_drop(drop):
+	if max_droppings.has(drop):
+		if max_droppings[drop] > 0:
+			max_droppings[drop] -= 1
+			return true
+		return false
+	return true
+		
+		
+		

@@ -90,11 +90,13 @@ func pathfindng_move_to_player():
 	play_animations()
 	rotate_towards_pos(next_pos)
 	update_pathing()
-	
+
 func try_spawn_loot():
 	if spawn_loot_on_death:
 		var crate = Crate.instance()
 		crate.set_global_position(get_global_position())
+		if get_tree().get_root().get_node("Main").is_within_percent_chance(13):
+			crate.setup(true)
 		get_parent().add_child(crate)
 	
 func melee_attack():
@@ -149,7 +151,6 @@ func should_update_path():
 
 func get_path_to_player():
 	var player_tile_pos = get_parent().player_tile_pos
-	print("get_global_position: " + str(get_global_position()))
 	return get_parent().get_node("TileMap").find_path(get_nearest_free_tile() * 32, player_tile_pos * 32)
 	
 func get_nearest_free_tile():

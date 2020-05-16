@@ -29,6 +29,13 @@ func _physics_process(delta):
 			spawn_pause_menu()
 		elif pause_menu_exists:
 			remove_pause_menu()
+			
+func is_within_percent_chance(percent_chance):
+	randomize()
+	var rand_num = rand_range(0, 100)
+	if rand_num > percent_chance:
+		return false
+	return true
 
 func spawn_main_menu():
 	var menu = MainMenu.instance()
