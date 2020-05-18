@@ -14,7 +14,7 @@ var enter_cooldown_time = 0.5
 
 # Driving
 var speed = 300
-var friction = 0.05
+var friction = 0.035
 var acceleration = 0.055
 var velocity = Vector2.ZERO
 var rotation_value = 2
@@ -31,28 +31,33 @@ func _physics_process(delta):
 
 func get_driving_input():
 	var input_velocity = Vector2.ZERO
-	
+
 	if player_in_car:
 		if Input.is_action_just_pressed("interact"):
 			exit_humvee()
 		if Input.is_action_pressed('right'):
-			rotation += deg2rad(rotation_value)
+			rotation += deg2rad(rotation_value * get_percent_speed())
 		if Input.is_action_pressed('left'):
-			rotation -= deg2rad(rotation_value)
+			rotation -= deg2rad(rotation_value * get_percent_speed())
 		if Input.is_action_pressed('down'):
 			input_velocity.x += 1
 		if Input.is_action_pressed('up'):
 			input_velocity.x -= 1
 	input_velocity = input_velocity.rotated(rotation)
 	input_velocity = input_velocity.normalized() * speed
-	
+
 	# If there's input, accelerate to the input velocity
 	if input_velocity.length() > 0:
 		velocity = velocity.linear_interpolate(input_velocity, acceleration)
 	else:
 		velocity = velocity.linear_interpolate(Vector2.ZERO, friction)
 	velocity = move_and_slide(velocity)
-	
+
+func get_percent_speed():
+	var current_speed = Vector2(0, 0).distance_to(velocity)
+	var percent_speed = current_speed/speed
+	return percent_speed
+
 func set_disabled_door_collider(is_disabled):
 	pass
 	#get_node("Door").get_node("StaticBody2D/CollisionShape2D").set_disabled(is_disabled)
