@@ -54,6 +54,11 @@ volume_db = -15.0
 stream = ExtResource( 10 )
 volume_db = -15.0
 
+[node name="shotgun_shot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 9 )
+volume_db = -4.0
+pitch_scale = 0.85
+
 [node name="ak47_shot" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 11 )
 volume_db = 14.0

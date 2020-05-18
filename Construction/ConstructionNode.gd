@@ -136,7 +136,7 @@ func draw_squares():
 	for x in range(size):
 		for y in range(size):
 			var square = ConstructionSquare.instance()
-			square.set_position(Vector2(x * spacing - 8, y * spacing - 8))
+			square.set_position(Vector2(x * spacing - 16, y * spacing - 16))
 			get_node("Squares").add_child(square)
 			if current_num < percent_filled:
 				square.play("filledsquare")
@@ -204,14 +204,6 @@ func setup_square_array():
 
 func _on_ConstructionNode_body_entered(body):
 	pass
-#	if "Player" in body.name:
-#		if body.carrying_object:
-#			if requires_resource(body.object_carrying_name):
-#				add_resource_to_building(body.object_carrying_name)
-#				body.get_node("CarryableObject").get_node("SlotItemImage").select_item_to_display("none")
-#				body.carrying_object = false
-#				body.object_carrying_name = ""
-#				body.try_update_held_item()
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "completion_shake":

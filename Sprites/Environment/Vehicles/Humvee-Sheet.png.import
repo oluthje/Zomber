@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Humvee.png-89077bd4b6db952636da79e7176b73f3.stex"
+path="res://.import/Humvee-Sheet.png-ee3c28172924c3b4c81d634d47ca6a6f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Environment/Humvee.png"
-dest_files=[ "res://.import/Humvee.png-89077bd4b6db952636da79e7176b73f3.stex" ]
+source_file="res://Sprites/Environment/Vehicles/Humvee-Sheet.png"
+dest_files=[ "res://.import/Humvee-Sheet.png-ee3c28172924c3b4c81d634d47ca6a6f.stex" ]
 
 [params]
 

@@ -6,7 +6,7 @@
 [ext_resource path="res://Game.gd" type="Script" id=4]
 [ext_resource path="res://HUD/WeaponInfo.tscn" type="PackedScene" id=5]
 [ext_resource path="res://HUD/Menu/Cursor.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Loot/Crate.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Environment/CarryableObject.tscn" type="PackedScene" id=7]
 [ext_resource path="res://CrashSiteScript.gd" type="Script" id=8]
 [ext_resource path="res://Sprites/Environment/ScenicFeatures.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/Environment/EnvironmentTileset.png" type="Texture" id=10]
@@ -228,42 +228,19 @@ one_shot = true
 autostart = true
 script = ExtResource( 13 )
 
-[node name="Crate" parent="." instance=ExtResource( 7 )]
-position = Vector2( 299, 75 )
+[node name="CarryableObject" parent="." instance=ExtResource( 7 )]
+position = Vector2( 397, 209 )
+pre_set_object = "engine"
 
-[node name="Crate2" parent="." instance=ExtResource( 7 )]
-position = Vector2( 473, 119 )
+[node name="CarryableObject2" parent="." instance=ExtResource( 7 )]
+position = Vector2( 515, 209 )
+pre_set_object = "spark_plug"
 
-[node name="Crate3" parent="." instance=ExtResource( 7 )]
-position = Vector2( 366, 218 )
+[node name="CarryableObject3" parent="." instance=ExtResource( 7 )]
+position = Vector2( 617, 208 )
+pre_set_object = "fuel"
 
-[node name="Crate4" parent="." instance=ExtResource( 7 )]
-position = Vector2( 540, 218 )
-
-[node name="Crate5" parent="." instance=ExtResource( 7 )]
-position = Vector2( 552, 145 )
-
-[node name="Crate6" parent="." instance=ExtResource( 7 )]
-position = Vector2( 568, 62 )
-
-[node name="Crate7" parent="." instance=ExtResource( 7 )]
-position = Vector2( 684, 117 )
-
-[node name="Crate8" parent="." instance=ExtResource( 7 )]
-position = Vector2( 683, 214 )
-
-[node name="Crate9" parent="." instance=ExtResource( 7 )]
-position = Vector2( 765, 185 )
-
-[node name="Crate10" parent="." instance=ExtResource( 7 )]
-position = Vector2( 765, 271 )
-
-[node name="Crate11" parent="." instance=ExtResource( 7 )]
-position = Vector2( 681, 298 )
-
-[node name="Crate12" parent="." instance=ExtResource( 7 )]
-position = Vector2( 586, 298 )
-
-[node name="Crate13" parent="." instance=ExtResource( 7 )]
-position = Vector2( 630, 358 )
+[node name="CarryableObject4" parent="." instance=ExtResource( 7 )]
+position = Vector2( 746, 208 )
+pre_set_object = "repair_kit"
 [connection signal="timeout" from="TestSpawnTimer" to="TestSpawnTimer" method="_on_TestSpawnTimer_timeout"]

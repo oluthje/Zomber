@@ -55,6 +55,22 @@ func _physics_process(delta):
 	delta_num = delta
 	pathfindng_move_to_player()
 	if_should_delete_zombie()
+	
+func take_damage(damage, dir):
+	health -= damage
+	if can_be_stunned:
+		can_move = false
+	knocked_back = true
+	knock_back_num = knock_back_amount
+	knock_back_dir = dir
+	spawn_blood_splat()
+	if health <= 0 and not has_died:
+		has_died = true
+		get_parent().current_stats_dict["enemies_killed"] += 1
+		spawn_blood_splatter()
+		spawn_corpse()
+		try_spawn_loot()
+		queue_free()
 
 func if_should_delete_zombie():
 	var distance_to_player = get_global_position().distance_to(player_pos)
@@ -215,22 +231,6 @@ func get_player_pos():
 			game_node = child
 	
 	return game_node.player_pos
-
-func take_damage(damage, dir):
-	health -= damage
-	if can_be_stunned:
-		can_move = false
-	knocked_back = true
-	knock_back_num = knock_back_amount
-	knock_back_dir = dir
-	spawn_blood_splat()
-	if health <= 0 and not has_died:
-		has_died = true
-		get_parent().current_stats_dict["enemies_killed"] += 1
-		spawn_blood_splatter()
-		spawn_corpse()
-		try_spawn_loot()
-		queue_free()
 	
 func get_rotation_to_pos(pos):
 	var angle = get_angle_to(pos)

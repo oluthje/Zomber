@@ -8,10 +8,11 @@ var Player = preload("res://Player/Player.tscn")
 
 var player_pos = Vector2()
 var player_tile_pos = Vector2()
+var player_node
 var using_menu = false
 
-# Game settingss
-var spawn_enemies = true
+# Game settings
+var spawn_enemies = false
 var map_size = Vector2(30, 20)
 
 var time_played = 0
@@ -37,7 +38,7 @@ const TILES = {
 
 func _ready():
 	$AnimationPlayer.play("fade_in")
-	generate_terrain()
+	#generate_terrain()
 	spawn_world_boundaries()
 	get_node("CrashSiteScript").spawn_crash_site()
 
@@ -67,18 +68,25 @@ func generate_terrain():
 				$TileMap.set_cellv(Vector2(x, y), get_tile_index(noise.get_noise_2d(float(x), float(y))))
 	spawn_trees()
 
+func remove_player():
+	player_node = get_node("Player")
+	remove_child(player_node)
+
+func spawn_saved_player(pos):
+	player_node.set_global_position(pos)
+	call_deferred("add_child", player_node)
+
 func save_stats():
-	print("time_played: " + str(time_played))
+	#print("time_played: " + str(time_played))
 	current_stats_dict["minutes_played"] = float(time_played)/float(60)
-	print(current_stats_dict["minutes_played"])
+	#print(current_stats_dict["minutes_played"])
 	get_parent().save_stats(current_stats_dict)
 
 func spawn_player(pos):
-	print("spawned player")
-	var player = Player.instance()
-	player.set_global_position(pos)
-	player.name = "Player"
-	add_child(player)
+	player_node = Player.instance()
+	player_node.set_global_position(pos)
+	player_node.name = "Player"
+	add_child(player_node)
 
 func spawn_world_boundaries():
 	# North

@@ -25,6 +25,23 @@ func _ready():
 	melee_attack_distance = 24
 	
 	._ready()
+	
+func take_damage(damage, dir):
+	health -= damage
+	if can_be_stunned:
+		can_move = false
+	knocked_back = true
+	knock_back_num = knock_back_amount
+	knock_back_dir = dir
+	spawn_blood_splat()
+	if health <= 0 and not has_died:
+		has_died = true
+		get_parent().current_stats_dict["enemies_killed"] += 1
+		spawn_blood_splatter()
+		spawn_corpse()
+		get_node("RiotShield").spawn_dropped_shield()
+		try_spawn_loot()
+		queue_free()
 
 func play_animations():
 	if not lost_shield and state != ATTACKING:

@@ -11,8 +11,8 @@ func take_damage(damage):
 		get_parent().speed = 75
 		get_parent().walk_anim_speed = 1
 		get_parent().lost_shield = true
-		get_parent().replace_with_zombie()
 		spawn_dropped_shield()
+		get_parent().replace_with_zombie()
 		queue_free()
 
 func spawn_dropped_shield():

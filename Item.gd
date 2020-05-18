@@ -22,6 +22,11 @@ const PICKAXE = "pickaxe"
 var LOG = "log"
 var STONE = "stone"
 var COMPONENT = "component"
+# Humvee parts
+const ENGINE = "engine"
+const SPARK_PLUG = "spark_plug"
+const FUEL = "fuel"
+const REPAIR_KIT = "repair_kit"
 
 # Buildings
 var WOOD_SPIKES = "wood_spikes"
@@ -45,6 +50,7 @@ const STONE_HIT = "stone_hit"
 const PISTOL_SHOT = "pistol_shot"
 const PISTOL_COCKING = "pistol_cocking"
 const PISTOL_LOAD = "pistol_load"
+const SHOTGUN_SHOT = "shotgun_shot"
 const AK47_SHOT = "ak47_shot"
 const TURRET_SHOT = "turret_shot"
 # Building
