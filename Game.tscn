@@ -229,18 +229,18 @@ autostart = true
 script = ExtResource( 13 )
 
 [node name="CarryableObject" parent="." instance=ExtResource( 7 )]
-position = Vector2( 425, 296 )
+position = Vector2( 412, 371 )
 pre_set_object = "engine"
 
 [node name="CarryableObject2" parent="." instance=ExtResource( 7 )]
-position = Vector2( 515, 209 )
+position = Vector2( 505, 374 )
 pre_set_object = "spark_plug"
 
 [node name="CarryableObject3" parent="." instance=ExtResource( 7 )]
-position = Vector2( 617, 208 )
+position = Vector2( 607, 373 )
 pre_set_object = "fuel"
 
 [node name="CarryableObject4" parent="." instance=ExtResource( 7 )]
-position = Vector2( 746, 208 )
+position = Vector2( 736, 373 )
 pre_set_object = "repair_kit"
 [connection signal="timeout" from="TestSpawnTimer" to="TestSpawnTimer" method="_on_TestSpawnTimer_timeout"]

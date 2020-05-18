@@ -2,22 +2,26 @@ extends KinematicBody2D
 
 var RequiredMaterialsPopup = preload("res://Construction/RequiredMaterialsNode.tscn")
 var SoundEffectPlayer = preload("res://SoundEffectPlayer.tscn")
+
 var state = "crashed"
 var required_materials = {
-	Item.ENGINE: 1
-#	Item.SPARK_PLUG: 1,
-#	Item.FUEL: 1,
-#	Item.REPAIR_KIT: 1
+	Item.ENGINE: 1,
+	Item.SPARK_PLUG: 1,
+	Item.FUEL: 1,
+	Item.REPAIR_KIT: 1
 }
 var player_in_car = false
 var enter_cooldown_time = 0.5
 
 # Driving
-var speed = 300
+var speed = 250
 var friction = 0.035
-var acceleration = 0.055
+var acceleration = 0.05
 var velocity = Vector2.ZERO
-var rotation_value = 2
+var steering_speed = 2
+var steering_friction = 0.15
+var steering_accel = 0.05
+var steering = Vector2.ZERO
 
 func _ready():
 	if state == "crashed":
@@ -31,44 +35,63 @@ func _physics_process(delta):
 
 func get_driving_input():
 	var input_velocity = Vector2.ZERO
+	var input_steering = Vector2.ZERO
 
 	if player_in_car:
 		if Input.is_action_just_pressed("interact"):
 			exit_humvee()
 		if Input.is_action_pressed('right'):
-			rotation += deg2rad(rotation_value * get_percent_speed())
+			input_steering.x += 1
 		if Input.is_action_pressed('left'):
-			rotation -= deg2rad(rotation_value * get_percent_speed())
+			input_steering.x -= 1
 		if Input.is_action_pressed('down'):
 			input_velocity.x += 1
 		if Input.is_action_pressed('up'):
 			input_velocity.x -= 1
 	input_velocity = input_velocity.rotated(rotation)
 	input_velocity = input_velocity.normalized() * speed
+	input_steering = input_steering.normalized() * steering_speed * get_percent_speed()
+	
+	# Steering
+	if input_steering.length() > 0:
+		steering = steering.linear_interpolate(input_steering, steering_accel)
+	else:
+		steering = steering.linear_interpolate(Vector2.ZERO, steering_friction)
+	rotate(deg2rad(steering.x))
 
-	# If there's input, accelerate to the input velocity
+	# Driving
 	if input_velocity.length() > 0:
 		velocity = velocity.linear_interpolate(input_velocity, acceleration)
 	else:
 		velocity = velocity.linear_interpolate(Vector2.ZERO, friction)
 	velocity = move_and_slide(velocity)
+	
+	
+	set_wheel_rotations()
+	
+func set_wheel_rotations():
+	var wheel_rots = [0, 180]
+	var wheels = get_node("FrontWheels").get_children()
+	var percent_steering = steering.x/steering_speed
+	var max_wheel_rot = 45
+	
+	for index in wheels.size():
+		wheels[index].set_rotation(deg2rad(wheel_rots[index] + (max_wheel_rot * percent_steering)))
+	
+	get_node("Label").set_text(str(steering))
 
 func get_percent_speed():
 	var current_speed = Vector2(0, 0).distance_to(velocity)
 	var percent_speed = current_speed/speed
 	return percent_speed
 
-func set_disabled_door_collider(is_disabled):
-	pass
-	#get_node("Door").get_node("StaticBody2D/CollisionShape2D").set_disabled(is_disabled)
-
 func exit_humvee():
 	var pos = get_position()
 	player_in_car = false
-	#set_disabled_door_collider(false)
 	get_node("EnterCooldownTimer").set_wait_time(enter_cooldown_time)
 	get_node("EnterCooldownTimer").start()
-	get_parent().spawn_saved_player(get_global_position() + Vector2(0, 24).rotated(rotation))
+	get_parent().get_node("Camera2D").get_node("AnimationPlayer").play_backwards("zoom_out")
+	get_parent().spawn_saved_player(get_global_position() + Vector2(-32, 24).rotated(rotation))
 	$DoorAnimPlayer.play("open_door")
 
 func spawn_sound_effect_player(sound):
@@ -123,8 +146,8 @@ func _on_CollectPlayerArea_body_entered(body):
 	if "Player" in body.name:
 		player_in_car = true
 		$DoorAnimPlayer.play_backwards("open_door")
-		set_disabled_door_collider(true)
 		get_node("CollectPlayerArea").call_deferred("set_monitoring", false)
+		get_parent().get_node("Camera2D").get_node("AnimationPlayer").play("zoom_out")
 		get_parent().remove_player()
 		
 func _on_EnterCooldownTimer_timeout():

@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Environment/Humvee.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Environment/Vehicles/Humvee-Sheet.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Environment/Vehicles/HumveeParts-Sheet.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Environment/Vehicles/HumveeDoor.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Environment/Vehicles/HumveeWheel.png" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 11, 21 )
@@ -84,31 +85,58 @@ extents = Vector2( 12, 3 )
 z_index = 3
 script = ExtResource( 1 )
 
+[node name="FrontWheels" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="FrontWheels"]
+position = Vector2( -64, -23 )
+texture = ExtResource( 5 )
+
+[node name="Sprite2" type="Sprite" parent="FrontWheels"]
+position = Vector2( -63, 22 )
+rotation = 3.14159
+texture = ExtResource( 5 )
+
 [node name="Humvee" type="Sprite" parent="."]
 position = Vector2( -23, -1 )
 texture = ExtResource( 2 )
 vframes = 2
 hframes = 2
+frame = 3
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Engine" type="Sprite" parent="."]
 visible = false
-position = Vector2( -40, 1 )
+position = Vector2( -73, 0 )
 rotation = 1.5708
 texture = ExtResource( 3 )
 vframes = 2
 hframes = 2
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -71, 0 )
 shape = SubResource( 7 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
 position = Vector2( -9, -1 )
 shape = SubResource( 8 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
 position = Vector2( -47, -10 )
 shape = SubResource( 9 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Sparks" type="Particles2D" parent="."]
 position = Vector2( -77, -19 )
@@ -116,6 +144,9 @@ emitting = false
 amount = 24
 lifetime = 0.3
 process_material = SubResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/crashed = SubResource( 3 )
@@ -126,6 +157,9 @@ anims/open_door = SubResource( 6 )
 
 [node name="Door" type="Node2D" parent="."]
 position = Vector2( -60, 20 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Door" type="Sprite" parent="Door"]
 position = Vector2( 37, -21 )
@@ -141,6 +175,10 @@ shape = SubResource( 10 )
 
 [node name="CollectPartsArea" type="Area2D" parent="."]
 position = Vector2( -33, -1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollectPartsArea"]
 position = Vector2( 1, 0 )
@@ -148,6 +186,9 @@ shape = SubResource( 5 )
 
 [node name="CollectPlayerArea" type="Area2D" parent="."]
 position = Vector2( -33, -1 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollectPlayerArea"]
 position = Vector2( -14, 5 )
@@ -158,6 +199,9 @@ one_shot = true
 
 [node name="PlayerPos" type="Node2D" parent="."]
 position = Vector2( -47, 8 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Label" type="Label" parent="."]
 margin_left = -38.0
