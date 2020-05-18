@@ -229,7 +229,7 @@ autostart = true
 script = ExtResource( 13 )
 
 [node name="CarryableObject" parent="." instance=ExtResource( 7 )]
-position = Vector2( 397, 209 )
+position = Vector2( 425, 296 )
 pre_set_object = "engine"
 
 [node name="CarryableObject2" parent="." instance=ExtResource( 7 )]

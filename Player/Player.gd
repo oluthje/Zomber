@@ -58,15 +58,15 @@ func _physics_process(delta):
 		Item.player_should_update_held_item = false
 	rotate(get_rotation_toward_mouse())
 	get_input()
-	get_parent().player_pos = get_global_position()
-	update_tilepos_info()
+	#get_parent().player_pos = get_global_position()
+	#update_tilepos_info()
 
-func update_tilepos_info():
-	var free_tiles = [get_parent().TILES.grass, get_parent().TILES.dirt]
-	var tilemap = get_parent().get_node("TileMap")
-	var current_tile = tilemap.world_to_map(get_global_position())
-	if free_tiles.has(tilemap.get_cellv(current_tile)):
-		get_parent().player_tile_pos = current_tile
+#func update_tilepos_info():
+#	var free_tiles = [get_parent().TILES.grass, get_parent().TILES.dirt]
+#	var tilemap = get_parent().get_node("TileMap")
+#	var current_tile = tilemap.world_to_map(get_global_position())
+#	if free_tiles.has(tilemap.get_cellv(current_tile)):
+#		get_parent().player_tile_pos = current_tile
 	
 func get_rotation_toward_mouse():
 	var mouse_pos = get_global_mouse_position()

@@ -12,6 +12,13 @@ var required_materials = {
 var player_in_car = false
 var enter_cooldown_time = 0.5
 
+# Driving
+var speed = 300
+var friction = 0.05
+var acceleration = 0.055
+var velocity = Vector2.ZERO
+var rotation_value = 2
+
 func _ready():
 	if state == "crashed":
 		$AnimationPlayer.play("crashed")
@@ -20,17 +27,43 @@ func _ready():
 
 func _physics_process(delta):
 	check_for_player_adding_resource()
+	get_driving_input()
+
+func get_driving_input():
+	var input_velocity = Vector2.ZERO
 	
-	if Input.is_action_just_pressed("interact") and player_in_car:
-		exit_humvee()
-#	if Input.is_action_pressed("up")
+	if player_in_car:
+		if Input.is_action_just_pressed("interact"):
+			exit_humvee()
+		if Input.is_action_pressed('right'):
+			rotation += deg2rad(rotation_value)
+		if Input.is_action_pressed('left'):
+			rotation -= deg2rad(rotation_value)
+		if Input.is_action_pressed('down'):
+			input_velocity.x += 1
+		if Input.is_action_pressed('up'):
+			input_velocity.x -= 1
+	input_velocity = input_velocity.rotated(rotation)
+	input_velocity = input_velocity.normalized() * speed
+	
+	# If there's input, accelerate to the input velocity
+	if input_velocity.length() > 0:
+		velocity = velocity.linear_interpolate(input_velocity, acceleration)
+	else:
+		velocity = velocity.linear_interpolate(Vector2.ZERO, friction)
+	velocity = move_and_slide(velocity)
+	
+func set_disabled_door_collider(is_disabled):
+	pass
+	#get_node("Door").get_node("StaticBody2D/CollisionShape2D").set_disabled(is_disabled)
 
 func exit_humvee():
-	var pos = get_global_position()
+	var pos = get_position()
 	player_in_car = false
+	#set_disabled_door_collider(false)
 	get_node("EnterCooldownTimer").set_wait_time(enter_cooldown_time)
 	get_node("EnterCooldownTimer").start()
-	get_parent().spawn_saved_player(Vector2(pos.x, pos.y + 24))
+	get_parent().spawn_saved_player(get_global_position() + Vector2(0, 24).rotated(rotation))
 	$DoorAnimPlayer.play("open_door")
 
 func spawn_sound_effect_player(sound):
@@ -85,6 +118,7 @@ func _on_CollectPlayerArea_body_entered(body):
 	if "Player" in body.name:
 		player_in_car = true
 		$DoorAnimPlayer.play_backwards("open_door")
+		set_disabled_door_collider(true)
 		get_node("CollectPlayerArea").call_deferred("set_monitoring", false)
 		get_parent().remove_player()
 		

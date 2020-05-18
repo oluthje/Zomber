@@ -71,11 +71,11 @@ tracks/0/keys = {
 "values": [ 0.0, 65.0 ]
 }
 
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 11.0112, 1.32893 )
+
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 52, 23 )
-
-[sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 12.0825, 1.32893 )
 
 [sub_resource type="RectangleShape2D" id=11]
 extents = Vector2( 12, 3 )
@@ -127,14 +127,6 @@ anims/fixed = SubResource( 4 )
 [node name="DoorAnimPlayer" type="AnimationPlayer" parent="."]
 anims/open_door = SubResource( 6 )
 
-[node name="CollectPartsArea" type="Area2D" parent="."]
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CollectPartsArea"]
-shape = SubResource( 5 )
-
 [node name="Door" type="Node2D" parent="."]
 position = Vector2( -27, 21 )
 
@@ -143,10 +135,21 @@ position = Vector2( 37, -21 )
 texture = ExtResource( 4 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Door"]
+collision_layer = 2
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Door/StaticBody2D"]
 position = Vector2( 12.9888, 0.539879 )
 shape = SubResource( 10 )
+
+[node name="CollectPartsArea" type="Area2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollectPartsArea"]
+position = Vector2( 1, 0 )
+shape = SubResource( 5 )
 
 [node name="CollectPlayerArea" type="Area2D" parent="."]
 
@@ -156,5 +159,8 @@ shape = SubResource( 11 )
 
 [node name="EnterCooldownTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="PlayerPos" type="Node2D" parent="."]
+position = Vector2( -14, 9 )
 [connection signal="body_entered" from="CollectPlayerArea" to="." method="_on_CollectPlayerArea_body_entered"]
 [connection signal="timeout" from="EnterCooldownTimer" to="." method="_on_EnterCooldownTimer_timeout"]

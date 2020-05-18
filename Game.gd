@@ -44,6 +44,19 @@ func _ready():
 
 func _physics_process(delta):
 	time_played += delta
+	update_player_pos_info()
+	
+func update_player_pos_info():
+	if get_node("Player"):
+		player_pos = get_node("Player").get_global_position()
+	else:
+		player_pos = get_node("Humvee").get_node("PlayerPos").get_global_position()
+	
+	var free_tiles = [TILES.grass, TILES.dirt]
+	var tilemap = get_node("TileMap")
+	var current_tile = tilemap.world_to_map(player_pos)
+	if free_tiles.has(tilemap.get_cellv(current_tile)):
+		player_tile_pos = current_tile
 
 func generate_terrain():
 	randomize()
