@@ -201,7 +201,6 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="."]
-visible = false
 margin_left = -38.0
 margin_top = 25.0
 margin_right = 2.0
@@ -209,5 +208,12 @@ margin_bottom = 39.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="SmokeParticlesPos" type="Node2D" parent="."]
+position = Vector2( 19, -8 )
+
+[node name="SmokeTimer" type="Timer" parent="."]
+one_shot = true
 [connection signal="body_entered" from="CollectPlayerArea" to="." method="_on_CollectPlayerArea_body_entered"]
 [connection signal="timeout" from="EnterCooldownTimer" to="." method="_on_EnterCooldownTimer_timeout"]
+[connection signal="timeout" from="SmokeTimer" to="." method="_on_SmokeTimer_timeout"]

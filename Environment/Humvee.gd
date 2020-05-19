@@ -2,16 +2,20 @@ extends KinematicBody2D
 
 var RequiredMaterialsPopup = preload("res://Construction/RequiredMaterialsNode.tscn")
 var SoundEffectPlayer = preload("res://SoundEffectPlayer.tscn")
+var CustParticles = preload("res://Environment/CustParticles.tscn")
 
 var state = "crashed"
 var required_materials = {
-	Item.ENGINE: 1,
-	Item.SPARK_PLUG: 1,
-	Item.FUEL: 1,
-	Item.REPAIR_KIT: 1
+	Item.ENGINE: 1
+#	Item.SPARK_PLUG: 1,
+#	Item.FUEL: 1,
+#	Item.REPAIR_KIT: 1
 }
 var player_in_car = false
 var enter_cooldown_time = 0.5
+var emit_smoke = false
+var spawn_smoke_particle = true
+var smoke_cooldown_time = 0
 
 # Driving
 var speed = 250
@@ -66,9 +70,9 @@ func get_driving_input():
 		velocity = velocity.linear_interpolate(Vector2.ZERO, friction)
 	velocity = move_and_slide(velocity)
 	
-	
 	set_wheel_rotations()
-	
+	set_smoke_particle_amount()
+
 func set_wheel_rotations():
 	var wheel_rots = [0, 180]
 	var wheels = get_node("FrontWheels").get_children()
@@ -77,8 +81,24 @@ func set_wheel_rotations():
 	
 	for index in wheels.size():
 		wheels[index].set_rotation(deg2rad(wheel_rots[index] + (max_wheel_rot * percent_steering)))
+		
+func spawn_smoke_particles():
+	var particles = CustParticles.instance()
+	particles.setup(Item.HUMVEE_SMOKE_PARTICLES, 3)
+	particles.set_global_position(get_node("SmokeParticlesPos").get_global_position())
+	get_parent().add_child(particles)
+
+func set_smoke_particle_amount():
+	var max_amount = 18
+	var min_amount = 4
+	var amount = max_amount * get_percent_speed()
+	amount = clamp(amount, min_amount, max_amount)
+	smoke_cooldown_time = float(1)/float(amount)
 	
-	get_node("Label").set_text(str(steering))
+	if spawn_smoke_particle:
+		spawn_smoke_particle = false
+		get_node("SmokeTimer").set_wait_time(smoke_cooldown_time)
+		get_node("SmokeTimer").start()
 
 func get_percent_speed():
 	var current_speed = Vector2(0, 0).distance_to(velocity)
@@ -119,6 +139,7 @@ func add_part(part):
 		get_node("Engine").set_visible(true)
 	
 	if has_all_parts():
+		emit_smoke = true
 		get_node("Engine").set_visible(false)
 		get_node("Sparks").set_emitting(false)
 		$DoorAnimPlayer.play("open_door")
@@ -152,3 +173,8 @@ func _on_CollectPlayerArea_body_entered(body):
 		
 func _on_EnterCooldownTimer_timeout():
 	get_node("CollectPlayerArea").call_deferred("set_monitoring", true)
+
+func _on_SmokeTimer_timeout():
+	spawn_smoke_particles()
+	print("spawned smoke")
+	spawn_smoke_particle = true

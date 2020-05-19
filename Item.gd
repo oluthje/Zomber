@@ -58,6 +58,9 @@ const TURRET_SHOT = "turret_shot"
 const BUILD_COMPLETE = "build_complete"
 const ADDED_RESOURCE = "added_resource"
 
+# Particles
+const HUMVEE_SMOKE_PARTICLES = "humvee_smoke_particles"
+
 # Functional keywords
 const EMPTY = "empty"
 const DISABLED = "disabled"

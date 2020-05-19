@@ -7,7 +7,7 @@ var PauseMenu = preload("res://HUD/Menu/PauseMenu.tscn")
 onready var game_node = get_game_node()
 
 # Game development settings
-var start_with_menu = false
+var start_with_menu = true
 
 var can_pause = false
 var game_paused = false

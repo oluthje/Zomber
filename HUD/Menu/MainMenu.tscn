@@ -159,6 +159,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 512, 0 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("SmokeHolder:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 200, 0 ) ]
+}
 
 [sub_resource type="Animation" id=7]
 resource_name = "drive"
@@ -249,6 +261,15 @@ frame = 1
 [node name="HumveeAnimPlayer" type="AnimationPlayer" parent="ScrollingGrass/Sprite"]
 anims/drive = SubResource( 7 )
 
+[node name="SmokeTimer" type="Timer" parent="ScrollingGrass"]
+wait_time = 0.041
+autostart = true
+
+[node name="SmokeParticlesPos" type="Node2D" parent="ScrollingGrass"]
+position = Vector2( 434.848, 144.848 )
+
+[node name="SmokeHolder" type="Node2D" parent="ScrollingGrass"]
+
 [node name="Buttons" type="Node2D" parent="."]
 position = Vector2( -96, 0 )
 
@@ -286,6 +307,7 @@ zoom = Vector2( 0.9696, 0.9696 )
 
 [node name="DriveTimer" type="Timer" parent="."]
 one_shot = true
+[connection signal="timeout" from="ScrollingGrass/SmokeTimer" to="." method="_on_SmokeTimer_timeout"]
 [connection signal="pressed" from="Buttons/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="Buttons/StatsButton" to="." method="_on_StatsButton_pressed"]
 [connection signal="pressed" from="Buttons/QuitGameButton" to="." method="_on_QuitGameButton_pressed"]

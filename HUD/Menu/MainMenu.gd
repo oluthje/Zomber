@@ -1,6 +1,7 @@
 extends Node2D
 
 var StatsMenu = preload("res://HUD/Menu/StatsMenu.tscn")
+var CustParticles = preload("res://Environment/CustParticles.tscn")
 
 var selected_option = false
 var button_pressed = ""
@@ -14,6 +15,12 @@ func spawn_stats_menu():
 	var menu = StatsMenu.instance()
 	add_child(menu)
 	
+func spawn_smoke_particles():
+	var particles = CustParticles.instance()
+	particles.setup(Item.HUMVEE_SMOKE_PARTICLES, 3)
+	particles.set_global_position(get_node("ScrollingGrass").get_node("SmokeParticlesPos").get_global_position())
+	get_node("ScrollingGrass/SmokeHolder").add_child(particles)
+
 func zoom_into_driving():
 	$ZoomInPlayer.play("zoomin")
 	get_node("Cursor").set_visible(false)
@@ -54,3 +61,8 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 
 func _on_DriveTimer_timeout():
 	$ZoomInPlayer.play("black_out")
+
+func _on_SmokeTimer_timeout():
+	get_node("ScrollingGrass/SmokeTimer").set_wait_time(0.1)
+	get_node("ScrollingGrass/SmokeTimer").start()
+	spawn_smoke_particles()
