@@ -7,6 +7,7 @@ var is_visible = true
 var spacing = 25
 var x_pos = -28
 var resource_dict = {}
+var icons = [Item.COMPONENT, Item.STONE, Item.LOG]
 
 func _physics_process(delta):
 	should_appear_or_disappear()
@@ -41,7 +42,7 @@ func should_appear_or_disappear():
 	elif not is_visible and distance_to_player < show_ui_range:
 		$AnimationPlayer.play("appear")
 		is_visible = true
-		
+
 func get_player_pos():
 	var game_node
 	for child in get_tree().get_root().get_node("Main").get_children():
@@ -58,6 +59,8 @@ func add_resource(resource):
 func spawn_material_icon(icon_name, pos):
 	var materials_num = resource_dict[icon_name]
 	var icon = ResourceIconLabel.instance()
+	if icons.has(icon_name):
+		icon_name += str("_icon")
 	icon.setup(icon_name, materials_num)
 	icon.set_position(pos)
 	add_child(icon)

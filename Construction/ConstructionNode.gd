@@ -59,7 +59,7 @@ func setup(building, to_be_dragged, resource_dict):
 			required_materials[Item.STONE] = 2
 			required_materials[Item.COMPONENT] = 1
 		if building == Item.STONE_WALL:
-			required_materials[Item.STONE] = 2
+			required_materials[Item.STONE] = 1
 			grid_snap_num = 32
 	else:
 		required_materials = resource_dict

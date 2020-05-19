@@ -138,7 +138,7 @@ func requires_part(resource):
 
 func spawn_required_materials_popup():
 	var popup = RequiredMaterialsPopup.instance()
-	popup.set_position(Vector2(-8, -32))
+	popup.set_position(Vector2(-32, -32))
 	popup.setup(required_materials)
 	add_child(popup)
 

@@ -1,7 +1,7 @@
 extends Node2D
 
 # Inventory related variables
-var inventory = ["pistol", "pickaxe", "ak47", "shotgun", "disabled", "disabled", "disabled", "disabled"]
+var inventory = ["pistol", "mp5", "ak47", "shotgun", "disabled", "disabled", "disabled", "disabled"]
 var inv_ammo = [-1, -1, -1, -1, -1, -1, -1, -1] # The amount of ammo for each slot (assuming gun is in slot)
 var player_health = 6
 var update_player_health = false
@@ -13,6 +13,7 @@ var resource_inv_num = [0, 0, 0]
 const PISTOL = "pistol"
 const SHOTGUN = "shotgun"
 const AK47 = "ak47"
+const MP5 = "mp5"
 
 # Melee weapons
 const AXE = "axe"
@@ -77,7 +78,11 @@ var wave_num = 0
 
 # Loot tables
 onready var items_loot_table = {
-	Item.COMPONENT: 1
+	Item.COMPONENT: 1,
+	Item.ENGINE: 1,
+	Item.SPARK_PLUG: 1,
+	Item.FUEL: 1,
+	Item.REPAIR_KIT: 1,
 }
 
 onready var max_droppings = {

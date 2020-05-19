@@ -7,7 +7,7 @@ func setup(resource_name, resources_required):
 	resource = resource_name
 	num_resources_required = resources_required
 	
-	get_node("SlotItemImage").select_item_to_display(resource_name + str("_icon"))
+	get_node("SlotItemImage").select_item_to_display(resource_name)
 	get_node("Label").set_text("x" + str(num_resources_required))
 
 func reduce_required_resource():
