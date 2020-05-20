@@ -6,10 +6,10 @@ var CustParticles = preload("res://Environment/CustParticles.tscn")
 
 var state = "crashed"
 var required_materials = {
-	Item.ENGINE: 1
-#	Item.SPARK_PLUG: 1,
-#	Item.FUEL: 1,
-#	Item.REPAIR_KIT: 1
+	Item.ENGINE: 1,
+	Item.SPARK_PLUG: 1,
+	Item.FUEL: 1,
+	Item.REPAIR_KIT: 1
 }
 var player_in_car = false
 var enter_cooldown_time = 0.5
@@ -34,7 +34,7 @@ func _ready():
 		spawn_required_materials_popup()
 
 func _physics_process(delta):
-	check_for_player_adding_resource()
+	check_for_player_adding_part()
 	get_driving_input()
 
 func get_driving_input():
@@ -120,19 +120,36 @@ func spawn_sound_effect_player(sound):
 	player.setup(sound, 5)
 	get_parent().add_child(player)
 
-func check_for_player_adding_resource():
+func check_for_player_adding_part():
 	var bodies = get_node("CollectPartsArea").get_overlapping_bodies()
 	for body in bodies:
 		if "Player" in body.name:
-			if body.carrying_object:
+			if body.carrying_object and not body.in_timed_operation:
 				if requires_part(body.object_carrying_name):
+					if [Item.FUEL, Item.REPAIR_KIT].has(body.object_carrying_name):
+						var time = 0
+						match body.object_carrying_name:
+							Item.FUEL:
+								time = 3
+							Item.REPAIR_KIT:
+								time = 5
+						body.spawn_consumption_time_display(time, self)
+						return
 					add_part(body.object_carrying_name)
 					body.get_node("CarryableObject").get_node("SlotItemImage").select_item_to_display("none")
 					body.carrying_object = false
 					body.object_carrying_name = ""
 					body.try_update_held_item()
 
+func add_part_after_countdown(player):
+	add_part(player.object_carrying_name)
+	player.get_node("CarryableObject").get_node("SlotItemImage").select_item_to_display("none")
+	player.carrying_object = false
+	player.object_carrying_name = ""
+	player.try_update_held_item()
+
 func add_part(part):
+	get_node("RequiredMaterialsNode").add_resource(part)
 	spawn_sound_effect_player(Item.ADDED_RESOURCE)
 	required_materials[part] -= 1
 	if part == Item.ENGINE:
@@ -176,5 +193,4 @@ func _on_EnterCooldownTimer_timeout():
 
 func _on_SmokeTimer_timeout():
 	spawn_smoke_particles()
-	print("spawned smoke")
 	spawn_smoke_particle = true

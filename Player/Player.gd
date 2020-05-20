@@ -8,6 +8,7 @@ var Corpse = preload("res://Enemies/Gore/Corpse.tscn")
 var BloodSplat = preload("res://Enemies/Gore/Bloodsplat.tscn")
 var BloodSplatter = preload("res://Enemies/Gore/Bloodsplatter.tscn")
 var SoundEffectPlayer = preload("res://SoundEffectPlayer.tscn")
+var ConsumptionTimeDisplay = preload("res://HUD/ConsumptionTimeDisplay.tscn")
 
 # Guns
 var Pistol = preload("res://Weapons/Pistol.tscn")
@@ -34,6 +35,9 @@ var knock_back_num = 0
 var carrying_object = false
 var pickupable_object_area
 var object_carrying_name = ""
+# ConsumptionTimerDisplay
+var in_timed_operation = false
+var timed_operation_body
 
 # Item pickup
 var can_pickup = true
@@ -126,9 +130,11 @@ func get_input():
 	
 	# If there's input, accelerate to the input velocity
 	if input_velocity.length() > 0:
+		in_timed_operation = false
 		$LegAnimPlayer.play("Walk")
 		velocity = velocity.linear_interpolate(input_velocity, acceleration)
 	elif knocked_back:
+		in_timed_operation = false
 		input_velocity = Vector2(-200, 0).rotated(knock_back_dir)
 		if knock_back_num <= 0.5:
 			knocked_back = false
@@ -175,6 +181,22 @@ func try_pickup_object():
 	pickupable_object_area.queue_free()
 	object_carrying_name = pickupable_object_area.object_name
 	get_node("CarryableObject").get_node("SlotItemImage").select_item_to_display(object_carrying_name)
+
+func spawn_consumption_time_display(time, body):
+	var timed_operation_body = body
+	var pos = get_global_position()
+	in_timed_operation = true
+	var display = ConsumptionTimeDisplay.instance()
+	display.set_global_position(Vector2(pos.x, pos.y - 16))
+	display.setup(time)
+	get_parent().add_child(display)
+	
+func consumption_time_complete():
+	in_timed_operation = false
+	var areas = get_node("Area2D").get_overlapping_areas()
+	for area in areas:
+		if "CollectPartsArea" in area.name:
+			area.get_parent().add_part_after_countdown(self)
 
 func try_drop_object():
 	var carryable_object = CarryableObject.instance()

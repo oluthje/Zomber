@@ -11,5 +11,4 @@ func setup(particle, time):
 	life_time = time
 
 func _on_Timer_timeout():
-	print("removed smoke")
 	queue_free()
