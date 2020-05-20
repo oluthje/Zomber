@@ -16,7 +16,8 @@ onready var spawn_timer = get_node("SpawnTimer")
 # Wave variables
 var wave_num = 0
 var wave_time = 12
-var wave_rest_time = 0
+var wave_rest_time = 10
+var is_first_wave = true
 var can_advance_to_next_wave = true
 
 # Spawning variables
@@ -25,7 +26,7 @@ var num_bosses = 1
 var bosses_left = 1
 var zombies_left = 3
 var spawn_time = 0
-var additional_zombies_per_round = 3
+var additional_zombies_per_round = 2
 
 # Loot table
 onready var spawn_table = {
@@ -37,17 +38,20 @@ onready var spawn_table = {
 var weight_sum = 0
 
 func _ready():
-#	wave_num = 5
 	num_zombies = wavenum_to_zombienum(wave_num)
 	place_spawners()
 	
 func _physics_process(delta):
 	var zombies_alive = get_tree().get_nodes_in_group("enemies").size()
 	if zombies_alive <= 0 and can_advance_to_next_wave:
-		rest_timer.set_wait_time(wave_rest_time)
+		if is_first_wave:
+			is_first_wave = false
+			rest_timer.set_wait_time(1)
+		else:
+			spawn_panning_wave_label("wave_comlete")
+			rest_timer.set_wait_time(wave_rest_time)
 		rest_timer.start()
 		can_advance_to_next_wave = false
-	set_wave_label_text()
 
 func wavenum_to_zombienum(wavenum):
 	return wavenum * 3 + 3
@@ -67,6 +71,7 @@ func get_enemy_by_weight():
 	return "no item found"
 
 func next_wave():
+	print("next wave")
 	if get_parent().spawn_enemies:
 		wave_num += 1
 		Item.wave_num = wave_num
@@ -75,16 +80,19 @@ func next_wave():
 		bosses_left = num_bosses
 		
 		get_parent().current_stats_dict["wave_record"] = wave_num
-		set_wave_label_text()
-		spawn_panning_wave_label()
+		spawn_panning_wave_label("next_wave")
 		
 		var spawn_time = float(wave_time)/float(num_zombies)
 		spawn_timer.set_wait_time(spawn_time)
 		spawn_timer.start()
 
-func spawn_panning_wave_label():
+func spawn_panning_wave_label(label_type):
 	var wave_label = PanningLabel.instance()
-	wave_label.set_text("Wave " + str(wave_num))
+	match label_type:
+		"wave_comlete":
+			wave_label.set_text("Wave " + str(wave_num) + " Complete")
+		"next_wave":
+			wave_label.set_text("Wave " + str(wave_num))
 	get_parent().get_node("CanvasLayer").add_child(wave_label)
 
 func set_wave_label_text():
@@ -144,7 +152,6 @@ func spawn_spawn_pos(pos):
 func get_rand_spawner_pos():
 	var spawners = []
 	for child in get_node("Spawnpoints").get_children():
-		#if "Spawnpoint" in child.name:
 		spawners.append(child)
 
 	randomize()

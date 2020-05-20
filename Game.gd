@@ -38,7 +38,7 @@ const TILES = {
 
 func _ready():
 	$AnimationPlayer.play("fade_in")
-	#generate_terrain()
+	generate_terrain()
 	spawn_world_boundaries()
 	get_node("CrashSiteScript").spawn_crash_site()
 
