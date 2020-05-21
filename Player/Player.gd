@@ -15,6 +15,7 @@ var Pistol = preload("res://Weapons/Pistol.tscn")
 var Shotgun = preload("res://Weapons/Shotgun.tscn")
 var Ak47 = preload("res://Weapons/Ak47.tscn")
 var Mp5 = preload("res://Weapons/Mp5.tscn")
+var Kar98k = preload("res://Weapons/Kar98k.tscn")
 
 # Melee weapons
 var Axe = preload("res://Weapons/Axe.tscn")
@@ -263,6 +264,9 @@ func try_update_held_item():
 		get_node("HandHeldItem").add_child(item)
 	elif Item.inventory[Item.current_inventory_slot] == Item.MP5:
 		var item = Mp5.instance()
+		get_node("HandHeldItem").add_child(item)
+	elif Item.inventory[Item.current_inventory_slot] == Item.KAR98K:
+		var item = Kar98k.instance()
 		get_node("HandHeldItem").add_child(item)
 	elif Item.inventory[Item.current_inventory_slot] == Item.AXE:
 		var item = Axe.instance()

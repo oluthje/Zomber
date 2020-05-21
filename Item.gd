@@ -1,7 +1,7 @@
 extends Node2D
 
 # Inventory related variables
-var inventory = ["pistol", "mp5", "ak47", "shotgun", "disabled", "disabled", "disabled", "disabled"]
+var inventory = ["pistol", "mp5", "ak47", "kar98k", "disabled", "disabled", "disabled", "disabled"]
 var inv_ammo = [-1, -1, -1, -1, -1, -1, -1, -1] # The amount of ammo for each slot (assuming gun is in slot)
 var player_health = 6
 var update_player_health = false
@@ -14,6 +14,7 @@ const PISTOL = "pistol"
 const SHOTGUN = "shotgun"
 const AK47 = "ak47"
 const MP5 = "mp5"
+const KAR98K = "kar98k"
 
 # Melee weapons
 const AXE = "axe"
@@ -54,6 +55,10 @@ const PISTOL_LOAD = "pistol_load"
 const SHOTGUN_SHOT = "shotgun_shot"
 const AK47_SHOT = "ak47_shot"
 const TURRET_SHOT = "turret_shot"
+const KAR98K_SHOT = "kar98k_shot"
+const KAR98K_COCKBACK = "kar98k_cockback"
+const KAR98K_COCKFORWARD = "kar98k_cockforward"
+const KAR98K_CLIPFEED = "kar98k_clipfeed"
 # Building
 const BUILD_COMPLETE = "build_complete"
 const ADDED_RESOURCE = "added_resource"
