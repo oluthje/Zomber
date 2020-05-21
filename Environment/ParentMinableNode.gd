@@ -18,8 +18,9 @@ var object_name = "stone"
 var object_spawn_chance = 100
 
 func _ready():
+	total_health = health
 	add_to_tilemap()
-	
+
 func add_to_tilemap():
 	tile_map.set_cellv(tile_map.world_to_map(get_global_position()), cell_index)
 	#get_parent().get_node("TileMap").update_pathfinding_map()
@@ -58,13 +59,16 @@ func spawn_sound_effect_player(sound):
 	player.set_global_position(get_global_position())
 	player.setup(sound, 5)
 	get_parent().add_child(player)
-	
+
 func try_spawn_carryable_object():
-	var rand_num = rand_range(0, 100)
-	if rand_num <= object_spawn_chance:
+	var num_stones = 1
+	if get_tree().get_root().get_node("Main").is_within_percent_chance(13):
+		num_stones += 1
+	
+	for num in range(num_stones):
 		var stone = CarryableObject.instance()
 		stone.set_global_position(get_global_position())
-		stone.set_up_object(object_name)
+		stone.set_up_object(object_name, true)
 		get_parent().add_child(stone)
 	
 func spawn_hit_particles():

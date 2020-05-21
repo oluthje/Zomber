@@ -9,7 +9,7 @@ var SoundEffectPlayer = preload("res://SoundEffectPlayer.tscn")
 onready var leaves_node = get_node("Leaves")
 
 # Tree felling
-var health = 30
+var health = 70
 var num_logs = 4
 var log_spacing = 24
 
@@ -17,7 +17,8 @@ var felled = false
 var angle_to_player
 
 func _ready():
-	pass
+	if get_tree().get_root().get_node("Main").is_within_percent_chance(70):
+		num_logs = 3
 
 func take_damage(chopped):
 	if chopped and not felled:
@@ -69,7 +70,7 @@ func place_logs_at_angle(degrees):
 	for log_num in num_logs:
 		var tree_log = CarryableObject.instance()
 		var log_pos = Vector2((log_num * log_spacing) + 16, 0)
-		tree_log.set_up_object(Item.LOG)
+		tree_log.set_up_object(Item.LOG, false)
 		tree_log.set_global_position(log_pos.rotated(deg2rad(degrees)) + get_global_position())
 		tree_log.set_rotation(deg2rad(degrees))
 		get_parent().add_child(tree_log)

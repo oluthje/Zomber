@@ -30,6 +30,10 @@ func _physics_process(delta):
 		elif pause_menu_exists:
 			remove_pause_menu()
 
+func get_rounded_pos(pos):
+	var new_pos = Vector2(round(pos.x), round(pos.y))
+	return new_pos
+
 func is_within_percent_chance(percent_chance):
 	randomize()
 	var rand_num = rand_range(0, 100)

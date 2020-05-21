@@ -201,7 +201,7 @@ func consumption_time_complete():
 
 func try_drop_object():
 	var carryable_object = CarryableObject.instance()
-	carryable_object.set_up_object(object_carrying_name)
+	carryable_object.set_up_object(object_carrying_name, false)
 	carryable_object.set_global_position(get_global_position())
 	carryable_object.set_rotation(get_rotation())
 	get_parent().add_child(carryable_object)

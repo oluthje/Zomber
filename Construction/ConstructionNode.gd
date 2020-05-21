@@ -54,7 +54,7 @@ func setup(building, to_be_dragged, resource_dict):
 	draggable = to_be_dragged
 	if resource_dict == null:
 		if building == Item.WOOD_SPIKES:
-			required_materials[Item.LOG] = 3
+			required_materials[Item.LOG] = 2
 		if building == Item.TURRET:
 			required_materials[Item.STONE] = 2
 			required_materials[Item.COMPONENT] = 1
