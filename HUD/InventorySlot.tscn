@@ -5,6 +5,8 @@
 [ext_resource path="res://Sprites/HUD/selectedinventoryslot.png" type="Texture" id=3]
 [ext_resource path="res://Weapons/SlotItemImage.tscn" type="PackedScene" id=4]
 
+
+
 [sub_resource type="Animation" id=1]
 resource_name = "selected"
 tracks/0/type = "value"

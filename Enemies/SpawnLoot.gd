@@ -25,7 +25,9 @@ func spiral_search_for_free_tiles():
 			for y in range(map_size.y):
 				if search_matrix[x][y]:
 					if game.can_spawn_object_with_radius(Vector2(x, y), 1, [game.TILES.stone]) and player_tile_pos != Vector2(x, y):
-						spawn_loot_crate(Vector2(x, y) * 32)
+						spawn_loot_crate(Vector2(x, y) * 32, true)
+						if get_tree().get_root().get_node("Main").is_within_percent_chance(22):
+							spawn_loot_crate(Vector2(x, y) * 32, false)
 						return
 					try_expand_point(Vector2(x, y))
 					
@@ -44,10 +46,9 @@ func try_expand_point(tile_pos):
 			if not search_matrix[tile.x][tile.y]:
 				search_matrix[tile.x][tile.y] = tile
 
-func spawn_loot_crate(pos):
-	var is_weapon_crate = get_tree().get_root().get_node("Main").is_within_percent_chance(10)
+func spawn_loot_crate(pos, is_weapon_crate):
 	var loot_crate = LootCrate.instance()
-	loot_crate.setup(true)
+	loot_crate.setup(is_weapon_crate)
 	loot_crate.set_global_position(pos)
 	get_parent().get_parent().add_child(loot_crate)
 

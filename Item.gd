@@ -48,6 +48,7 @@ const TREE_HIT_GROUND = "tree_hit_ground"
 const GRASS_FOOT_STEP = "grass_foot_step"
 const STONE_BREAK = "stone_break"
 const STONE_HIT = "stone_hit"
+const MELEE_SWOOSH = "melee_swoosh"
 # Guns
 const PISTOL_SHOT = "pistol_shot"
 const PISTOL_COCKING = "pistol_cocking"
