@@ -12,7 +12,7 @@ var player_node
 var using_menu = false
 
 # Game settings
-var spawn_enemies = false
+var spawn_enemies = true
 var map_size = Vector2(30, 20)
 
 var time_played = 0

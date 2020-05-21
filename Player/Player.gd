@@ -80,6 +80,7 @@ func take_damage(damage, dir):
 		knock_back_num = knock_back_amount
 		Item.player_health -= 1
 		spawn_blood_splatter()
+		spawn_sound_effect_player(Item.PLAYER_DAMAGE)
 	if Item.player_health <= 0:
 		get_parent().save_stats()
 		spawn_corpse()

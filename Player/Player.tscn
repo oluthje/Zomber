@@ -6,8 +6,6 @@
 [ext_resource path="res://Sprites/Player/playerlegs.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/Player/PlayerArm.png" type="Texture" id=6]
 
-
-
 [sub_resource type="ShaderMaterial" id=1]
 
 [sub_resource type="Animation" id=2]
