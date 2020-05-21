@@ -95,30 +95,34 @@ onready var items_loot_table = {
 
 onready var max_droppings = {
 	Item.AXE: 1,
-	Item.PICKAXE: 1
+	Item.PICKAXE: 1,
+	Item.ENGINE: 1,
+	Item.SPARK_PLUG: 1,
+	Item.FUEL: 1,
+	Item.REPAIR_KIT: 1,
 }
 
 # Loot tables
 onready var tier1_loot_table = {
-	Item.AXE: 10,
-	Item.PICKAXE: 10,
-	Item.PISTOL: 1,
-	Item.SHOTGUN: 10
+	Item.AXE: 5,
+	Item.PICKAXE: 5,
+	Item.PISTOL: 3,
+	Item.SHOTGUN: 8,
+	Item.MP5: 5
 }
 
 onready var tier2_loot_table = {
+	Item.AXE: 5,
+	Item.PICKAXE: 5,
 	Item.SHOTGUN: 10,
 	Item.AK47: 5,
-	Item.AXE: 1,
-	Item.PICKAXE: 1,
-	Item.COMPONENT: 3
+	Item.KAR98K: 5
 }
 
 onready var tier3_loot_table = {
-	Item.SHOTGUN: 8,
 	Item.AK47: 10,
-	Item.AXE: 2,
-	Item.PICKAXE: 2
+	Item.KAR98K: 8,
+	Item.MP5: 2
 }
 
 var weight_sum = 0
@@ -147,18 +151,35 @@ func get_loot_drop(tier):
 		for item in loot_table:
 			current_weight += loot_table[item]
 			if rand_num <= current_weight:
-				if can_drop(item):
+				if not should_remove_from_loot_table(item):
 					return item
 				continue
 		return "no item found"
-	
-func can_drop(drop):
+
+func should_remove_from_loot_table(drop):
 	if max_droppings.has(drop):
 		if max_droppings[drop] > 0:
 			max_droppings[drop] -= 1
-			return true
-		return false
-	return true
+			return false
+		if max_droppings[drop] == 0:
+			remove_drop_from_loot_table(drop)
+			return false
+	return false
+	
+func remove_drop_from_loot_table(drop):
+	var loot_tables = [tier3_loot_table, tier3_loot_table, tier3_loot_table]
+	for loot_table in loot_tables:
+		for key in loot_table:
+			if key == drop:
+				tier1_loot_table.erase(key)
+	
+#func can_drop(drop):
+#	if max_droppings.has(drop):
+#		if max_droppings[drop] > 0:
+#			max_droppings[drop] -= 1
+#			return true
+#		return false
+#	return true
 		
 		
 		

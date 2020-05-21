@@ -2,7 +2,7 @@ extends "res://Weapons/GunParent.gd"
 
 func _ready():
 	# Shoot variables
-	shot_cooldown = 68
+	shot_cooldown = 58#68
 	loaded_ammo = 5
 	reload_amount = 5
 	automatic = false

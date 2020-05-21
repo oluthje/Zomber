@@ -22,7 +22,7 @@ var can_advance_to_next_wave = true
 
 # Spawning variables
 var num_zombies = 3
-var num_bosses = 1
+var num_bosses = 0#1
 var bosses_left = 1
 var zombies_left = 3
 var spawn_time = 0
@@ -40,7 +40,7 @@ var weight_sum = 0
 func _ready():
 	num_zombies = wavenum_to_zombienum(wave_num)
 	place_spawners()
-	
+
 func _physics_process(delta):
 	var zombies_alive = get_tree().get_nodes_in_group("enemies").size()
 	if zombies_alive <= 0 and can_advance_to_next_wave:
@@ -49,6 +49,7 @@ func _physics_process(delta):
 			rest_timer.set_wait_time(1)
 		else:
 			spawn_panning_wave_label("wave_comlete")
+			get_node("SpawnLoot").find_loot_crate_spawn()
 			rest_timer.set_wait_time(wave_rest_time)
 		rest_timer.start()
 		can_advance_to_next_wave = false
@@ -71,7 +72,6 @@ func get_enemy_by_weight():
 	return "no item found"
 
 func next_wave():
-	print("next wave")
 	if get_parent().spawn_enemies:
 		wave_num += 1
 		Item.wave_num = wave_num
@@ -111,9 +111,6 @@ func spawn_enemy():
 			enemy = FastZombie.instance()
 		Item.RIOT_SHIELD_ZOMBIE:
 			enemy = RiotZombie.instance()
-	
-	if zombies_left == 1:
-		enemy.spawn_loot_on_death = true
 	
 	enemy.set_global_position(get_rand_spawner_pos())
 	get_parent().add_child(enemy)

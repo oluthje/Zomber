@@ -5,7 +5,7 @@ var PhysicalItem = preload("res://Weapons/PhysicalItem.tscn")
 var CarryableObject = preload("res://Environment/CarryableObject.tscn")
 
 var broken = false
-var is_weapon_crate = true#false
+var is_weapon_crate = true#
 
 func _ready():
 	spawn_smoke_effect()
