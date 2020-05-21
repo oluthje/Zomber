@@ -45,7 +45,9 @@ func try_expand_point(tile_pos):
 				search_matrix[tile.x][tile.y] = tile
 
 func spawn_loot_crate(pos):
+	var is_weapon_crate = get_tree().get_root().get_node("Main").is_within_percent_chance(10)
 	var loot_crate = LootCrate.instance()
+	loot_crate.setup(true)
 	loot_crate.set_global_position(pos)
 	get_parent().get_parent().add_child(loot_crate)
 

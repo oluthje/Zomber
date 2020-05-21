@@ -12,7 +12,7 @@ var player_node
 var using_menu = false
 
 # Game settings
-var spawn_enemies = true
+var spawn_enemies = false
 var map_size = Vector2(30, 20)
 
 var time_played = 0
@@ -38,7 +38,7 @@ const TILES = {
 
 func _ready():
 	$AnimationPlayer.play("fade_in")
-	generate_terrain()
+	#generate_terrain()
 	spawn_world_boundaries()
 	get_node("CrashSiteScript").spawn_crash_site()
 

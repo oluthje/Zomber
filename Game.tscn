@@ -143,6 +143,7 @@ tracks/1/keys = {
 
 [node name="Game" type="Node2D"]
 pause_mode = 1
+modulate = Color( 0, 0, 0, 1 )
 script = ExtResource( 4 )
 
 [node name="CrashSiteScript" type="Node2D" parent="."]
@@ -169,6 +170,7 @@ cell_size = Vector2( 32, 32 )
 format = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
 
 [node name="WaveCountLabel" type="Label" parent="CanvasLayer"]
 visible = false
@@ -229,18 +231,34 @@ autostart = true
 script = ExtResource( 13 )
 
 [node name="CarryableObject" parent="." instance=ExtResource( 7 )]
-position = Vector2( -76, -297 )
+position = Vector2( 199, 238 )
 pre_set_object = "engine"
 
 [node name="CarryableObject2" parent="." instance=ExtResource( 7 )]
-position = Vector2( 29, -296 )
+position = Vector2( 304, 239 )
 pre_set_object = "spark_plug"
 
 [node name="CarryableObject3" parent="." instance=ExtResource( 7 )]
-position = Vector2( 139, -298 )
+position = Vector2( 414, 237 )
 pre_set_object = "repair_kit"
 
 [node name="CarryableObject4" parent="." instance=ExtResource( 7 )]
-position = Vector2( -177, -296 )
+position = Vector2( 98, 239 )
 pre_set_object = "fuel"
+
+[node name="CarryableObject5" parent="." instance=ExtResource( 7 )]
+position = Vector2( 280, 157 )
+pre_set_object = "log"
+
+[node name="CarryableObject6" parent="." instance=ExtResource( 7 )]
+position = Vector2( 394, 157 )
+pre_set_object = "log"
+
+[node name="CarryableObject7" parent="." instance=ExtResource( 7 )]
+position = Vector2( 338, 153 )
+pre_set_object = "log"
+
+[node name="CarryableObject8" parent="." instance=ExtResource( 7 )]
+position = Vector2( 338, 115 )
+pre_set_object = "log"
 [connection signal="timeout" from="TestSpawnTimer" to="TestSpawnTimer" method="_on_TestSpawnTimer_timeout"]

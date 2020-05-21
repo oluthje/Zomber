@@ -7,7 +7,6 @@ var is_visible = true
 var spacing = 25
 var x_pos = -28
 var resource_dict = {}
-var icons = [Item.COMPONENT, Item.STONE, Item.LOG]
 
 func _physics_process(delta):
 	should_appear_or_disappear()
@@ -52,6 +51,7 @@ func get_player_pos():
 	return game_node.player_pos
 
 func add_resource(resource):
+	print("added resource")
 	for child in get_children():
 		if child.name != "AnimationPlayer" and child.name != "RequiredSprite" and child.resource == resource:
 			child.reduce_required_resource()
@@ -59,8 +59,6 @@ func add_resource(resource):
 func spawn_material_icon(icon_name, pos):
 	var materials_num = resource_dict[icon_name]
 	var icon = ResourceIconLabel.instance()
-	if icons.has(icon_name):
-		icon_name += str("_icon")
 	icon.setup(icon_name, materials_num)
 	icon.set_position(pos)
 	add_child(icon)
