@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://HealthSystem.gd" type="Script" id=1]
 [ext_resource path="res://HUD/InventoryHUD.tscn" type="PackedScene" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://Game.gd" type="Script" id=4]
 [ext_resource path="res://HUD/WeaponInfo.tscn" type="PackedScene" id=5]
 [ext_resource path="res://HUD/Menu/Cursor.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Environment/CarryableObject.tscn" type="PackedScene" id=7]
 [ext_resource path="res://CrashSiteScript.gd" type="Script" id=8]
 [ext_resource path="res://Sprites/Environment/ScenicFeatures.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/Environment/EnvironmentTileset.png" type="Texture" id=10]
@@ -15,7 +14,6 @@
 [ext_resource path="res://TestSpawnTimer.gd" type="Script" id=13]
 [ext_resource path="res://FPSlabel.gd" type="Script" id=14]
 [ext_resource path="res://HUD/ConstructionButton.tscn" type="PackedScene" id=15]
-[ext_resource path="res://Enemies/Zombie/Zombie.tscn" type="PackedScene" id=16]
 [ext_resource path="res://Sprites/Construction/Buildings/stonewall.png" type="Texture" id=18]
 [ext_resource path="res://HUD/Camera2D.tscn" type="PackedScene" id=19]
 
@@ -230,45 +228,4 @@ wait_time = 2.0
 one_shot = true
 autostart = true
 script = ExtResource( 13 )
-
-[node name="CarryableObject" parent="." instance=ExtResource( 7 )]
-position = Vector2( 199, 238 )
-pre_set_object = "engine"
-
-[node name="CarryableObject2" parent="." instance=ExtResource( 7 )]
-position = Vector2( 304, 239 )
-pre_set_object = "spark_plug"
-
-[node name="CarryableObject3" parent="." instance=ExtResource( 7 )]
-position = Vector2( 414, 237 )
-pre_set_object = "repair_kit"
-
-[node name="CarryableObject4" parent="." instance=ExtResource( 7 )]
-position = Vector2( 98, 239 )
-pre_set_object = "fuel"
-
-[node name="CarryableObject5" parent="." instance=ExtResource( 7 )]
-position = Vector2( 280, 157 )
-pre_set_object = "log"
-
-[node name="CarryableObject6" parent="." instance=ExtResource( 7 )]
-position = Vector2( 394, 157 )
-pre_set_object = "log"
-
-[node name="CarryableObject7" parent="." instance=ExtResource( 7 )]
-position = Vector2( 338, 153 )
-pre_set_object = "log"
-
-[node name="CarryableObject8" parent="." instance=ExtResource( 7 )]
-position = Vector2( 338, 115 )
-pre_set_object = "log"
-
-[node name="Zombie" parent="." instance=ExtResource( 16 )]
-position = Vector2( 73, 94 )
-
-[node name="Zombie2" parent="." instance=ExtResource( 16 )]
-position = Vector2( 73, 122 )
-
-[node name="Zombie3" parent="." instance=ExtResource( 16 )]
-position = Vector2( 73, 152 )
 [connection signal="timeout" from="TestSpawnTimer" to="TestSpawnTimer" method="_on_TestSpawnTimer_timeout"]

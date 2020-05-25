@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/ZombieNoise3.wav-2475bfc019717ad157692f09de34cceb.sample"
+
+[deps]
+
+source_file="res://Sounds/ZombieNoise3.wav"
+dest_files=[ "res://.import/ZombieNoise3.wav-2475bfc019717ad157692f09de34cceb.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

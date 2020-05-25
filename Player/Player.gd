@@ -21,6 +21,9 @@ var Kar98k = preload("res://Weapons/Kar98k.tscn")
 var Axe = preload("res://Weapons/Axe.tscn")
 var Pickaxe = preload("res://Weapons/Pickaxe.tscn")
 
+# Items
+var StimShot = preload("res://Loot/Items/StimShot.tscn")
+
 # Movement
 var speed = 150
 var friction = 0.18
@@ -254,6 +257,7 @@ func try_update_held_item():
 	
 	if Item.inventory[Item.current_inventory_slot] == Item.EMPTY:
 		pass
+	# Guns
 	elif Item.inventory[Item.current_inventory_slot] == Item.PISTOL:
 		var item = Pistol.instance()
 		get_node("HandHeldItem").add_child(item)
@@ -269,11 +273,16 @@ func try_update_held_item():
 	elif Item.inventory[Item.current_inventory_slot] == Item.KAR98K:
 		var item = Kar98k.instance()
 		get_node("HandHeldItem").add_child(item)
+	# Melee weapons
 	elif Item.inventory[Item.current_inventory_slot] == Item.AXE:
 		var item = Axe.instance()
 		get_node("HandHeldItem").add_child(item)
 	elif Item.inventory[Item.current_inventory_slot] == Item.PICKAXE:
 		var item = Pickaxe.instance()
+		get_node("HandHeldItem").add_child(item)
+	# Items
+	elif Item.inventory[Item.current_inventory_slot] == Item.STIM_SHOT:
+		var item = StimShot.instance()
 		get_node("HandHeldItem").add_child(item)
 	
 	if carrying_object:

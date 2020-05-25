@@ -1,9 +1,9 @@
 extends Node2D
 
 # Inventory related variables
-var inventory = ["pistol", "axe", "pickaxe", "kar98k", "disabled", "disabled", "disabled", "disabled"]
+var inventory = ["pistol", "shotgun", "pickaxe", "kar98k", "disabled", "disabled", "disabled", "disabled"]
 var inv_ammo = [-1, -1, -1, -1, -1, -1, -1, -1] # The amount of ammo for each slot (assuming gun is in slot)
-var player_health = 20#6
+var player_health = 6
 var update_player_health = false
 
 var resource_inv = ["wood", "coal", "components"]
@@ -30,6 +30,9 @@ const SPARK_PLUG = "spark_plug"
 const FUEL = "fuel"
 const REPAIR_KIT = "repair_kit"
 
+# Items
+const STIM_SHOT = "stim_shot"
+
 # Buildings
 var WOOD_SPIKES = "wood_spikes"
 var TURRET = "turret"
@@ -50,11 +53,14 @@ const STONE_BREAK = "stone_break"
 const STONE_HIT = "stone_hit"
 const MELEE_SWOOSH = "melee_swoosh"
 const PLAYER_DAMAGE = "player_damage"
+const CORPSE_FALL = "corpse_fall"
+const ZOMBIE_SOUND = "zombie_sound"
 # Guns
 const PISTOL_SHOT = "pistol_shot"
 const PISTOL_COCKING = "pistol_cocking"
 const PISTOL_LOAD = "pistol_load"
 const SHOTGUN_SHOT = "shotgun_shot"
+const SHOTGUN_LOAD = "shotgun_load"
 const AK47_SHOT = "ak47_shot"
 const TURRET_SHOT = "turret_shot"
 const KAR98K_SHOT = "kar98k_shot"
@@ -174,14 +180,3 @@ func remove_drop_from_loot_table(drop):
 		for key in loot_table:
 			if key == drop:
 				tier1_loot_table.erase(key)
-	
-#func can_drop(drop):
-#	if max_droppings.has(drop):
-#		if max_droppings[drop] > 0:
-#			max_droppings[drop] -= 1
-#			return true
-#		return false
-#	return true
-		
-		
-		

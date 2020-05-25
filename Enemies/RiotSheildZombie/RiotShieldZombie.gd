@@ -38,6 +38,7 @@ func take_damage(damage, dir):
 		has_died = true
 		get_parent().current_stats_dict["enemies_killed"] += 1
 		spawn_blood_splatter()
+		spawn_sfx(Item.CORPSE_FALL)
 		spawn_corpse()
 		get_node("RiotShield").spawn_dropped_shield()
 		try_spawn_loot()

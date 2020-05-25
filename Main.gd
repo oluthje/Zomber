@@ -3,6 +3,7 @@ extends Node2D
 var Game = preload("res://Game.tscn")
 var MainMenu = preload("res://HUD/Menu/MainMenu.tscn")
 var PauseMenu = preload("res://HUD/Menu/PauseMenu.tscn")
+var SoundEffectPlayer = preload("res://SoundEffectPlayer.tscn")
 
 onready var game_node = get_game_node()
 
@@ -29,6 +30,12 @@ func _physics_process(delta):
 			spawn_pause_menu()
 		elif pause_menu_exists:
 			remove_pause_menu()
+			
+func spawn_sound_effect_player(sound):
+	var player = SoundEffectPlayer.instance()
+	player.set_global_position(get_global_position())
+	player.setup(sound, 5)
+	get_parent().add_child(player)
 
 func get_rounded_pos(pos):
 	var new_pos = Vector2(round(pos.x), round(pos.y))

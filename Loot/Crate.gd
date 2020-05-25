@@ -62,7 +62,7 @@ func get_tier_by_wavenum():
 func spawn_carryable_object(object_name):
 	var object = CarryableObject.instance()
 	object.set_global_position(get_global_position())
-	object.set_up_object(object_name)
+	object.set_up_object(object_name, false)
 	get_parent().add_child(object)
 
 func spawn_physical_item(item_name):

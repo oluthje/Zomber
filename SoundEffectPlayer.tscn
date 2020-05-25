@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://SoundEffectPlayer.gd" type="Script" id=1]
 [ext_resource path="res://Sounds/TreeSnapping.wav" type="AudioStream" id=2]
@@ -19,6 +19,12 @@
 [ext_resource path="res://Sounds/kar98kcockback.wav" type="AudioStream" id=17]
 [ext_resource path="res://Sounds/SwooshSFX.wav" type="AudioStream" id=18]
 [ext_resource path="res://Sounds/PlayerDamageSFX.wav" type="AudioStream" id=19]
+[ext_resource path="res://Sounds/CorpseFall.wav" type="AudioStream" id=20]
+[ext_resource path="res://Sounds/ZombieNoise2.wav" type="AudioStream" id=21]
+[ext_resource path="res://Sounds/ZombieNoise3.wav" type="AudioStream" id=22]
+[ext_resource path="res://Sounds/ZombieNoise4.wav" type="AudioStream" id=23]
+[ext_resource path="res://Sounds/ZombieNoise1.wav" type="AudioStream" id=24]
+[ext_resource path="res://Sounds/shotgun_load.wav" type="AudioStream" id=25]
 
 [node name="SoundEffectPlayer" type="Node2D"]
 script = ExtResource( 1 )
@@ -50,7 +56,7 @@ volume_db = 15.0
 
 [node name="pistol_shot" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 9 )
-volume_db = -8.0
+volume_db = -11.0
 pitch_scale = 1.5
 
 [node name="pistol_cocking" type="AudioStreamPlayer2D" parent="."]
@@ -63,12 +69,12 @@ volume_db = -15.0
 
 [node name="shotgun_shot" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 9 )
-volume_db = -4.0
+volume_db = -7.0
 pitch_scale = 0.85
 
 [node name="ak47_shot" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 11 )
-volume_db = 10.0
+volume_db = 7.0
 pitch_scale = 0.8
 
 [node name="turret_shot" type="AudioStreamPlayer2D" parent="."]
@@ -88,7 +94,6 @@ pitch_scale = 1.2
 
 [node name="kar98k_shot" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 16 )
-volume_db = 3.0
 
 [node name="kar98k_cockback" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 17 )
@@ -104,11 +109,35 @@ volume_db = 8.0
 
 [node name="melee_swoosh" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 18 )
-volume_db = 12.0
-pitch_scale = 1.35
+volume_db = 10.0
+pitch_scale = 1.1
+
+[node name="zombie_swoosh" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 18 )
+volume_db = 2.0
 
 [node name="player_damage" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 19 )
-volume_db = -5.0
 pitch_scale = 0.7
+
+[node name="corpse_fall" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 20 )
+volume_db = 5.0
+
+[node name="zombie_sound1" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 24 )
+
+[node name="zombie_sound2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 21 )
+
+[node name="zombie_sound3" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 22 )
+
+[node name="zombie_sound4" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 23 )
+
+[node name="shotgun_load" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 25 )
+volume_db = -3.0
+pitch_scale = 0.8
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

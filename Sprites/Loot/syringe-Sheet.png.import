@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/RequiredMaterialsPopup.png-0e2c3f781fa36184d9f16340f1e9c4be.stex"
+path="res://.import/syringe-Sheet.png-1107f0bc583ce8ad77cd5e5e65bedb22.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Construction/ConstructionNode/RequiredMaterialsPopup.png"
-dest_files=[ "res://.import/RequiredMaterialsPopup.png-0e2c3f781fa36184d9f16340f1e9c4be.stex" ]
+source_file="res://Sprites/Loot/syringe-Sheet.png"
+dest_files=[ "res://.import/syringe-Sheet.png-1107f0bc583ce8ad77cd5e5e65bedb22.stex" ]
 
 [params]
 

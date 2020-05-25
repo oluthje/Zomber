@@ -4,8 +4,6 @@
 [ext_resource path="res://HUD/Labels/FFFFORWA.TTF" type="DynamicFontData" id=2]
 [ext_resource path="res://HUD/ResourceIconLabel.gd" type="Script" id=3]
 
-
-
 [sub_resource type="DynamicFont" id=1]
 size = 8
 font_data = ExtResource( 2 )
@@ -23,20 +21,20 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.1, 0.3 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 15, 3 ), Vector2( 15, -6 ), Vector2( 15, 3 ) ]
+"values": [ Vector2( 1, -5 ), Vector2( 1, -14 ), Vector2( 1, -5 ) ]
 }
 
 [node name="ResourceIconLabel" type="Node2D"]
 script = ExtResource( 3 )
 
 [node name="SlotItemImage" parent="." instance=ExtResource( 1 )]
-position = Vector2( 8, 8 )
+position = Vector2( -6, 0 )
 
 [node name="Label" type="Label" parent="."]
-margin_left = 15.0
-margin_top = 3.0
-margin_right = 36.0
-margin_bottom = 17.0
+margin_left = 1.0
+margin_top = -5.0
+margin_right = 22.0
+margin_bottom = 9.0
 custom_fonts/font = SubResource( 1 )
 text = "x2"
 __meta__ = {

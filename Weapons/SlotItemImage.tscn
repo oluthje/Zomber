@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Weapons/SlotItemImage.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Environment/Trunk.png" type="Texture" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://Sprites/Environment/Vehicles/HumveeParts-Sheet.png" type="Texture" id=13]
 [ext_resource path="res://Sprites/ItemIcons/Mp5_icon.png" type="Texture" id=14]
 [ext_resource path="res://Sprites/ItemIcons/kar98kIcont.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/Loot/syringe-Sheet.png" type="Texture" id=16]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -148,6 +149,60 @@ tracks/0/keys = {
 "values": [ 1 ]
 }
 
+[sub_resource type="Animation" id=6]
+resource_name = "stim_shot"
+tracks/0/type = "value"
+tracks/0/path = NodePath("StimShot:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("StimShot:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "stim_shot_play"
+tracks/0/type = "value"
+tracks/0/path = NodePath("StimShot:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("StimShot:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
 [node name="SlotItemImage" type="Node2D"]
 use_parent_material = true
 script = ExtResource( 1 )
@@ -164,8 +219,17 @@ texture = ExtResource( 13 )
 vframes = 2
 hframes = 2
 
+[node name="StimShot" type="Sprite" parent="."]
+visible = false
+use_parent_material = true
+texture = ExtResource( 16 )
+vframes = 2
+hframes = 3
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/engine = SubResource( 2 )
 anims/fuel = SubResource( 3 )
 anims/repair_kit = SubResource( 4 )
 anims/spark_plug = SubResource( 5 )
+anims/stim_shot = SubResource( 6 )
+anims/stim_shot_play = SubResource( 7 )

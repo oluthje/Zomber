@@ -10,18 +10,24 @@ func _ready():
 func setup(sound_effect, life_time):
 	time = life_time
 	
-	set_sound_pitch(sound_effect)
-	get_node(sound_effect).play()
+	setup_sound(sound_effect)
 
-func set_sound_pitch(sound_effect):
-	if sound_effect == Item.STONE_BREAK:
+func setup_sound(sound_effect):
+	var sfx = sound_effect
+	if sfx == Item.STONE_BREAK:
 		randomize()
 		var rand_num = rand_range(0.8, 1.2)
-		get_node(sound_effect).pitch_scale = rand_num
-	elif sound_effect == Item.STONE_HIT:
+		get_node(sfx).pitch_scale = rand_num
+	elif sfx == Item.STONE_HIT:
 		randomize()
 		var rand_num = rand_range(0.7, 1)
-		get_node(sound_effect).pitch_scale = rand_num
+		get_node(sfx).pitch_scale = rand_num
+	elif sfx == Item.ZOMBIE_SOUND:
+		randomize()
+		var rand_num = rand_range(1, 4)
+		sfx += str(int(rand_num))
+	
+	get_node(sfx).play()
 
 func _on_Timer_timeout():
 	queue_free()

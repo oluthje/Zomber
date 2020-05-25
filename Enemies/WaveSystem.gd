@@ -101,6 +101,7 @@ func set_wave_label_text():
 	get_parent().get_node("CanvasLayer").get_node("WaveCountLabel").set_text(str(wave_num)) #+ " rest timer: " + str(rest_timer_time) + " spawn timer: " + str(spawn_timer_time) + " zombies left: " + str(zombies_left))
 
 func spawn_enemy():
+	get_node("SpawnLoot").find_loot_crate_spawn()
 	var enemy_name = get_enemy_by_weight()
 	var enemy
 	

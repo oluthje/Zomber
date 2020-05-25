@@ -15,7 +15,7 @@ func _ready():
 func set_up_item(item, ammo_num):
 	ammo_count = ammo_num
 	item_name = item
-	
+	#print("item: " + str(item))
 	get_node("SlotItemImage").select_item_to_display(item)
 
 func _on_PhysicalItem_body_entered(body):

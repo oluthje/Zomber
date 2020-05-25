@@ -9,25 +9,38 @@ var cell_index
 var spawn_loot_crate = false
 var pos_increments = [Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0)]
 var search_matrix = []
+var extra_item_crate_spawn_chance = 15
+var num_crates_to_spawn = 1
+var spawn_weapon_crate = true
+var previous_tile
 
 func find_loot_crate_spawn():
+	num_crates_to_spawn = 1
+	spawn_weapon_crate = true
+	if get_tree().get_root().get_node("Main").is_within_percent_chance(extra_item_crate_spawn_chance):
+		num_crates_to_spawn = 2
+	
 	player_tile_pos = get_parent().get_parent().player_tile_pos
+	previous_tile = player_tile_pos
 	setup_2d_array()
 	block_nearby_player_position(player_tile_pos)
 	spiral_search_for_free_tiles()
+	if num_crates_to_spawn == 2:
+		print("trying to spawn two crates")
+		spawn_weapon_crate = false
+		spiral_search_for_free_tiles()
 
 func spiral_search_for_free_tiles():
-	var found_crashsite = false
+	var placed_loot = false
 	search_matrix[player_tile_pos.x][player_tile_pos.y] = Vector2(player_tile_pos)
 	
-	while not found_crashsite:
+	while not placed_loot:
 		for x in range(map_size.x):
 			for y in range(map_size.y):
 				if search_matrix[x][y]:
-					if game.can_spawn_object_with_radius(Vector2(x, y), 1, [game.TILES.stone]) and player_tile_pos != Vector2(x, y):
-						spawn_loot_crate(Vector2(x, y) * 32, true)
-						if get_tree().get_root().get_node("Main").is_within_percent_chance(22):
-							spawn_loot_crate(Vector2(x, y) * 32, false)
+					if game.can_spawn_object_with_radius(Vector2(x, y), 1, [game.TILES.stone]) and player_tile_pos != Vector2(x, y) and previous_tile != Vector2(x, y):
+						spawn_loot_crate(Vector2(x, y) * 32, spawn_weapon_crate)
+						previous_tile = Vector2(x, y)
 						return
 					try_expand_point(Vector2(x, y))
 					
@@ -58,4 +71,4 @@ func setup_2d_array():
 		search_matrix[x]=[]
 		for y in range(game.map_size.y):
 			search_matrix[x].append([])
-			search_matrix[x][y]
+			search_matrix[x][y] = ""

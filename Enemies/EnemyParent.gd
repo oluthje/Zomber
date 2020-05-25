@@ -48,6 +48,7 @@ var melee_attack_distance = 16
 var spawn_loot_on_death = false
 
 func _ready():
+	spawn_sfx(Item.ZOMBIE_SOUND)
 	get_node("PathfindingTimer").set_wait_time(1)
 	get_node("PathfindingTimer").start()
 
@@ -68,9 +69,13 @@ func take_damage(damage, dir):
 		has_died = true
 		get_parent().current_stats_dict["enemies_killed"] += 1
 		spawn_blood_splatter()
+		spawn_sfx(Item.CORPSE_FALL)
 		spawn_corpse()
 		try_spawn_loot()
 		queue_free()
+		
+func spawn_sfx(sfx):
+	get_tree().get_root().get_node("Main").spawn_sound_effect_player(sfx)
 
 func if_should_delete_zombie():
 	var distance_to_player = get_global_position().distance_to(player_pos)
