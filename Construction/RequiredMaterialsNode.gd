@@ -14,18 +14,12 @@ func setup(resources):
 	resource_dict = resources
 	draw_icons_and_labels()
 	draw_required_mat_sprites()
-	print("----------------")
-	var req_sprite = get_node("RequiredSprite")
-	if req_sprite.get_children().size() > 0:
-		for child in req_sprite.get_children():
-			print("pos: " + str(child.get_position()))
 
 func get_current_dict_size():
 	var size = 0
 	for resource in resource_dict:
 		if resource_dict[resource] > 0:
 			size += 1
-			
 	return size
 
 func draw_required_mat_sprites():
@@ -63,12 +57,6 @@ func draw_icons_and_labels():
 		if resource_dict[resource] > 0:
 			spawn_material_icon(resource, Vector2(-start_pos_tile + (index * increment), 0))
 			index += 1
-			
-			
-#	var total_length = get_current_dict_size()
-#	var start_pos_tile = (total_length - 1) * 16
-#	for num in range(total_length):
-#		spawn_reqmat_sprite(Vector2(-start_pos_tile + (num * increment), 0), 0)
 
 func should_appear_or_disappear():
 	var distance_to_player = get_global_position().distance_to(get_player_pos())

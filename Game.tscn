@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://HealthSystem.gd" type="Script" id=1]
 [ext_resource path="res://HUD/InventoryHUD.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Game.gd" type="Script" id=4]
 [ext_resource path="res://HUD/WeaponInfo.tscn" type="PackedScene" id=5]
 [ext_resource path="res://HUD/Menu/Cursor.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Environment/CarryableObject.tscn" type="PackedScene" id=7]
 [ext_resource path="res://CrashSiteScript.gd" type="Script" id=8]
 [ext_resource path="res://Sprites/Environment/ScenicFeatures.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/Environment/EnvironmentTileset.png" type="Texture" id=10]
@@ -228,4 +229,12 @@ wait_time = 2.0
 one_shot = true
 autostart = true
 script = ExtResource( 13 )
+
+[node name="CarryableObject" parent="." instance=ExtResource( 7 )]
+position = Vector2( 267, 243 )
+pre_set_object = "engine"
+
+[node name="CarryableObject2" parent="." instance=ExtResource( 7 )]
+position = Vector2( 214, 244 )
+pre_set_object = "fuel"
 [connection signal="timeout" from="TestSpawnTimer" to="TestSpawnTimer" method="_on_TestSpawnTimer_timeout"]

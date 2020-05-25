@@ -19,7 +19,6 @@ tracks/0/keys = {
 }
 
 [node name="RequiredMaterialsNode" type="Node2D"]
-modulate = Color( 1, 1, 1, 0 )
 z_index = 4
 script = ExtResource( 2 )
 

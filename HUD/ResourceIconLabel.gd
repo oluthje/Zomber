@@ -15,7 +15,6 @@ func setup(resource_name, resources_required):
 	get_node("Label").set_text("x" + str(num_resources_required))
 
 func reduce_required_resource():
-	print("reduced resource")
 	num_resources_required -= 1
 	$AnimationPlayer.set_speed_scale(1.25)
 	$AnimationPlayer.play("label_bounce")
@@ -24,4 +23,5 @@ func reduce_required_resource():
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if num_resources_required == 0:
 		get_parent().draw_icons_and_labels()
+		get_parent().draw_required_mat_sprites()
 		queue_free()
