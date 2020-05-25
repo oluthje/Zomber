@@ -68,12 +68,12 @@ func should_appear_or_disappear():
 		is_visible = true
 
 func get_player_pos():
-	var game_node
+	var level_node
 	for child in get_tree().get_root().get_node("Main").get_children():
-		if "Game" in child.name:
-			game_node = child
+		if "Level" in child.name:
+			level_node = child
 	
-	return game_node.player_pos
+	return level_node.player_pos
 
 func add_resource(resource):
 	for child in get_children():

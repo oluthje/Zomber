@@ -17,16 +17,6 @@ var map_size = Vector2(30, 20)
 
 var time_played = 0
 
-# Current stats
-var current_stats_dict = {
-	"wave_record": 0,
-	"enemies_killed": 0,
-	"trees_chopped": 0,
-	"stone_mined": 0,
-	"buildings_built": 0,
-	"minutes_played:": 0
-}
-
 # Terrrain Generation
 var noise
 const TILES = {
@@ -88,12 +78,6 @@ func remove_player():
 func spawn_saved_player(pos):
 	player_node.set_global_position(pos)
 	call_deferred("add_child", player_node)
-
-func save_stats():
-	#print("time_played: " + str(time_played))
-	current_stats_dict["minutes_played"] = float(time_played)/float(60)
-	#print(current_stats_dict["minutes_played"])
-	get_parent().save_stats(current_stats_dict)
 
 func spawn_player(pos):
 	player_node = Player.instance()

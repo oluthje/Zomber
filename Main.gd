@@ -1,46 +1,80 @@
 extends Node2D
 
-var Game = preload("res://Game.tscn")
+onready var level_node = get_level_node()
+var TheCrash = preload("res://TheCrashLevel.tscn")
+var TheRoad = preload("res://TheRoadLevel.tscn")
+var TheBunker = preload("res://TheRoadLevel.tscn")
 var MainMenu = preload("res://HUD/Menu/MainMenu.tscn")
 var PauseMenu = preload("res://HUD/Menu/PauseMenu.tscn")
 var SoundEffectPlayer = preload("res://SoundEffectPlayer.tscn")
 
-onready var game_node = get_game_node()
-
-# Game development settings
-var start_with_menu = false
-
 var can_pause = false
 var game_paused = false
 var pause_menu_exists = false
+var current_stats_dict = {
+	"wave_record": 0,
+	"enemies_killed": 0,
+	"trees_chopped": 0,
+	"stone_mined": 0,
+	"buildings_built": 0,
+	"minutes_played:": 0
+}
+enum levels {THE_CRASH, THE_ROAD, THE_BUNKER}
+var current_level = levels.THE_ROAD
+
+# Game development settings
+var start_with_menu = false
 
 func _ready():
 	if start_with_menu:
 		spawn_main_menu()
 	else:
-		respawn_game_node()
+		respawn_level(current_level)
 
 func _physics_process(delta):
 	if Input.is_action_just_pressed("restart_game") and can_pause:
 		delete_game_node()
 		reset_inventory()
-		respawn_game_node()
+		respawn_level(current_level)
 	if Input.is_action_just_pressed("pause") and can_pause:
 		if not game_paused and not pause_menu_exists:
 			spawn_pause_menu()
 		elif pause_menu_exists:
 			remove_pause_menu()
-			
+
+func delete_game_node():
+	get_level_node().queue_free()
+
+func get_level_node():
+	for child in get_children():
+		if "Level" in child.name:
+			return child
+
+func respawn_level(level_to_spawn):
+	var level
+	match level_to_spawn:
+		levels.THE_CRASH:
+			level = TheCrash.instance()
+		levels.THE_ROAD:
+			level = TheRoad.instance()
+		levels.THE_BUNKER:
+			level = TheBunker.instance()
+	level_node = level
+	add_child(level)
+	can_pause = true
+
+# Handy methods
 func spawn_sound_effect_player(sound):
 	var player = SoundEffectPlayer.instance()
 	player.set_global_position(get_global_position())
 	player.setup(sound, 5)
 	get_parent().add_child(player)
-
+func get_rotation_to_node(start_pos, end_pos):
+	var angle = start_pos.angle_to_point(end_pos)
+	return angle
 func get_rounded_pos(pos):
 	var new_pos = Vector2(round(pos.x), round(pos.y))
 	return new_pos
-
 func is_within_percent_chance(percent_chance):
 	randomize()
 	var rand_num = rand_range(0, 100)
@@ -79,20 +113,6 @@ func reset_inventory():
 	for index in Item.resource_inv_num.size():
 		Item.resource_inv_num[index] = 0
 	Item.player_health = 6
-
-func delete_game_node():
-	get_game_node().queue_free()
-
-func get_game_node():
-	for child in get_children():
-		if "Game" in child.name:
-			return child
-
-func respawn_game_node():
-	var game = Game.instance()
-	game_node = game
-	add_child(game)
-	can_pause = true
 
 func save_stats(current_stats_dict):
 	var stats_dict = get_saved_stats_dict()

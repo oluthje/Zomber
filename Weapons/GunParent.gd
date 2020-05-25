@@ -100,12 +100,8 @@ func jerk_ammo_count_hud(dir):
 	get_ammo_hud_node().jerk_ammo_label(dir)
 	
 func get_ammo_hud_node():
-	var game_node
-	for child in get_tree().get_root().get_node("Main").get_children():
-		if "Game" in child.name:
-			game_node = child
-	
-	return game_node.get_node("CanvasLayer").get_node("WeaponInfo")
+	var level_node = get_tree().get_root().get_node("Main").get_level_node()
+	return level_node.get_node("CanvasLayer").get_node("WeaponInfo")
 
 func spawn_bullet():
 	var bullet = Bullet.instance()
