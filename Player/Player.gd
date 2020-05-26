@@ -51,7 +51,7 @@ var pickupable_item_area
 # Misc
 var can_take_damage = true
 
-var god_mode = false
+var god_mode = true
 func _ready():
 	try_update_held_item()
 	

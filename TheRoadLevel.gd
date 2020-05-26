@@ -4,21 +4,18 @@ var TreeNode = preload("res://Environment/Tree.tscn")
 var StoneNode = preload("res://Environment/Stone.tscn")
 var Boundary = preload("res://Obstacles/Boundary.tscn")
 
-var Player = preload("res://Player/Player.tscn")
+var RoadChunk = preload("res://Environment/Road/RoadChunk.tscn")
+var CurvedRoadChunk = preload("res://Environment/Road/CurvedRoadChunk.tscn")
 
+# Game settings  CODE TO BE PUT UNDER Main node
+var spawn_enemies = false
+var map_size = Vector2(4, 6)
+var time_played = 0
+var Player = preload("res://Player/Player.tscn")
 var player_pos = Vector2()
 var player_tile_pos = Vector2()
 var player_node
 var using_menu = false
-
-# Game settings
-var spawn_enemies = false
-var map_size = Vector2(30, 20)
-
-var time_played = 0
-
-# Terrrain Generation
-var noise
 const TILES = {
 	'stone': 0,
 	'dirt': 1,
@@ -26,12 +23,94 @@ const TILES = {
 	'grass': 3
 }
 
+onready var road_path_matrix = get_node("RoadLayoutScript").road_matrix
+var road_path_poses_used = []
+var road_chunks = []
+
 func _ready():
+	get_node("Camera2D").increment = 100000000#12 * 128
+	setup_road_chunks_matrix()
+	place_roads()
 	spawn_player(Vector2(0, 0))
 
 func _physics_process(delta):
 	time_played += delta
 	update_player_pos_info()
+	
+func place_roads():
+	for y in range(map_size.y):
+		for x in range(map_size.x):
+			if ["x", "s", "e"].has(road_path_matrix[x][y]):
+				var connection_points = get_road_connection_points(Vector2(x, y))
+				if are_arrays_equal(connection_points, [Vector2(1, 0), Vector2(-1, 0)]):
+					print("used point: " + str(Vector2(x, y)))
+					road_path_poses_used.append(Vector2(x, y))
+				print(str(connection_points) + " pos: " + str(Vector2(x, y)))
+				if connection_points.size() > 0:
+					derive_road_type_from_points(connection_points, Vector2(x, y))
+
+func derive_road_type_from_points(points, pos):
+	var curved = false
+	var rot = 0
+	[Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0)]
+	
+	if are_arrays_equal(points, [Vector2(0, -1), Vector2(0, 1)]):
+		print("not curved 1")
+		rot = 90
+		curved = false
+	elif are_arrays_equal(points, [Vector2(-1, 0), Vector2(0, 1)]):
+		print("curved 1")
+		rot = 0
+		curved = true
+	elif are_arrays_equal(points, [Vector2(-1, 0), Vector2(0, -1)]):
+		print("curved 2")
+		rot = 90
+		curved = true
+	elif are_arrays_equal(points, [Vector2(1, 0), Vector2(0, -1)]):
+		print("curved 3")
+		rot = 180
+		curved = true
+	elif are_arrays_equal(points, [Vector2(1, 0), Vector2(0, 1)]):
+		print("curved 4")
+		rot = 270
+		curved = true
+		
+	place_road_chunk(pos, curved, rot)
+
+func are_arrays_equal(arr1, arr2):
+	var are_equal = true
+	for element in arr1:
+		if not arr2.has(element):
+			are_equal = false
+	return are_equal
+
+func get_road_connection_points(pos):
+	var increments = [Vector2(0, -1), Vector2(1, 0), Vector2(-1, 0), Vector2(0, 1)]
+	var connection_points = []
+	var points_found = 0
+	if road_path_matrix[pos.x][pos.y] == "s":
+		connection_points.append(Vector2(0, -1))
+		points_found += 1
+	for increment in increments:
+		var incre_pos = pos + increment
+		if get_node("RoadLayoutScript").is_in_bounds(incre_pos) and points_found != 2:
+			if increment == Vector2(0, -1) and road_path_poses_used.has(incre_pos):
+				continue
+			if ["x", "s", "e"].has(road_path_matrix[incre_pos.x][incre_pos.y]):
+				connection_points.append(increment)
+				points_found += 1
+	return connection_points
+	
+func place_road_chunk(chunk_pos, curved, rot):
+	var road
+	if curved:
+		road = CurvedRoadChunk.instance()
+	else:
+		road = RoadChunk.instance()
+	road.set_global_position(chunk_pos * 12 * 128)
+	road.set_road_rotation(rot)
+	road.chunk_pos = chunk_pos
+	get_node("RoadChunks").call_deferred("add_child", road)
 	
 func update_player_pos_info():
 	if get_node("Player"):
@@ -44,29 +123,6 @@ func update_player_pos_info():
 	var current_tile = tilemap.world_to_map(player_pos)
 	if free_tiles.has(tilemap.get_cellv(current_tile)):
 		player_tile_pos = current_tile
-
-#func generate_terrain():
-#	randomize()
-#	noise = OpenSimplexNoise.new()
-#	noise.seed = randi()
-#	noise.octaves = 4
-#	noise.period = 15
-#	noise.persistence = 0.75
-#	noise.lacunarity = 1.75
-#
-#	for x in range(map_size.x):
-#		for y in range(map_size.y):
-#			var tile_name = get_tile_index(noise.get_noise_2d(float(x), float(y)))
-#			if tile_name == TILES.stone and is_in_bounds(Vector2(x, y)):
-#				var stone = StoneNode.instance()
-#				stone.set_global_position(Vector2(x * 32 + 16, y * 32 + 16))
-#				add_child(stone)
-#				$TileMap.set_cellv(Vector2(x, y), get_tile_index(noise.get_noise_2d(float(x), float(y))))
-#			elif tile_name == TILES.stone and not is_in_bounds(Vector2(x, y)):
-#				$TileMap.set_cellv(Vector2(x, y), TILES.grass)
-#			elif tile_name != TILES.stone:
-#				$TileMap.set_cellv(Vector2(x, y), get_tile_index(noise.get_noise_2d(float(x), float(y))))
-#	spawn_trees()
 
 func remove_player():
 	player_node = get_node("Player")
@@ -106,76 +162,10 @@ func is_in_bounds(point):
 		return false
 	return true
 
-#func get_tile_index(noise_sample):
-#	if noise_sample < 0.18 and noise_sample > 0.1:
-#		return TILES.dirt
-#	if noise_sample > 0.18:
-#		return TILES.stone
-#	return TILES.grass
-
-#func spawn_trees():
-#	for x in range(map_size.x):
-#		for y in range(map_size.y):
-#			var cell_index = $TileMap.get_cellv(Vector2(x, y))
-#			if cell_index == TILES.grass:
-#				if can_spawn_object_with_radius(Vector2(x, y), 2, [TILES.stone, TILES.dirt, TILES.tree]):
-#					if should_spawn_tree():
-#						var tree = TreeNode.instance()
-#						tree.set_global_position(Vector2(x * 32 + 16, y * 32 + 16))
-#						add_child(tree)
-#						$TileMap.set_cellv(Vector2(x, y), TILES.tree)
-#
-#				if should_spawn_scenic_feature(Vector2(x, y)):
-#					randomize()
-#					var rand_num = rand_range(0, 3)
-#					$Scenery.set_cellv(Vector2(x, y), rand_num)
-#			
-#func can_spawn_object_with_radius(pos, radius, obstacles):
-#	var increase_radius_chance = 50
-#	var can_place = true
-#
-#	randomize()
-#	var rand_num = rand_range(0, 100)
-#	if rand_num <= increase_radius_chance:
-#		radius += 1
-#
-#	for x in range(radius*2):
-#		for y in range(radius*2):
-#			if obstacles.has($TileMap.get_cellv(Vector2(pos.x-radius + x, pos.y-radius + y))):
-#				can_place = false
-#
-#	if can_place:
-#		return true
-#	return false
-#
-#func should_spawn_scenic_feature(pos):
-#	var radius = 2
-#	var increase_radius_chance = 75
-#	var can_place = true
-#
-#	randomize()
-#	var rand_num = rand_range(0, 100)
-#	if rand_num <= increase_radius_chance:
-#		radius += 1
-#
-#	for x in range(radius*2):
-#		for y in range(radius*2):
-#			if $Scenery.get_cellv(Vector2(pos.x-radius + x, pos.y-radius + y)) != -1 and is_in_bounds(Vector2(x, y)):
-#				can_place = false
-#
-#	if $TileMap.get_cellv(pos) != TILES.grass:
-#		can_place = false
-#
-#	if can_place:
-#		return true
-#	return false
-#
-#func should_spawn_tree():
-#	var spawn_chance = 50
-#	randomize()
-#	var rand_num = rand_range(0, 100)
-#	if rand_num <= spawn_chance:
-#		return true
-#	return false
-	
-
+func setup_road_chunks_matrix():
+	for x in range(map_size.x):
+		road_chunks.append([])
+		road_chunks[x]=[]
+		for y in range(map_size.y):
+			road_chunks[x].append([])
+			road_chunks[x][y] = "-"

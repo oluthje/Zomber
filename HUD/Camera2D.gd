@@ -2,12 +2,13 @@ extends Camera2D
 
 var max_offset = 350
 var min_offset = 50
+export var increment = 32
 
 onready var cursor = get_parent().get_node("CanvasLayer").get_node("Cursor")
 onready var player_pos = get_parent().player_pos
 
-func _ready():
-	set_limits()
+#func _ready():
+#	set_limits()
 
 var zoom_in = true
 func _physics_process(delta):
@@ -35,6 +36,6 @@ func get_distance_to_player_from_cursor():
 func set_limits():
 	var map_size = get_parent().map_size
 	limit_top = 0
-	limit_right = map_size.x * 32
-	limit_bottom = map_size.y * 32
+	limit_right = map_size.x * increment
+	limit_bottom = map_size.y * increment
 	limit_left = 0

@@ -1,15 +1,10 @@
 extends Node2D
 
 const dirs = [Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0)]
-var map_size = Vector2(4, 6)
+onready var map_size = get_parent().map_size
 var road_matrix = []
 
 func _ready():
-#	for i in range(15):
-#		setup_road_matrix()
-#		generate_road_path()
-#		print_road_matrix()
-#		print("-------------------------------")
 	setup_road_matrix()
 	generate_road_path()
 	print_road_matrix()
@@ -18,11 +13,13 @@ func generate_road_path():
 	randomize()
 	var rand_x = int(rand_range(0, map_size.x - 1))
 	var current_pos = Vector2(rand_x, 0)
-	road_matrix[current_pos.x][current_pos.y] = "x"
+	road_matrix[current_pos.x][current_pos.y] = "s"
 	while true:
 		current_pos = get_next_path_dir(current_pos) + current_pos
-		road_matrix[current_pos.x][current_pos.y] = "x"
+		if road_matrix[current_pos.x][current_pos.y] != "s":
+			road_matrix[current_pos.x][current_pos.y] = "x"
 		if current_pos.y == map_size.y - 1:
+			road_matrix[current_pos.x][current_pos.y] = "e"
 			break
 
 func get_next_path_dir(pos):

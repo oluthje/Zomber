@@ -4,7 +4,8 @@ var RequiredMaterialsPopup = preload("res://Construction/RequiredMaterialsNode.t
 var SoundEffectPlayer = preload("res://SoundEffectPlayer.tscn")
 var CustParticles = preload("res://Environment/CustParticles.tscn")
 
-var state = "crashed"
+enum states {CRASHED, REPAIRED}
+export var state = states.CRASHED
 var required_materials = {
 	Item.ENGINE: 1,
 	Item.SPARK_PLUG: 1,
@@ -28,10 +29,16 @@ var steering_accel = 0.05
 var steering = Vector2.ZERO
 
 func _ready():
-	if state == "crashed":
+	if state == states.CRASHED:
 		$AnimationPlayer.play("crashed")
 		get_node("Sparks").set_emitting(true)
 		spawn_required_materials_popup()
+	else:
+		emit_smoke = true
+		get_node("Engine").set_visible(false)
+		get_node("Sparks").set_emitting(false)
+		$DoorAnimPlayer.play("open_door")
+		$AnimationPlayer.play("fixed")
 
 func _physics_process(delta):
 	check_for_player_adding_part()
