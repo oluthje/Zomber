@@ -24,14 +24,18 @@ const TILES = {
 }
 
 onready var road_path_matrix = get_node("RoadLayoutScript").road_matrix
+onready var road_connections_matrix = get_node("RoadLayoutScript").road_connections_matrix
 var road_path_poses_used = []
 var road_chunks = []
 
 func _ready():
+	for y in range(map_size.y * ((12*128)/32)):
+		for x in range(map_size.x * ((12*128)/32)):
+			$TileMap.set_cellv(Vector2(x, y), TILES.grass)
 	get_node("Camera2D").increment = 100000000#12 * 128
 	setup_road_chunks_matrix()
 	place_roads()
-	spawn_player(Vector2(0, 0))
+	spawn_player(Vector2(200, 200))
 
 func _physics_process(delta):
 	time_played += delta
@@ -41,40 +45,30 @@ func place_roads():
 	for y in range(map_size.y):
 		for x in range(map_size.x):
 			if ["x", "s", "e"].has(road_path_matrix[x][y]):
-				var connection_points = get_road_connection_points(Vector2(x, y))
-				if are_arrays_equal(connection_points, [Vector2(1, 0), Vector2(-1, 0)]):
-					print("used point: " + str(Vector2(x, y)))
-					road_path_poses_used.append(Vector2(x, y))
-				print(str(connection_points) + " pos: " + str(Vector2(x, y)))
+				var connection_points = road_connections_matrix[x][y]
 				if connection_points.size() > 0:
 					derive_road_type_from_points(connection_points, Vector2(x, y))
 
 func derive_road_type_from_points(points, pos):
 	var curved = false
 	var rot = 0
-	[Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0)]
 	
 	if are_arrays_equal(points, [Vector2(0, -1), Vector2(0, 1)]):
-		print("not curved 1")
 		rot = 90
 		curved = false
 	elif are_arrays_equal(points, [Vector2(-1, 0), Vector2(0, 1)]):
-		print("curved 1")
 		rot = 0
 		curved = true
 	elif are_arrays_equal(points, [Vector2(-1, 0), Vector2(0, -1)]):
-		print("curved 2")
 		rot = 90
 		curved = true
 	elif are_arrays_equal(points, [Vector2(1, 0), Vector2(0, -1)]):
-		print("curved 3")
 		rot = 180
 		curved = true
 	elif are_arrays_equal(points, [Vector2(1, 0), Vector2(0, 1)]):
-		print("curved 4")
 		rot = 270
 		curved = true
-		
+	
 	place_road_chunk(pos, curved, rot)
 
 func are_arrays_equal(arr1, arr2):
@@ -83,23 +77,6 @@ func are_arrays_equal(arr1, arr2):
 		if not arr2.has(element):
 			are_equal = false
 	return are_equal
-
-func get_road_connection_points(pos):
-	var increments = [Vector2(0, -1), Vector2(1, 0), Vector2(-1, 0), Vector2(0, 1)]
-	var connection_points = []
-	var points_found = 0
-	if road_path_matrix[pos.x][pos.y] == "s":
-		connection_points.append(Vector2(0, -1))
-		points_found += 1
-	for increment in increments:
-		var incre_pos = pos + increment
-		if get_node("RoadLayoutScript").is_in_bounds(incre_pos) and points_found != 2:
-			if increment == Vector2(0, -1) and road_path_poses_used.has(incre_pos):
-				continue
-			if ["x", "s", "e"].has(road_path_matrix[incre_pos.x][incre_pos.y]):
-				connection_points.append(increment)
-				points_found += 1
-	return connection_points
 	
 func place_road_chunk(chunk_pos, curved, rot):
 	var road
@@ -110,6 +87,7 @@ func place_road_chunk(chunk_pos, curved, rot):
 	road.set_global_position(chunk_pos * 12 * 128)
 	road.set_road_rotation(rot)
 	road.chunk_pos = chunk_pos
+	road_chunks[chunk_pos.x][chunk_pos.y] = road
 	get_node("RoadChunks").call_deferred("add_child", road)
 	
 func update_player_pos_info():
@@ -168,4 +146,4 @@ func setup_road_chunks_matrix():
 		road_chunks[x]=[]
 		for y in range(map_size.y):
 			road_chunks[x].append([])
-			road_chunks[x][y] = "-"
+			road_chunks[x][y]

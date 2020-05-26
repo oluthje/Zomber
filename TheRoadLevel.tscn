@@ -162,7 +162,6 @@ __meta__ = {
 }
 
 [node name="Camera2D" parent="." instance=ExtResource( 2 )]
-increment = 1000
 
 [node name="WorldBoundaries" type="Node2D" parent="."]
 
