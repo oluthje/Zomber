@@ -11,7 +11,7 @@ func _ready():
 	setup_road_matrix()
 	setup_road_connections_matrix()
 	generate_road_path()
-	print_road_matrix()
+	#print_road_matrix()
 
 func generate_road_path():
 	randomize()
