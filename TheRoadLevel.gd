@@ -33,7 +33,12 @@ var start_pos = Vector2()
 
 # Chunk loading/unloading
 var current_chunks = []
-var player_chunk = Vector2()
+var player_chunk = Vector2(0, 1000)
+var saved_chunks = []
+var saved_chunk_dict = {
+	"chunk_pos": 0,
+	"connection_points": []
+}
 
 func _ready():
 	for y in range(map_size.y * ((road_chunk_size)/32)):
@@ -41,7 +46,6 @@ func _ready():
 			$TileMap.set_cellv(Vector2(x, y), TILES.grass)
 	get_node("Camera2D").increment = 10000000
 	setup_road_chunks_matrix()
-	place_roads()
 	setup_start_position()
 
 func _physics_process(delta):
@@ -49,13 +53,65 @@ func _physics_process(delta):
 	update_player_pos_info()
 	load_unload_chunks()
 	
+	get_node("CanvasLayer/Label").set_text("chunks: " + str(get_node("RoadChunks").get_child_count()))
+
 func load_unload_chunks():
-	if player_chunk != get_player_chunk():
+	if player_chunk != get_player_chunk() or not are_arrays_equal(current_chunks, [get_player_chunk(), get_closest_chunk_to_player(get_two_nearby_road_chunks())]):
 		player_chunk = get_player_chunk()
 		current_chunks.clear()
-		current_chunks.append(get_player_chunk())
+		current_chunks.append(player_chunk)
 		current_chunks.append(get_closest_chunk_to_player(get_two_nearby_road_chunks()))
-		print("current chunks: " + str(current_chunks))
+		for chunk_pos in current_chunks:
+#			var num = 0
+			if ["x", "s", "e"].has(road_path_matrix[chunk_pos.x][chunk_pos.y]) and not saved_chunk_exists(chunk_pos) and not chunk_is_in_tree(chunk_pos):
+				num += 1
+				var connection_points = road_connections_matrix[chunk_pos.x][chunk_pos.y]
+				if connection_points.size() > 0:
+#					print("created newchunk, pos: " + str(chunk_pos))
+					save_chunk_data(chunk_pos, connection_points)
+					derive_road_type_from_points(connection_points, chunk_pos)
+			elif saved_chunk_exists(chunk_pos) and not chunk_is_in_tree(chunk_pos):
+				num += 1
+#				print("loaded saved chunk, pos: " + str(chunk_pos))
+				var loaded_chunk = get_saved_chunk(chunk_pos)
+				derive_road_type_from_points(loaded_chunk["connection_points"], loaded_chunk["chunk_pos"])
+#			print("num: " + str(num))
+		if get_node("RoadChunks").get_children().size() > 0:
+			for road_chunk in get_node("RoadChunks").get_children():
+				if not current_chunks.has(road_chunk.chunk_pos):
+					road_chunk.queue_free()
+
+func chunk_is_in_tree(chunk_pos):
+	var chunks_in_tree = get_node("RoadChunks").get_children()
+	for chunk in chunks_in_tree:
+		if chunk.chunk_pos == chunk_pos:
+			return true
+	return false
+
+func save_chunk_data(chunk_pos, connection_points):
+	var saved_chunk_dict_instance = {
+		"chunk_pos": 0,
+		"connection_points": []
+	}
+	saved_chunk_dict_instance["chunk_pos"] = chunk_pos
+	saved_chunk_dict_instance["connection_points"] = connection_points
+	saved_chunks.append(saved_chunk_dict_instance)
+	
+func saved_chunk_exists(chunk_pos):
+	for chunk in saved_chunks:
+		for key in saved_chunk_dict:
+			if key == "chunk_pos" and chunk[key] == chunk_pos:
+				return true
+	return false
+	
+func edit_chunk_data(chunk_pos):
+	pass
+
+func get_saved_chunk(chunk_pos):
+	for chunk in saved_chunks:
+		for key in saved_chunk_dict:
+			if key == "chunk_pos" and chunk[key] == chunk_pos:
+				return chunk
 
 func get_current_chunks():
 	var chunks = []
@@ -113,16 +169,8 @@ func setup_start_position():
 				var num = road_chunk_size + (road_chunk_size)/2
 				start_pos = Vector2(x, y) * num
 				
-	spawn_player(Vector2(start_pos.x, start_pos.y))
-	get_node("Humvee").set_global_position(Vector2(start_pos.x + 128, start_pos.y))
-	
-func place_roads():
-	for y in range(map_size.y):
-		for x in range(map_size.x):
-			if ["x", "s", "e"].has(road_path_matrix[x][y]):
-				var connection_points = road_connections_matrix[x][y]
-				if connection_points.size() > 0:
-					derive_road_type_from_points(connection_points, Vector2(x, y))
+	spawn_player(Vector2(start_pos.x + (road_chunk_size/2), start_pos.y))
+	get_node("Humvee").set_global_position(Vector2(start_pos.x + (road_chunk_size/2) + 128, start_pos.y))
 
 func derive_road_type_from_points(points, pos):
 	var curved = false
@@ -162,7 +210,8 @@ func place_road_chunk(chunk_pos, curved, rot):
 	road.set_global_position(chunk_pos * road_chunk_size)
 	road.set_road_rotation(rot)
 	road.chunk_pos = chunk_pos
-	road_chunks[chunk_pos.x][chunk_pos.y] = road
+	if not saved_chunk_exists(chunk_pos):
+		road_chunks[chunk_pos.x][chunk_pos.y] = road
 	get_node("RoadChunks").call_deferred("add_child", road)
 
 func remove_player():

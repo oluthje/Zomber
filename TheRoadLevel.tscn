@@ -160,6 +160,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Label" type="Label" parent="CanvasLayer"]
+margin_left = 173.0
+margin_top = 7.0
+margin_right = 308.0
+margin_bottom = 42.0
+rect_scale = Vector2( 2, 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Camera2D" parent="." instance=ExtResource( 2 )]
 
 [node name="WorldBoundaries" type="Node2D" parent="."]
