@@ -1,14 +1,15 @@
 extends Node2D
 
+onready var main = get_tree().get_root().get_node("Main")
 onready var game = get_parent()
-onready var map_size = game.map_size
+onready var map_size = get_parent().map_size
 var Humvee = preload("res://Environment/Humvee.tscn")
 
 var pos_increments = [Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0)]
 var crashsite_search_matrix = []
 
 func spawn_crash_site():
-	var pos = Vector2(game.map_size/2)
+	var pos = Vector2(map_size/2)
 	var spawn_range = 5
 	var cell_index
 	var spawned_humvee = false
@@ -21,10 +22,10 @@ func spiral_search_for_free_tiles():
 	crashsite_search_matrix[map_size.x/2][map_size.y/2] = Vector2(map_size/2)
 	
 	while not found_crashsite:
-		for x in range(game.map_size.x):
-			for y in range(game.map_size.y):
+		for x in range(map_size.x):
+			for y in range(map_size.y):
 				if crashsite_search_matrix[x][y]:
-					if game.can_spawn_object_with_radius(Vector2(x, y), 2, [game.TILES.stone]):
+					if get_parent().can_spawn_object_with_radius(Vector2(x, y), 2, [main.TILES.stone]):
 						spawn_humvee(Vector2(x, y) * 32)
 						return
 					try_expand_point(Vector2(x, y))

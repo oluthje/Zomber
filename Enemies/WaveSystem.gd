@@ -72,14 +72,14 @@ func get_enemy_by_weight():
 	return "no item found"
 
 func next_wave():
-	if get_parent().spawn_enemies:
+	if get_tree().get_root().get_node("Main").spawn_enemies:
 		wave_num += 1
 		Item.wave_num = wave_num
 		num_zombies += additional_zombies_per_round
 		zombies_left = num_zombies
 		bosses_left = num_bosses
 		
-		get_parent().current_stats_dict["wave_record"] = wave_num
+		get_parent().main.current_stats_dict["wave_record"] = wave_num
 		spawn_panning_wave_label("next_wave")
 		
 		var spawn_time = float(wave_time)/float(num_zombies)

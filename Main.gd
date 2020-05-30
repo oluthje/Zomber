@@ -8,6 +8,20 @@ var MainMenu = preload("res://HUD/Menu/MainMenu.tscn")
 var PauseMenu = preload("res://HUD/Menu/PauseMenu.tscn")
 var SoundEffectPlayer = preload("res://SoundEffectPlayer.tscn")
 
+var Player = preload("res://Player/Player.tscn")
+var player_pos = Vector2()
+var player_tile_pos = Vector2()
+var player_node
+
+var using_menu = false
+var time_played = 0
+const TILES = {
+	'stone': 0,
+	'dirt': 1,
+	'tree': 2,
+	'grass': 3
+}
+
 var can_pause = false
 var game_paused = false
 var pause_menu_exists = false
@@ -24,18 +38,19 @@ var current_level = levels.THE_ROAD
 
 # Game development settings
 var start_with_menu = false
+var spawn_enemies = true
 
 func _ready():
 	if start_with_menu:
 		spawn_main_menu()
 	else:
-		respawn_level(current_level)
+		respawn_level()
 
 func _physics_process(delta):
 	if Input.is_action_just_pressed("restart_game") and can_pause:
 		delete_game_node()
 		reset_inventory()
-		respawn_level(current_level)
+		respawn_level()
 	if Input.is_action_just_pressed("pause") and can_pause:
 		if not game_paused and not pause_menu_exists:
 			spawn_pause_menu()
@@ -50,9 +65,9 @@ func get_level_node():
 		if "Level" in child.name:
 			return child
 
-func respawn_level(level_to_spawn):
+func respawn_level():
 	var level
-	match level_to_spawn:
+	match current_level:
 		levels.THE_CRASH:
 			level = TheCrash.instance()
 		levels.THE_ROAD:
@@ -63,7 +78,7 @@ func respawn_level(level_to_spawn):
 	add_child(level)
 	can_pause = true
 
-# Handy methods
+# HANDY METHODS =====================================
 func spawn_sound_effect_player(sound):
 	var player = SoundEffectPlayer.instance()
 	player.set_global_position(get_global_position())
@@ -81,7 +96,7 @@ func is_within_percent_chance(percent_chance):
 	if rand_num > percent_chance:
 		return false
 	return true
-
+	
 func spawn_main_menu():
 	var menu = MainMenu.instance()
 	add_child(menu)

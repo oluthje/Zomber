@@ -6,6 +6,7 @@ var TreeChopParticles = preload("res://Environment/TreeChopParticles.tscn")
 var LeafParticles = preload("res://Environment/LeafFallingParticles.tscn")
 var SoundEffectPlayer = preload("res://SoundEffectPlayer.tscn")
 
+onready var main = get_tree().get_root().get_node("Main")
 onready var leaves_node = get_node("Leaves")
 
 # Tree felling
@@ -34,7 +35,7 @@ func take_damage(chopped):
 		angle_to_player = rad2deg(get_angle_to_player())
 		$Leaves/ShakeAnimPlayer.play("finalshake")
 		spawn_sound_effect_player(Item.TREE_SNAPPING)
-		get_parent().current_stats_dict["trees_chopped"] += 1
+		main.current_stats_dict["trees_chopped"] += 1
 		remove_from_tilemap()
 
 func spawn_sound_effect_player(sound):
@@ -63,8 +64,7 @@ func spawn_leaf_particles(pos):
 	get_parent().add_child(particles)
 
 func get_angle_to_player():
-	var game_node = get_tree().get_root().get_node("Main").game_node
-	return game_node.get_rotation_to_node(get_global_position(), game_node.player_pos)
+	return main.get_rotation_to_node(get_global_position(), main.player_pos)
 
 func place_logs_at_angle(degrees):
 	for log_num in num_logs:

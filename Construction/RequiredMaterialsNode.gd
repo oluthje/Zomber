@@ -1,5 +1,6 @@
 extends Node2D
 
+onready var main = get_tree().get_root().get_node("Main")
 var ResourceIconLabel = preload("res://HUD/ResourceIconLabel.tscn")
 var RequiredMatSprite = preload("res://Construction/RequiredMatSprite.tscn")
 
@@ -68,12 +69,12 @@ func should_appear_or_disappear():
 		is_visible = true
 
 func get_player_pos():
-	var level_node
-	for child in get_tree().get_root().get_node("Main").get_children():
-		if "Level" in child.name:
-			level_node = child
+#	var level_node
+#	for child in get_tree().get_root().get_node("Main").get_children():
+#		if "Level" in child.name:
+#			level_node = child
 	
-	return level_node.player_pos
+	return main.player_pos
 
 func add_resource(resource):
 	for child in get_children():

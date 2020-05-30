@@ -32,7 +32,7 @@ func zoom_into_driving():
 func enter_game():
 	button_pressed = ""
 	get_tree().paused = false
-	get_parent().respawn_game_node()
+	get_parent().respawn_level()
 	queue_free()
 
 func _on_PlayButton_pressed():

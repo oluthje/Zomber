@@ -4,22 +4,23 @@ var max_offset = 350
 var min_offset = 50
 export var increment = 32
 
+onready var main = get_tree().get_root().get_node("Main")
 onready var cursor = get_parent().get_node("CanvasLayer").get_node("Cursor")
-onready var player_pos = get_parent().player_pos
+onready var player_pos = get_tree().get_root().get_node("Main").player_pos
 
 #func _ready():
 #	set_limits()
 
 var zoom_in = true
 func _physics_process(delta):
-	player_pos = get_parent().player_pos
+	main.player_pos = main.player_pos
 	align_camera_to_mouse()
 
 func align_camera_to_mouse():
-	set_global_position(player_pos.linear_interpolate(get_global_mouse_position(), 0.25))
+	set_global_position(main.player_pos.linear_interpolate(get_global_mouse_position(), 0.25))
 
 func get_clamped_distance_to_cursor():
-	var difference = player_pos - cursor.get_global_position()
+	var difference = main.player_pos - cursor.get_global_position()
 	difference = difference.clamped(max_offset)
 	return difference
 

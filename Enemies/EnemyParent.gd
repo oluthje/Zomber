@@ -1,5 +1,6 @@
 extends KinematicBody2D
 
+onready var main = get_tree().get_root().get_node("Main")
 var BloodSplatter = preload("res://Enemies/Gore/Bloodsplatter.tscn")
 var BloodSplat = preload("res://Enemies/Gore/Bloodsplat.tscn")
 var Corpse = preload("res://Enemies/Gore/Corpse.tscn")
@@ -67,7 +68,7 @@ func take_damage(damage, dir):
 	spawn_blood_splat()
 	if health <= 0 and not has_died:
 		has_died = true
-		get_parent().current_stats_dict["enemies_killed"] += 1
+		main.current_stats_dict["enemies_killed"] += 1
 		spawn_blood_splatter()
 		spawn_sfx(Item.CORPSE_FALL)
 		spawn_corpse()
@@ -171,7 +172,7 @@ func should_update_path():
 	return false
 
 func get_path_to_player():
-	var player_tile_pos = get_parent().player_tile_pos
+	var player_tile_pos = main.player_tile_pos
 	return get_parent().get_node("TileMap").find_path(get_nearest_free_tile() * 32, player_tile_pos * 32)
 	
 func get_nearest_free_tile():
@@ -235,7 +236,7 @@ func get_player_pos():
 		if "Game" in child.name:
 			game_node = child
 	
-	return game_node.player_pos
+	return main.player_pos
 	
 func get_rotation_to_pos(pos):
 	var angle = get_angle_to(pos)

@@ -1,27 +1,14 @@
 extends Node2D
 
+onready var main = get_tree().get_root().get_node("Main")
 var TreeNode = preload("res://Environment/Tree.tscn")
 var StoneNode = preload("res://Environment/Stone.tscn")
 var Boundary = preload("res://Obstacles/Boundary.tscn")
-
 var RoadChunk = preload("res://Environment/Road/RoadChunk.tscn")
 var CurvedRoadChunk = preload("res://Environment/Road/CurvedRoadChunk.tscn")
 
-# Game settings  CODE TO BE PUT UNDER Main node
-var spawn_enemies = false
+# Level settings
 var map_size = Vector2(2, 6)
-var time_played = 0
-var Player = preload("res://Player/Player.tscn")
-var player_pos = Vector2()
-var player_tile_pos = Vector2()
-var player_node
-var using_menu = false
-const TILES = {
-	'stone': 0,
-	'dirt': 1,
-	'tree': 2,
-	'grass': 3
-}
 
 # Road placement
 onready var road_path_matrix = get_node("RoadLayoutScript").road_matrix
@@ -32,7 +19,8 @@ var road_chunk_size = 8 * 128
 var start_pos = Vector2()
 
 # Chunk loading/unloading
-onready var terrain_seed = 3#randi()
+onready var terrain_seed = randi()
+var chunk_removed = Vector2()
 var current_chunks = []
 var player_chunk = Vector2(0, 1000)
 var saved_chunks = []
@@ -47,15 +35,12 @@ var saved_objects_dict = {
 }
 
 func _ready():
-	for y in range(map_size.y * ((road_chunk_size)/32)):
-		for x in range(map_size.x * ((road_chunk_size)/32)):
-			$TileMap.set_cellv(Vector2(x, y), TILES.grass)
 	get_node("Camera2D").increment = 10000000
 	setup_road_chunks_matrix()
 	setup_start_position()
 
 func _physics_process(delta):
-	time_played += delta
+	main.time_played += delta
 	update_player_pos_info()
 	load_unload_chunks()
 	
@@ -81,8 +66,30 @@ func load_unload_chunks():
 		if get_node("RoadChunks").get_children().size() > 0:
 			for road_chunk in get_node("RoadChunks").get_children():
 				if not current_chunks.has(road_chunk.chunk_pos):
+					chunk_removed = road_chunk.chunk_pos
 					edit_chunk_data(road_chunk.chunk_pos, "stone_positions", road_chunk.stone_positions)
 					road_chunk.queue_free()
+		
+		update_tilemap()
+		get_node("EnemySpawnSystem").update_spawn_points_queue()
+		
+func update_tilemap():
+#	print("chunk_removed: " + str(chunk_removed) + " current_chunks: " + str(current_chunks))
+	if not current_chunks.has(chunk_removed):
+		print("removed unloaded tiles")
+		var chunk_tile_pos = (chunk_removed * road_chunk_size)/32
+		for y in range((road_chunk_size)/32):
+			for x in range((road_chunk_size)/32):
+				$TileMap.set_cellv(Vector2(chunk_tile_pos.x + x, chunk_tile_pos.y + y), -1)
+#	$TileMap.clear()
+	
+	for chunk_pos in current_chunks:
+		print("added grass to applicable areas")
+		var chunk_tile_pos = (chunk_pos * road_chunk_size)/32
+		for y in range((road_chunk_size)/32):
+			for x in range((road_chunk_size)/32):
+				if $TileMap.get_cellv(Vector2(chunk_tile_pos.x + x, chunk_tile_pos.y + y)) != main.TILES.stone:
+					$TileMap.set_cellv(Vector2(chunk_tile_pos.x + x, chunk_tile_pos.y + y), main.TILES.grass)
 					
 func get_chunk_node(chunk_pos):
 	for chunk_node in get_node("RoadChunks").get_children():
@@ -139,7 +146,7 @@ func edit_chunk_data(chunk_pos, key, new_value):
 
 func get_current_chunks():
 	var chunks = []
-	var player_chunk = player_pos/road_chunk_size
+	var player_chunk = main.player_pos/road_chunk_size
 	return player_chunk
 	
 func get_two_nearby_road_chunks():
@@ -158,7 +165,7 @@ func get_closest_chunk_to_player(chunk_poses):
 	var closest_chunk_index = 0
 	for chunk_pos in chunk_poses:
 		var chunk_center = (chunk_pos * road_chunk_size) + Vector2(road_chunk_size/2, road_chunk_size/2)
-		var distance_to_player = player_pos.distance_to(chunk_center)
+		var distance_to_player = main.player_pos.distance_to(chunk_center)
 		distances.append(distance_to_player)
 	if distances.size() == 0:
 		return Vector2(0, 0)
@@ -170,21 +177,21 @@ func get_closest_chunk_to_player(chunk_poses):
 		return chunk_poses[0]
 
 func get_player_chunk():
-	var player_chunk = player_pos/road_chunk_size
+	var player_chunk = main.player_pos/road_chunk_size
 	player_chunk = Vector2(int(player_chunk.x), int(player_chunk.y))
 	return player_chunk
 	
 func update_player_pos_info():
-	if player_node.is_inside_tree():
-		player_pos = get_node("Player").get_global_position()
+	if main.player_node.is_inside_tree():
+		main.player_pos = get_node("Player").get_global_position()
 	else:
-		player_pos = get_node("Humvee").get_node("PlayerPos").get_global_position()
+		main.player_pos = get_node("Humvee").get_node("PlayerPos").get_global_position()
 	
-	var free_tiles = [TILES.grass, TILES.dirt]
+	var free_tiles = [main.TILES.grass, main.TILES.dirt]
 	var tilemap = get_node("TileMap")
-	var current_tile = tilemap.world_to_map(player_pos)
+	var current_tile = tilemap.world_to_map(main.player_pos)
 	if free_tiles.has(tilemap.get_cellv(current_tile)):
-		player_tile_pos = current_tile
+		main.player_tile_pos = current_tile
 
 func setup_start_position():
 	for y in range(map_size.y):
@@ -239,18 +246,18 @@ func are_arrays_equal(arr1, arr2):
 	return are_equal
 
 func remove_player():
-	player_node = get_node("Player")
-	remove_child(player_node)
+	main.player_node = get_node("Player")
+	remove_child(main.player_node)
 
 func spawn_saved_player(pos):
-	player_node.set_global_position(pos)
-	call_deferred("add_child", player_node)
+	main.player_node.set_global_position(pos)
+	call_deferred("add_child", main.player_node)
 
 func spawn_player(pos):
-	player_node = Player.instance()
-	player_node.set_global_position(pos)
-	player_node.name = "Player"
-	add_child(player_node)
+	main.player_node = main.Player.instance()
+	main.player_node.set_global_position(pos)
+	main.player_node.name = "Player"
+	add_child(main.player_node)
 
 func spawn_world_boundaries():
 	# North

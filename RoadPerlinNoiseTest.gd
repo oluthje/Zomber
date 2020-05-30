@@ -13,19 +13,26 @@ var modified_points_matrix = []
 var straight_road_points = [Vector2(0, map_size.y/2), Vector2(map_size.x - 1, map_size.y/2)]
 var curved_road_points = [Vector2(0, map_size.y/2), Vector2(map_size.x/2, map_size.y/2), Vector2(map_size.x/2, map_size.y - 1)]
 var interp_road_points = []
-var road_size = 6
+var road_size = 10#6
 var road_to_terrain_transition_size = 12
 
-var stand_alone = true
+var stand_alone = false
 func _ready():
 	if stand_alone:
 		setup_noise_values_matrix()
 		setup_modified_points_matrix()
-#		generate_terrain_at_chunk_pos(Vector2(0, 0))
-		for x in range(map_size.x):
-			for y in range(map_size.y):
-				noise_values_matrix[x][y] = 1
-		generate_road(straight_road_points, 180)
+		generate_terrain_at_chunk_pos(Vector2(0, 0))
+#		for x in range(map_size.x):
+#			for y in range(map_size.y):
+#				noise_values_matrix[x][y] = 1
+#		generate_road(straight_road_points, 180)
+
+func _physics_process(delta):
+	if Input.is_action_just_pressed("restart_game"):
+		print("restart")
+		setup_noise_values_matrix()
+		setup_modified_points_matrix()
+		generate_terrain_at_chunk_pos(Vector2(0, 0))
 
 func get_stone_positions_from_noise(chunk_pos, curved_road, road_rotation):
 	setup_noise_values_matrix()
@@ -60,10 +67,10 @@ func generate_terrain_at_chunk_pos(chunk_pos):
 	randomize()
 	noise = OpenSimplexNoise.new()
 	if stand_alone:
-		noise.seed = 3#get_parent().terrain_seed
+		noise.seed = randi()#3#get_parent().terrain_seed
 	else:
-		noise.seed = 3#get_parent().terrain_seed
-	noise.octaves = 2.5#4
+		noise.seed = get_parent().terrain_seed
+	noise.octaves = 3
 	noise.period = 22.0
 	noise.persistence = 0.8
 	
@@ -84,7 +91,7 @@ func generate_road(road_points, rot):
 			if interp_road_points.has(Vector2(x, y)):
 				noise_values_matrix[x][y] = -0.5
 				roadify_area_around_point(Vector2(x, y))
-	create_road_to_terrain_transition()
+#	create_road_to_terrain_transition()
 
 func roadify_area_around_point(point):
 	for x in range(road_size):
