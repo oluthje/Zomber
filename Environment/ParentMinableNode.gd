@@ -4,6 +4,7 @@ var StoneParticles = preload("res://Environment/StoneMineParticles.tscn")
 var StoneBreakParticles = preload("res://Environment/StoneBreakParticles.tscn")
 var CarryableObject = preload("res://Environment/CarryableObject.tscn")
 onready var tile_map = get_parent().get_node("TileMap")
+onready var main = get_tree().get_root().get_node("Main")
 
 var SoundEffectPlayer = preload("res://SoundEffectPlayer.tscn")
 
@@ -22,12 +23,18 @@ func _ready():
 	add_to_tilemap()
 
 func add_to_tilemap():
-	tile_map.set_cellv(tile_map.world_to_map(get_global_position()), cell_index)
+	if main.current_level == main.levels.THE_ROAD:
+		pass
+	else:
+		tile_map.set_cellv(tile_map.world_to_map(get_global_position()), cell_index)
 	#get_parent().get_node("TileMap").update_pathfinding_map()
 	
 func remove_from_tilemap():
-	tile_map.set_cellv(tile_map.world_to_map(get_global_position()), replacement_cell_index)
-	get_parent().get_node("TileMap").update_pathfinding_map()
+	if main.current_level == main.levels.THE_ROAD:
+		pass
+	else:
+		tile_map.set_cellv(tile_map.world_to_map(get_global_position()), replacement_cell_index)
+		get_parent().get_node("TileMap").update_pathfinding_map()
 
 func take_damage(damage):
 	health -= damage

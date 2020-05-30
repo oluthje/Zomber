@@ -1,9 +1,10 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://RoadLayoutScript.gd" type="Script" id=1]
 [ext_resource path="res://HUD/Camera2D.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Environment/Humvee.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Sprites/Construction/Buildings/stonewall.png" type="Texture" id=4]
+[ext_resource path="res://RoadPerlinNoiseTest.tscn" type="PackedScene" id=5]
 [ext_resource path="res://FPSlabel.gd" type="Script" id=6]
 [ext_resource path="res://TheRoadLevel.gd" type="Script" id=7]
 [ext_resource path="res://Sprites/Environment/EnvironmentTileset.png" type="Texture" id=8]
@@ -117,6 +118,8 @@ script = ExtResource( 7 )
 
 [node name="RoadLayoutScript" type="Node2D" parent="."]
 script = ExtResource( 1 )
+
+[node name="RoadPerlinNoiseTest" parent="." instance=ExtResource( 5 )]
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource( 1 )
