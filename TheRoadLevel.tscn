@@ -12,7 +12,7 @@
 [ext_resource path="res://Sprites/Environment/ScenicFeatures.png" type="Texture" id=10]
 [ext_resource path="res://HUD/Menu/Cursor.tscn" type="PackedScene" id=11]
 [ext_resource path="res://TileMap.gd" type="Script" id=12]
-[ext_resource path="res://EnemySpawnSystem.gd" type="Script" id=13]
+[ext_resource path="res://Enemies/EnemySpawnSystem.tscn" type="PackedScene" id=13]
 [ext_resource path="res://HUD/ConstructionButton.tscn" type="PackedScene" id=15]
 [ext_resource path="res://HUD/InventoryHUD.tscn" type="PackedScene" id=16]
 [ext_resource path="res://HUD/WeaponInfo.tscn" type="PackedScene" id=17]
@@ -138,14 +138,11 @@ tile_set = SubResource( 3 )
 cell_size = Vector2( 32, 32 )
 format = 1
 
-[node name="EnemySpawnSystem" type="Node2D" parent="."]
-script = ExtResource( 13 )
-
-[node name="Timer" type="Timer" parent="EnemySpawnSystem"]
-wait_time = 0.05
-one_shot = true
+[node name="EnemySpawnSystem" parent="." instance=ExtResource( 13 )]
 
 [node name="RoadChunks" type="Node2D" parent="."]
+
+[node name="Enemies" type="Node2D" parent="."]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 0
@@ -190,4 +187,3 @@ __meta__ = {
 [node name="Humvee" parent="." instance=ExtResource( 3 )]
 position = Vector2( 147, 55 )
 state = 1
-[connection signal="timeout" from="EnemySpawnSystem/Timer" to="EnemySpawnSystem" method="_on_Timer_timeout"]

@@ -148,6 +148,7 @@ func update_pathing():
 	if not path_to_player or len(path_to_player) == 1 or should_update_path() or update_path:
 		update_path = false
 		path_to_player = get_path_to_player()
+		print("path_to_player: " + str(path_to_player))
 		if path_to_player.size() > 0:
 			path_to_player.remove(0)
 		if len(path_to_player) > 0:
@@ -172,7 +173,10 @@ func should_update_path():
 	return false
 
 func get_path_to_player():
+	var tile_map = get_parent().get_node("TileMap")
 	var player_tile_pos = main.player_tile_pos
+	if main.current_level == main.levels.THE_ROAD:
+		return get_parent().get_parent().get_node("TileMap").find_path(get_global_position(), player_tile_pos * 32)
 	return get_parent().get_node("TileMap").find_path(get_nearest_free_tile() * 32, player_tile_pos * 32)
 	
 func get_nearest_free_tile():

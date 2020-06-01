@@ -74,17 +74,13 @@ func load_unload_chunks():
 		get_node("EnemySpawnSystem").update_spawn_points_queue()
 		
 func update_tilemap():
-#	print("chunk_removed: " + str(chunk_removed) + " current_chunks: " + str(current_chunks))
 	if not current_chunks.has(chunk_removed):
-		print("removed unloaded tiles")
 		var chunk_tile_pos = (chunk_removed * road_chunk_size)/32
 		for y in range((road_chunk_size)/32):
 			for x in range((road_chunk_size)/32):
 				$TileMap.set_cellv(Vector2(chunk_tile_pos.x + x, chunk_tile_pos.y + y), -1)
-#	$TileMap.clear()
 	
 	for chunk_pos in current_chunks:
-		print("added grass to applicable areas")
 		var chunk_tile_pos = (chunk_pos * road_chunk_size)/32
 		for y in range((road_chunk_size)/32):
 			for x in range((road_chunk_size)/32):

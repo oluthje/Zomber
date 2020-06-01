@@ -14,10 +14,12 @@ func _ready():
 	update_pathfinding_map()
 
 func update_pathfinding_map():
+	print("update pathfinding")
 	astar_node.clear()
 	obstacles = get_used_cells_by_id(0)
 	obstacles += get_used_cells_by_id(2)
 	obstacles += get_parent().get_node("Buildings").get_used_cells_by_id(0)
+	print("Obastacles: " + str(obstacles.size()))
 	var walkable_cells_list = astar_add_walkable_cells(obstacles)
 	astar_connect_walkable_cells(walkable_cells_list)
 
@@ -88,14 +90,11 @@ func astar_connect_walkable_cells_diagonal(points_array):
 					continue
 				astar_node.connect_points(point_index, point_relative_index, true)
 
-
 func is_outside_map_bounds(point):
 	return point.x < 0 or point.y < 0 or point.x >= map_size.x or point.y >= map_size.y
 
-
 func calculate_point_index(point):
 	return point.x + map_size.x * point.y
-
 
 func find_path(world_start, world_end):
 	self.path_start_position = world_to_map(world_start)
