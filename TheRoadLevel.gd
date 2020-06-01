@@ -44,6 +44,7 @@ func _ready():
 func _physics_process(delta):
 	main.time_played += delta
 	update_player_pos_info()
+#	place_road_chunk(Vector2(0, 0), false, 0, [])
 	load_unload_chunks()
 	
 	get_node("CanvasLayer/Label").set_text("chunks: " + str(get_node("RoadChunks").get_child_count()))

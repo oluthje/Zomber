@@ -111,4 +111,5 @@ func _on_Timer_timeout():
 	get_parent().get_node("TileMap").update_pathfinding_map()
 
 func _on_SpawnZombieTimer_timeout():
-	spawn_zombie()
+	if main.spawn_enemies:
+		spawn_zombie()

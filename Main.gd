@@ -38,7 +38,7 @@ var current_level = levels.THE_ROAD#CRASH
 
 # Game development settings
 var start_with_menu = false
-var spawn_enemies = true
+var spawn_enemies = false
 
 func _ready():
 	if start_with_menu:
