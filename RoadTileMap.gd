@@ -24,7 +24,7 @@ func update_pathfinding_map():
 	obstacles = get_used_cells_by_id(0)
 	obstacles += get_used_cells_by_id(2)
 	obstacles += get_parent().get_node("Buildings").get_used_cells_by_id(0)
-	print("map_size_offset: " + str(map_size_offset) + " map_size: " + str(map_size))
+#	print("map_size_offset: " + str(map_size_offset) + " map_size: " + str(map_size))
 	var walkable_cells_list = astar_add_walkable_cells(obstacles)
 #	draw_circle_points = walkable_cells_list
 #	place_dots()

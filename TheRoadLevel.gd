@@ -50,16 +50,11 @@ func _physics_process(delta):
 	
 func update_map_size_and_offset():
 	var chunk_a_to_b_connection_point = current_chunks[1] - current_chunks[0]
-#	print("current_chunks: " + str(current_chunks))
 	chunk_a_to_b_connection_point = Vector2(abs(chunk_a_to_b_connection_point.x), abs(chunk_a_to_b_connection_point.y))
-#	print("chunk_a_to_b_connection_point: " + str(chunk_a_to_b_connection_point))
 	if chunk_a_to_b_connection_point == Vector2(1, 0):
 		map_size = Vector2(64, 32)
-#		print("chose Vector2(64, 32)")
 	else:
 		map_size = Vector2(32, 64)
-#		print("chose Vector2(32, 64)")
-#	print("fresh map_size: " + str(map_size))
 	var start_offset_chunk
 	var chunk_a = current_chunks[0]
 	var chunk_b = current_chunks[1]
@@ -97,6 +92,7 @@ func load_unload_chunks():
 		update_tilemap()
 		update_map_size_and_offset()
 		spawn_chunk_boundaries()
+		get_node("Camera2D").set_limits()
 		get_node("TileMap").update_pathfinding_map()
 		get_node("EnemySpawnSystem").update_spawn_points_queue()
 		
@@ -224,7 +220,7 @@ func setup_start_position():
 				start_pos = Vector2(x, y) * num
 				
 	spawn_player(Vector2(start_pos.x + (road_chunk_size/2), start_pos.y + 32))
-	get_node("Humvee").set_global_position(Vector2(start_pos.x + (road_chunk_size/2) + 128, start_pos.y))
+	get_node("Humvee").set_global_position(Vector2(start_pos.x + (road_chunk_size/2) + 128, start_pos.y + 32))
 
 func setup_road_chunk(points, pos, stone_positions):
 	var curved = false

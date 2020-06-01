@@ -28,8 +28,14 @@ func get_distance_to_player_from_cursor():
 	return player_pos.distance_to(get_global_mouse_position())
 
 func set_limits():
-	if main.current_level == levels.THE_ROAD:
-		pass
+	if main.current_level == main.levels.THE_ROAD:
+		print("set new camera limits")
+		var map_size = get_parent().map_size
+		var offset_num = get_parent().map_size_offset * 32
+		limit_top = offset_num.y
+		limit_right = offset_num.x + (map_size.x * 32)
+		limit_bottom = offset_num.y + (map_size.y * 32)
+		limit_left = offset_num.x
 	else:
 		var map_size = get_parent().map_size
 		limit_top = 0
