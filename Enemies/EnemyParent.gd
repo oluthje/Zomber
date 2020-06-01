@@ -148,7 +148,7 @@ func update_pathing():
 	if not path_to_player or len(path_to_player) == 1 or should_update_path() or update_path:
 		update_path = false
 		path_to_player = get_path_to_player()
-		print("path_to_player: " + str(path_to_player))
+		#print("path_to_player: " + str(path_to_player))
 		if path_to_player.size() > 0:
 			path_to_player.remove(0)
 		if len(path_to_player) > 0:
@@ -164,7 +164,7 @@ func update_pathing():
 		next_pos = path_to_player[0]
 		
 func should_update_path():
-	var tilemap = get_parent().get_node("TileMap")
+	var tilemap = get_tree().get_root().get_node("Main").get_level_node().get_node("TileMap")
 	
 	# If player moved
 	var last_pos_in_path = path_to_player[len(path_to_player) - 1]

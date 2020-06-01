@@ -8,8 +8,8 @@ onready var main = get_tree().get_root().get_node("Main")
 onready var cursor = get_parent().get_node("CanvasLayer").get_node("Cursor")
 onready var player_pos = get_tree().get_root().get_node("Main").player_pos
 
-#func _ready():
-#	set_limits()
+func _ready():
+	set_limits()
 
 var zoom_in = true
 func _physics_process(delta):
@@ -28,8 +28,11 @@ func get_distance_to_player_from_cursor():
 	return player_pos.distance_to(get_global_mouse_position())
 
 func set_limits():
-	var map_size = get_parent().map_size
-	limit_top = 0
-	limit_right = map_size.x * increment
-	limit_bottom = map_size.y * increment
-	limit_left = 0
+	if main.current_level == levels.THE_ROAD:
+		pass
+	else:
+		var map_size = get_parent().map_size
+		limit_top = 0
+		limit_right = map_size.x * increment
+		limit_bottom = map_size.y * increment
+		limit_left = 0

@@ -8,7 +8,9 @@ var RoadChunk = preload("res://Environment/Road/RoadChunk.tscn")
 var CurvedRoadChunk = preload("res://Environment/Road/CurvedRoadChunk.tscn")
 
 # Level settings
-var map_size = Vector2(2, 6)
+var road_map_size = Vector2(2, 6)
+var map_size = Vector2(32, 64)
+var map_size_offset = Vector2(0, 0)
 
 # Road placement
 onready var road_path_matrix = get_node("RoadLayoutScript").road_matrix
@@ -45,6 +47,28 @@ func _physics_process(delta):
 	load_unload_chunks()
 	
 	get_node("CanvasLayer/Label").set_text("chunks: " + str(get_node("RoadChunks").get_child_count()))
+	
+func update_map_size_and_offset():
+	var chunk_a_to_b_connection_point = current_chunks[1] - current_chunks[0]
+#	print("current_chunks: " + str(current_chunks))
+	chunk_a_to_b_connection_point = Vector2(abs(chunk_a_to_b_connection_point.x), abs(chunk_a_to_b_connection_point.y))
+#	print("chunk_a_to_b_connection_point: " + str(chunk_a_to_b_connection_point))
+	if chunk_a_to_b_connection_point == Vector2(1, 0):
+		map_size = Vector2(64, 32)
+#		print("chose Vector2(64, 32)")
+	else:
+		map_size = Vector2(32, 64)
+#		print("chose Vector2(32, 64)")
+#	print("fresh map_size: " + str(map_size))
+	var start_offset_chunk
+	var chunk_a = current_chunks[0]
+	var chunk_b = current_chunks[1]
+	if chunk_a.x < chunk_b.x or chunk_a.y < chunk_b.y:
+		start_offset_chunk = chunk_a
+	else:
+		start_offset_chunk = chunk_b
+	
+	map_size_offset = start_offset_chunk * 32
 
 func load_unload_chunks():
 	if player_chunk != get_player_chunk() or not are_arrays_equal(current_chunks, [get_player_chunk(), get_closest_chunk_to_player(get_two_nearby_road_chunks())]):
@@ -71,6 +95,9 @@ func load_unload_chunks():
 					road_chunk.queue_free()
 		
 		update_tilemap()
+		update_map_size_and_offset()
+		spawn_chunk_boundaries()
+		get_node("TileMap").update_pathfinding_map()
 		get_node("EnemySpawnSystem").update_spawn_points_queue()
 		
 func update_tilemap():
@@ -190,13 +217,13 @@ func update_player_pos_info():
 		main.player_tile_pos = current_tile
 
 func setup_start_position():
-	for y in range(map_size.y):
-		for x in range(map_size.x):
+	for y in range(road_map_size.y):
+		for x in range(road_map_size.x):
 			if "s" == (road_path_matrix[x][y]):
 				var num = road_chunk_size + (road_chunk_size)/2
 				start_pos = Vector2(x, y) * num
 				
-	spawn_player(Vector2(start_pos.x + (road_chunk_size/2), start_pos.y))
+	spawn_player(Vector2(start_pos.x + (road_chunk_size/2), start_pos.y + 32))
 	get_node("Humvee").set_global_position(Vector2(start_pos.x + (road_chunk_size/2) + 128, start_pos.y))
 
 func setup_road_chunk(points, pos, stone_positions):
@@ -255,19 +282,25 @@ func spawn_player(pos):
 	main.player_node.name = "Player"
 	add_child(main.player_node)
 
-func spawn_world_boundaries():
+func spawn_chunk_boundaries():
+	var boundaries = get_node("WorldBoundaries").get_children()
+	if boundaries.size() > 0:
+		for child in boundaries:
+			child.queue_free()
+	
+	var offset = map_size_offset * 32
 	# North
 	for x in range(map_size.x):
-		spawn_boundary(Vector2(x * 32 + 16, -16))
+		spawn_boundary(Vector2(x * 32 + 16, -16) + offset)
 	# East
 	for y in range(map_size.y):
-		spawn_boundary(Vector2(map_size.x * 32 + 16, y * 32 + 16))
+		spawn_boundary(Vector2(map_size.x * 32 + 16, y * 32 + 16) + offset)
 	# South
 	for x in range(map_size.x):
-		spawn_boundary(Vector2(x * 32 + 16, map_size.y * 32 + 16))	
+		spawn_boundary(Vector2(x * 32 + 16, map_size.y * 32 + 16) + offset)
 	# West
 	for y in range(map_size.y):
-		spawn_boundary(Vector2(-16, y * 32 + 16))
+		spawn_boundary(Vector2(-16, y * 32 + 16) + offset)
 
 func spawn_boundary(pos):
 	var boundary = Boundary.instance()
@@ -275,14 +308,14 @@ func spawn_boundary(pos):
 	get_node("WorldBoundaries").add_child(boundary)
 
 func is_in_bounds(point):
-	if point.x < 1 or point.y < 1 or point.x >= map_size.x - 1 or point.y >= map_size.y - 1:
+	if point.x < 1 or point.y < 1 or point.x >= road_map_size.x - 1 or point.y >= road_map_size.y - 1:
 		return false
 	return true
 
 func setup_road_chunks_matrix():
-	for x in range(map_size.x):
+	for x in range(road_map_size.x):
 		road_chunks.append([])
 		road_chunks[x]=[]
-		for y in range(map_size.y):
+		for y in range(road_map_size.y):
 			road_chunks[x].append([])
 			road_chunks[x][y]

@@ -101,6 +101,7 @@ func place_enemy_spawn_point(pos, rot):
 	var tile_pos = get_parent().get_node("TileMap").world_to_map(pos)
 	if get_parent().get_node("TileMap").get_cellv(tile_pos) == main.TILES.stone:
 		return
+		
 	var point = EnemySpawnPoint.instance()
 	point.set_global_position(Vector2(pos.x + 16, pos.y + 16) + offset_pos)
 	get_node("SpawnPoints").add_child(point)
@@ -109,8 +110,5 @@ func _on_Timer_timeout():
 	update_spawn_points()
 	get_parent().get_node("TileMap").update_pathfinding_map()
 
-var zombie_spawns = 1
 func _on_SpawnZombieTimer_timeout():
-	if zombie_spawns > 0:
-		zombie_spawns -= 1
-		spawn_zombie()
+	spawn_zombie()

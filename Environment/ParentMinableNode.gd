@@ -23,14 +23,15 @@ func _ready():
 	add_to_tilemap()
 
 func add_to_tilemap():
-	get_tree().get_root().get_node("Main").get_level_node().get_node("TileMap").set_cellv(tile_map.world_to_map(get_global_position()), cell_index)
+	tile_map.set_cellv(tile_map.world_to_map(get_global_position()), cell_index)
 	
 func remove_from_tilemap():
 	if main.current_level == main.levels.THE_ROAD:
-		pass
+		tile_map.set_cellv(tile_map.world_to_map(get_global_position()), replacement_cell_index)
+		tile_map.update_pathfinding_map()
 	else:
 		tile_map.set_cellv(tile_map.world_to_map(get_global_position()), replacement_cell_index)
-		get_parent().get_node("TileMap").update_pathfinding_map()
+		tile_map.update_pathfinding_map()
 
 func take_damage(damage):
 	health -= damage

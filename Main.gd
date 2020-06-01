@@ -34,7 +34,7 @@ var current_stats_dict = {
 	"minutes_played:": 0
 }
 enum levels {THE_CRASH, THE_ROAD, THE_BUNKER}
-var current_level = levels.THE_ROAD
+var current_level = levels.THE_ROAD#CRASH
 
 # Game development settings
 var start_with_menu = false
