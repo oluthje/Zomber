@@ -34,7 +34,7 @@ func spawn_bullet_effect():
 	bullet_effect.set_global_position(get_global_position())
 	bullet_effect.set_rotation(DIRECTION + deg2rad(180))
 	get_parent().add_child(bullet_effect)
-
+	
 func _on_Area2D_body_entered(body):
 	if body.is_in_group("enemies") and TYPE != "enemy":
 		body.take_damage(DAMAGE, DIRECTION)
@@ -47,6 +47,9 @@ func _on_Area2D_body_entered(body):
 			body.take_damage(DAMAGE/3)
 		else:
 			body.take_damage(DAMAGE)
+		spawn_bullet_effect()
+		queue_free()
+	if body.is_in_group("indestructable"):
 		spawn_bullet_effect()
 		queue_free()
 	if "Tree" in body.name:

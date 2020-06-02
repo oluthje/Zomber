@@ -52,7 +52,7 @@ position = Vector2( 0, 4 )
 shape = SubResource( 3 )
 
 [node name="HumveeDetector" type="Area2D" parent="."]
-position = Vector2( 0, 152 )
+position = Vector2( 6, 152 )
 __meta__ = {
 "_edit_group_": true
 }

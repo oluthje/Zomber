@@ -1,0 +1,108 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Sprites/Environment/Road/HouseSpritesheet-Sheet.png" type="Texture" id=1]
+[ext_resource path="res://Environment/Road/Houses/HouseNodes/Door.gd" type="Script" id=2]
+
+[sub_resource type="Animation" id=6]
+resource_name = "close_inward"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("StaticBody2D:rotation_degrees")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -90.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "close_outward"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("StaticBody2D:rotation_degrees")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 90.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "open_inward"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("StaticBody2D:rotation_degrees")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 90.0 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "open_outward"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("StaticBody2D:rotation_degrees")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -90.0 ]
+}
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 2, 12 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 5, 16 )
+
+[node name="Door" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/close_inward = SubResource( 6 )
+anims/close_outward = SubResource( 4 )
+anims/open_inward = SubResource( 3 )
+anims/open_outward = SubResource( 5 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." groups=[
+"indestructable",
+]]
+
+[node name="Sprite" type="Sprite" parent="StaticBody2D"]
+position = Vector2( 0, 16 )
+texture = ExtResource( 1 )
+vframes = 2
+hframes = 2
+frame = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 0, 16 )
+shape = SubResource( 1 )
+
+[node name="Area2D" type="Area2D" parent="StaticBody2D"]
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D/Area2D"]
+position = Vector2( 0, 14 )
+shape = SubResource( 2 )

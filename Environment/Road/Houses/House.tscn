@@ -1,0 +1,70 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Environment/Road/Houses/HouseNodes/HouseWallCorner.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Environment/Road/Houses/HouseNodes/HouseWall.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Environment/Road/Houses/HouseNodes/Door.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Environment/Road/Houses/HouseNodes/HouseFloor.tscn" type="PackedScene" id=4]
+
+[node name="House" type="Node2D"]
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="HouseWall" parent="Walls" instance=ExtResource( 2 )]
+position = Vector2( -4, 16 )
+
+[node name="HouseWall2" parent="Walls" instance=ExtResource( 2 )]
+position = Vector2( -4, 48 )
+
+[node name="HouseWall3" parent="Walls" instance=ExtResource( 2 )]
+position = Vector2( 48, 68 )
+rotation = 4.71239
+
+[node name="HouseWall7" parent="Walls" instance=ExtResource( 2 )]
+position = Vector2( 16, 68 )
+rotation = 4.71239
+
+[node name="HouseWall4" parent="Walls" instance=ExtResource( 2 )]
+position = Vector2( 68, 16 )
+rotation = 3.14159
+
+[node name="HouseWall5" parent="Walls" instance=ExtResource( 2 )]
+position = Vector2( 48, -4 )
+rotation = 1.5708
+
+[node name="HouseWall6" parent="Walls" instance=ExtResource( 2 )]
+position = Vector2( 16, -4 )
+rotation = 1.5708
+
+[node name="WallCorners" type="Node2D" parent="."]
+
+[node name="HouseWallCorner" parent="WallCorners" instance=ExtResource( 1 )]
+position = Vector2( 69, -5 )
+rotation = 1.5708
+
+[node name="HouseWallCorner2" parent="WallCorners" instance=ExtResource( 1 )]
+position = Vector2( 69, 69 )
+rotation = 3.14159
+
+[node name="HouseWallCorner4" parent="WallCorners" instance=ExtResource( 1 )]
+position = Vector2( -5, 69 )
+rotation = 4.71239
+
+[node name="HouseWallCorner6" parent="WallCorners" instance=ExtResource( 1 )]
+position = Vector2( -5, -5 )
+
+[node name="Floors" type="Node2D" parent="."]
+
+[node name="HouseFloor" parent="Floors" instance=ExtResource( 4 )]
+position = Vector2( 16, 16 )
+
+[node name="HouseFloor2" parent="Floors" instance=ExtResource( 4 )]
+position = Vector2( 48, 16 )
+
+[node name="HouseFloor3" parent="Floors" instance=ExtResource( 4 )]
+position = Vector2( 48, 48 )
+
+[node name="HouseFloor4" parent="Floors" instance=ExtResource( 4 )]
+position = Vector2( 16, 48 )
+
+[node name="Door" parent="." instance=ExtResource( 3 )]
+position = Vector2( 65, 32 )

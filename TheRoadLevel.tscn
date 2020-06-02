@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://RoadLayoutScript.gd" type="Script" id=1]
 [ext_resource path="res://HUD/Camera2D.tscn" type="PackedScene" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://HUD/ConstructionButton.tscn" type="PackedScene" id=15]
 [ext_resource path="res://HUD/InventoryHUD.tscn" type="PackedScene" id=16]
 [ext_resource path="res://HUD/WeaponInfo.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Environment/Road/Houses/House.tscn" type="PackedScene" id=18]
 
 [sub_resource type="TileSet" id=1]
 0/name = "EnvironmentTileset.png 0"
@@ -170,6 +171,7 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="CanvasLayer"]
+visible = false
 margin_left = 173.0
 margin_top = 7.0
 margin_right = 308.0
@@ -192,3 +194,6 @@ state = 1
 [node name="CarryableObject" parent="." instance=ExtResource( 14 )]
 position = Vector2( 508, 69 )
 pre_set_object = "key"
+
+[node name="House" parent="." instance=ExtResource( 18 )]
+position = Vector2( 352, 32 )
