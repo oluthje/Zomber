@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Environment/Road/Houses/HouseNodes/HouseWallCorner.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Environment/Road/Houses/HouseNodes/HouseWall.tscn" type="PackedScene" id=2]
@@ -40,9 +40,12 @@ tracks/0/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 30, 31 )
+extents = Vector2( 62, 31 )
 
-[node name="House" type="Node2D"]
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 30, 34 )
+
+[node name="House3" type="Node2D"]
 
 [node name="Walls" type="Node2D" parent="."]
 __meta__ = {
@@ -57,16 +60,44 @@ position = Vector2( -4, 16 )
 position = Vector2( -4, 48 )
 
 [node name="HouseWall3" parent="Walls" instance=ExtResource( 2 )]
-position = Vector2( 48, 68 )
+position = Vector2( 49, 133 )
 rotation = 4.71239
 
 [node name="HouseWall7" parent="Walls" instance=ExtResource( 2 )]
-position = Vector2( 16, 68 )
+position = Vector2( 17, 133 )
 rotation = 4.71239
 
 [node name="HouseWall4" parent="Walls" instance=ExtResource( 2 )]
-position = Vector2( 68, 16 )
+position = Vector2( 132, 16 )
 rotation = 3.14159
+
+[node name="HouseWall8" parent="Walls" instance=ExtResource( 2 )]
+position = Vector2( 80, -4 )
+rotation = 1.5708
+
+[node name="HouseWall9" parent="Walls" instance=ExtResource( 2 )]
+position = Vector2( 112, -4 )
+rotation = 1.5708
+
+[node name="HouseWall11" parent="Walls" instance=ExtResource( 2 )]
+position = Vector2( 80, 68 )
+rotation = 4.71239
+
+[node name="HouseWall12" parent="Walls" instance=ExtResource( 2 )]
+position = Vector2( 69, 80 )
+
+[node name="HouseWall13" parent="Walls" instance=ExtResource( 2 )]
+position = Vector2( -4, 80 )
+
+[node name="HouseWall14" parent="Walls" instance=ExtResource( 2 )]
+position = Vector2( -4, 112 )
+
+[node name="HouseWall15" parent="Walls" instance=ExtResource( 2 )]
+position = Vector2( 69, 112 )
+
+[node name="HouseWall10" parent="Walls" instance=ExtResource( 2 )]
+position = Vector2( 112, 68 )
+rotation = 4.71239
 
 [node name="HouseWall5" parent="Walls" instance=ExtResource( 2 )]
 position = Vector2( 48, -4 )
@@ -83,15 +114,19 @@ __meta__ = {
 }
 
 [node name="HouseWallCorner" parent="WallCorners" instance=ExtResource( 1 )]
-position = Vector2( 69, -5 )
+position = Vector2( 133, -5 )
 rotation = 1.5708
 
 [node name="HouseWallCorner2" parent="WallCorners" instance=ExtResource( 1 )]
-position = Vector2( 69, 69 )
+position = Vector2( 133, 69 )
+rotation = 3.14159
+
+[node name="HouseWallCorner3" parent="WallCorners" instance=ExtResource( 1 )]
+position = Vector2( 70, 133 )
 rotation = 3.14159
 
 [node name="HouseWallCorner4" parent="WallCorners" instance=ExtResource( 1 )]
-position = Vector2( -5, 69 )
+position = Vector2( -5, 133 )
 rotation = 4.71239
 
 [node name="HouseWallCorner6" parent="WallCorners" instance=ExtResource( 1 )]
@@ -112,41 +147,100 @@ position = Vector2( 48, 16 )
 [node name="HouseFloor3" parent="Floors" instance=ExtResource( 4 )]
 position = Vector2( 48, 48 )
 
+[node name="HouseFloor12" parent="Floors" instance=ExtResource( 4 )]
+position = Vector2( 16, 80 )
+
+[node name="HouseFloor11" parent="Floors" instance=ExtResource( 4 )]
+position = Vector2( 48, 80 )
+
+[node name="HouseFloor10" parent="Floors" instance=ExtResource( 4 )]
+position = Vector2( 48, 112 )
+
+[node name="HouseFloor6" parent="Floors" instance=ExtResource( 4 )]
+position = Vector2( 80, 16 )
+
+[node name="HouseFloor5" parent="Floors" instance=ExtResource( 4 )]
+position = Vector2( 80, 48 )
+
+[node name="HouseFloor8" parent="Floors" instance=ExtResource( 4 )]
+position = Vector2( 112, 16 )
+
+[node name="HouseFloor7" parent="Floors" instance=ExtResource( 4 )]
+position = Vector2( 112, 48 )
+
 [node name="HouseFloor4" parent="Floors" instance=ExtResource( 4 )]
 position = Vector2( 16, 48 )
 
+[node name="HouseFloor9" parent="Floors" instance=ExtResource( 4 )]
+position = Vector2( 16, 112 )
+
 [node name="Roof" type="Node2D" parent="."]
 z_index = 4
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
 
 [node name="Sprite" type="Sprite" parent="Roof"]
-position = Vector2( 12, 52 )
+position = Vector2( 11.0001, 59.0001 )
+rotation = 1.5708
+texture = ExtResource( 5 )
+vframes = 2
+hframes = 2
+frame = 2
+
+[node name="Sprite7" type="Sprite" parent="Roof"]
+position = Vector2( 11, 107 )
+texture = ExtResource( 5 )
+vframes = 2
+hframes = 2
+
+[node name="Sprite8" type="Sprite" parent="Roof"]
+position = Vector2( 59, 107 )
+rotation = 4.71239
 texture = ExtResource( 5 )
 vframes = 2
 hframes = 2
 
 [node name="Sprite2" type="Sprite" parent="Roof"]
-position = Vector2( 52, 52 )
+position = Vector2( 107, 59 )
 rotation = 4.71239
 texture = ExtResource( 5 )
 vframes = 2
 hframes = 2
 
 [node name="Sprite4" type="Sprite" parent="Roof"]
-position = Vector2( 12, 12 )
+position = Vector2( 11.0001, 11.0001 )
 rotation = 1.5708
 texture = ExtResource( 5 )
 vframes = 2
 hframes = 2
 
 [node name="Sprite3" type="Sprite" parent="Roof"]
-position = Vector2( 52, 12 )
+position = Vector2( 59.0002, 11.0002 )
+rotation = 3.14159
+texture = ExtResource( 5 )
+vframes = 2
+hframes = 2
+frame = 2
+
+[node name="Sprite6" type="Sprite" parent="Roof"]
+position = Vector2( 59, 59 )
+rotation = 4.71239
+texture = ExtResource( 5 )
+vframes = 2
+hframes = 2
+frame = 1
+
+[node name="Sprite5" type="Sprite" parent="Roof"]
+position = Vector2( 107, 11.0002 )
 rotation = 3.14159
 texture = ExtResource( 5 )
 vframes = 2
 hframes = 2
 
 [node name="Door" parent="." instance=ExtResource( 3 )]
-position = Vector2( 65, 32 )
+position = Vector2( 129, 32 )
 
 [node name="RoofAnimPlayer" type="AnimationPlayer" parent="."]
 anims/roof_appear = SubResource( 1 )
@@ -154,9 +248,17 @@ anims/roof_disappear = SubResource( 2 )
 
 [node name="RoofArea" type="Area2D" parent="."]
 script = ExtResource( 6 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RoofArea"]
-position = Vector2( 32, 33 )
+position = Vector2( 64, 32 )
 shape = SubResource( 3 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="RoofArea"]
+position = Vector2( 33, 95 )
+shape = SubResource( 4 )
 [connection signal="body_entered" from="RoofArea" to="RoofArea" method="_on_RoofArea_body_entered"]
 [connection signal="body_exited" from="RoofArea" to="RoofArea" method="_on_RoofArea_body_exited"]

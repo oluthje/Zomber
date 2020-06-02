@@ -78,7 +78,9 @@ extents = Vector2( 52, 24 )
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 12, 3 )
 
-[node name="Humvee" type="KinematicBody2D"]
+[node name="Humvee" type="KinematicBody2D" groups=[
+"indestructable",
+]]
 z_index = 3
 script = ExtResource( 1 )
 

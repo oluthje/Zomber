@@ -20,4 +20,4 @@ func check_if_player_interacts():
 
 func get_player_pos_to_door(body):
 	var difference = get_global_position() - body.get_global_position()
-	print("difference: " + str(difference))
+#	print("difference: " + str(difference))
