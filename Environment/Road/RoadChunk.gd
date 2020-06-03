@@ -55,6 +55,7 @@ func spawn_check_point():
 		
 	for pos in house_poses:
 		spawn_house(pos)
+	spawn_house_loot()
 	
 	var rot = get_node("Road").get_rotation_degrees()
 	get_node("Checkpoint").set_rotation_degrees(rot - 90)
@@ -76,7 +77,7 @@ func spawn_house(pos):
 		2:
 			house = House3.instance()
 	
-	get_node("Checkpoint").add_child(house)
+	get_node("Checkpoint/Houses").add_child(house)
 	house.set_global_position(get_global_position() + pos)
 	rotate_house(house, rot)
 
@@ -92,6 +93,35 @@ func rotate_house(house_node, rot):
 		270:
 			house_node.set_global_position(pos + Vector2(-64, 64))
 			house_node.set_rotation_degrees(270)
+			
+func spawn_house_loot():
+	var houses = get_node("Checkpoint/Houses").get_children()
+	var available_house_indices = []
+	var spawned_gatekey = false
+	
+	for index in range(houses.size()):
+		available_house_indices.append(index)
+	
+	# Two random houses open with key
+	for i in range(2):
+		randomize()
+		var rand_index = int(rand_range(0, available_house_indices.size()))
+		var index = available_house_indices[rand_index]
+		houses[index].spawn_key = true
+		houses[index].spawn_loot()
+		available_house_indices.remove(rand_index)
+	
+	# Two random houses locked, only one has gatekey in them
+	for i in range(2):
+		randomize()
+		var rand_index = int(rand_range(0, available_house_indices.size()))
+		var index = available_house_indices[rand_index]
+		if not spawned_gatekey:
+			spawned_gatekey = true
+			houses[index].spawn_gatekey = true
+		houses[index].locked = true
+		houses[index].spawn_loot()
+		available_house_indices.remove(rand_index)
 	
 func get_perlin_noise_terrain():
 	var rot = int(get_node("Road").get_rotation_degrees())

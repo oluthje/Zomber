@@ -23,8 +23,9 @@ func check_if_player_interacts():
 				elif not open:
 					open = true
 					$AnimationPlayer.play("open_inward")
-		elif "Player" in body.name and body.carrying_object and body.object_carrying_name == Item.KEY:
+		elif "Player" in body.name and body.carrying_object and body.object_carrying_name == Item.KEY and locked:
 			$AnimationPlayer.play("open_inward")
+			open = true
 			get_node("KeyLock").set_visible(false)
 			locked = false
 			body.get_node("CarryableObject").get_node("SlotItemImage").select_item_to_display("none")

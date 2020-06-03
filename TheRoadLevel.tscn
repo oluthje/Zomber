@@ -191,5 +191,5 @@ position = Vector2( 147, 55 )
 state = 1
 
 [node name="CarryableObject" parent="." instance=ExtResource( 14 )]
-position = Vector2( 507, 230 )
+position = Vector2( -173, -47 )
 pre_set_object = "key"
