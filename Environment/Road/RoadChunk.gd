@@ -3,12 +3,16 @@ extends Node2D
 var Stone = preload("res://Environment/Stone.tscn")
 var FenceGate = preload("res://Environment/Road/FenceGate.tscn")
 var Fence = preload("res://Environment/Road/Fence.tscn")
-var House = preload("res://Environment/Road/Houses/House.tscn")
+var House1 = preload("res://Environment/Road/Houses/House.tscn")
+var House2 = preload("res://Environment/Road/Houses/House2.tscn")
+var House3 = preload("res://Environment/Road/Houses/House3.tscn")
 
 onready var road_chunk_size = get_parent().get_parent().road_chunk_size
 var chunk_pos
 var stone_positions = []
 var curved = false
+
+var house_poses = []
 
 func _ready():
 	var label = Label.new()
@@ -22,14 +26,16 @@ func _ready():
 	
 	if stone_positions.empty():
 		stone_positions = get_perlin_noise_terrain()
-	spawn_stones_by_positions(stone_positions)
+#	spawn_stones_by_positions(stone_positions)
 	
 func spawn_check_point():
-	var y_pos = 128#road_chunk_size/2
+	# Spawn fencegate
+	var y_pos = road_chunk_size/2
 	var gate = FenceGate.instance()
 	get_node("Checkpoint").add_child(gate)
 	gate.set_global_position(get_global_position() + Vector2(float(road_chunk_size)/float(2), y_pos))
 	
+	# Spawn fence
 	for x in range(road_chunk_size/32):
 		var mid_x = (road_chunk_size/32)/2
 		if not [mid_x - 1, mid_x, mid_x + 1].has(x):
@@ -37,17 +43,55 @@ func spawn_check_point():
 			get_node("Checkpoint").add_child(fence)
 			fence.set_global_position(get_global_position() + Vector2(x * 32, y_pos))
 			
-	# House spawning
-	spawn_house(get_global_position() + Vector2(float(road_chunk_size)/float(2) + 128, y_pos*2))
+	# Spawn houses
+	var house_offset_pos = Vector2(32 * 2, 32 * 4)
+	var extra_offset = Vector2(0, 0)
+	var spacing = 6
+	for x in range(4):
+		if x >= 2:
+			extra_offset = house_offset_pos + Vector2(32 * 3, -96)
+		for y in range(2):
+			house_poses.append(Vector2(x * 32 * spacing, y * 32 * spacing) + house_offset_pos + extra_offset)
+		
+	for pos in house_poses:
+		spawn_house(pos)
 	
-	
-#	var rot = get_node("Road").get_rotation_degrees()
-#	get_node("Checkpoint").set_rotation_degrees(rot)
+	var rot = get_node("Road").get_rotation_degrees()
+	get_node("Checkpoint").set_rotation_degrees(rot - 90)
 
 func spawn_house(pos):
-	var house = House.instance()
+	randomize()
+	var rand_rot = int(round(rand_range(0, 2)))
+	var rot = rand_rot * 90
+	
+	randomize()
+	var house
+	var rand_house_num = int(round(rand_range(0, 2)))
+	
+	match rand_house_num:
+		0:
+			house = House1.instance()
+		1:
+			house = House2.instance()
+		2:
+			house = House3.instance()
+	
 	get_node("Checkpoint").add_child(house)
-	house.set_global_position(pos)
+	house.set_global_position(get_global_position() + pos)
+	rotate_house(house, rot)
+
+func rotate_house(house_node, rot):
+	var pos = house_node.get_global_position()
+	match rot:
+		90:
+			house_node.set_global_position(pos + Vector2(64, -64))
+			house_node.set_rotation_degrees(90)
+		180:
+			house_node.set_global_position(pos + Vector2(64, 64))
+			house_node.set_rotation_degrees(180)
+		270:
+			house_node.set_global_position(pos + Vector2(-64, 64))
+			house_node.set_rotation_degrees(270)
 	
 func get_perlin_noise_terrain():
 	var rot = int(get_node("Road").get_rotation_degrees())
