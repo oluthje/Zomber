@@ -4,7 +4,7 @@ func _physics_process(delta):
 	var bodies = get_node("Area2D").get_overlapping_bodies()
 	for body in bodies:
 		if "Player" in body.name:
-				if body.carrying_object and body.object_carrying_name == Item.KEY:
+				if body.carrying_object and body.object_carrying_name == Item.GATEKEY:
 					$AnimationPlayer.play("open")
 					body.get_node("CarryableObject").get_node("SlotItemImage").select_item_to_display("none")
 					body.carrying_object = false

@@ -32,6 +32,7 @@ const REPAIR_KIT = "repair_kit"
 
 # Items
 const STIM_SHOT = "stim_shot"
+const GATEKEY = "gatekey"
 const KEY = "key"
 
 # Buildings

@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Weapons/SlotItemImage.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Environment/Trunk.png" type="Texture" id=2]
@@ -17,17 +17,18 @@
 [ext_resource path="res://Sprites/ItemIcons/kar98kIcont.png" type="Texture" id=15]
 [ext_resource path="res://Sprites/Loot/syringe-Sheet.png" type="Texture" id=16]
 [ext_resource path="res://Sprites/Environment/key.png" type="Texture" id=17]
+[ext_resource path="res://Sprites/Environment/Road/GateKey.png" type="Texture" id=18]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 17 ) ],
-"loop": true,
-"name": "key",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 2 ) ],
 "loop": true,
 "name": "log",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 17 ) ],
+"loop": true,
+"name": "key",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 15 ) ],
@@ -93,6 +94,11 @@ animations = [ {
 "frames": [ ExtResource( 14 ) ],
 "loop": true,
 "name": "mp5",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 18 ) ],
+"loop": true,
+"name": "gatekey",
 "speed": 5.0
 } ]
 
