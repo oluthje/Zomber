@@ -174,64 +174,91 @@ position = Vector2( 16, 112 )
 
 [node name="Roof" type="Node2D" parent="."]
 z_index = 4
-__meta__ = {
-"_edit_group_": true,
-"_edit_lock_": true
-}
 
 [node name="Sprite" type="Sprite" parent="Roof"]
-position = Vector2( 11.0001, 59.0001 )
+position = Vector2( 16, 48 )
 rotation = 1.5708
+texture = ExtResource( 5 )
+vframes = 2
+hframes = 2
+frame = 2
+
+[node name="Sprite9" type="Sprite" parent="Roof"]
+position = Vector2( 16, 80 )
+rotation = 1.5708
+texture = ExtResource( 5 )
+vframes = 2
+hframes = 2
+frame = 2
+
+[node name="Sprite10" type="Sprite" parent="Roof"]
+position = Vector2( 48, 80 )
+rotation = -1.5708
 texture = ExtResource( 5 )
 vframes = 2
 hframes = 2
 frame = 2
 
 [node name="Sprite7" type="Sprite" parent="Roof"]
-position = Vector2( 11, 107 )
+position = Vector2( 16, 112 )
 texture = ExtResource( 5 )
 vframes = 2
 hframes = 2
 
 [node name="Sprite8" type="Sprite" parent="Roof"]
-position = Vector2( 59, 107 )
+position = Vector2( 48, 112 )
 rotation = 4.71239
 texture = ExtResource( 5 )
 vframes = 2
 hframes = 2
 
 [node name="Sprite2" type="Sprite" parent="Roof"]
-position = Vector2( 107, 59 )
+position = Vector2( 112, 48 )
 rotation = 4.71239
 texture = ExtResource( 5 )
 vframes = 2
 hframes = 2
 
 [node name="Sprite4" type="Sprite" parent="Roof"]
-position = Vector2( 11.0001, 11.0001 )
+position = Vector2( 16, 16 )
 rotation = 1.5708
 texture = ExtResource( 5 )
 vframes = 2
 hframes = 2
 
 [node name="Sprite3" type="Sprite" parent="Roof"]
-position = Vector2( 59.0002, 11.0002 )
+position = Vector2( 48, 16 )
 rotation = 3.14159
 texture = ExtResource( 5 )
 vframes = 2
 hframes = 2
 frame = 2
 
+[node name="Sprite11" type="Sprite" parent="Roof"]
+position = Vector2( 80, 16 )
+rotation = 3.14159
+texture = ExtResource( 5 )
+vframes = 2
+hframes = 2
+frame = 2
+
+[node name="Sprite12" type="Sprite" parent="Roof"]
+position = Vector2( 80, 48 )
+texture = ExtResource( 5 )
+vframes = 2
+hframes = 2
+frame = 2
+
 [node name="Sprite6" type="Sprite" parent="Roof"]
-position = Vector2( 59, 59 )
-rotation = 4.71239
+position = Vector2( 48, 48 )
+rotation = 1.5708
 texture = ExtResource( 5 )
 vframes = 2
 hframes = 2
 frame = 1
 
 [node name="Sprite5" type="Sprite" parent="Roof"]
-position = Vector2( 107, 11.0002 )
+position = Vector2( 112, 16 )
 rotation = 3.14159
 texture = ExtResource( 5 )
 vframes = 2

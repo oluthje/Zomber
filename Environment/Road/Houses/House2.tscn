@@ -145,27 +145,27 @@ position = Vector2( 16, 48 )
 z_index = 4
 
 [node name="Sprite" type="Sprite" parent="Roof"]
-position = Vector2( 16.0001, 54.0001 )
+position = Vector2( 16, 48 )
 texture = ExtResource( 5 )
 vframes = 2
 hframes = 2
 
 [node name="Sprite2" type="Sprite" parent="Roof"]
-position = Vector2( 112, 54.0001 )
+position = Vector2( 112, 48 )
 rotation = 4.71239
 texture = ExtResource( 5 )
 vframes = 2
 hframes = 2
 
 [node name="Sprite4" type="Sprite" parent="Roof"]
-position = Vector2( 16.0001, 10.0001 )
+position = Vector2( 16, 16 )
 rotation = 1.5708
 texture = ExtResource( 5 )
 vframes = 2
 hframes = 2
 
 [node name="Sprite3" type="Sprite" parent="Roof"]
-position = Vector2( 64.0001, 10.0001 )
+position = Vector2( 48, 16 )
 rotation = 3.14159
 texture = ExtResource( 5 )
 vframes = 2
@@ -173,14 +173,29 @@ hframes = 2
 frame = 2
 
 [node name="Sprite6" type="Sprite" parent="Roof"]
-position = Vector2( 64.0001, 54.0001 )
+position = Vector2( 48, 48 )
+texture = ExtResource( 5 )
+vframes = 2
+hframes = 2
+frame = 2
+
+[node name="Sprite8" type="Sprite" parent="Roof"]
+position = Vector2( 80, 16 )
+rotation = 3.14159
+texture = ExtResource( 5 )
+vframes = 2
+hframes = 2
+frame = 2
+
+[node name="Sprite7" type="Sprite" parent="Roof"]
+position = Vector2( 80, 48 )
 texture = ExtResource( 5 )
 vframes = 2
 hframes = 2
 frame = 2
 
 [node name="Sprite5" type="Sprite" parent="Roof"]
-position = Vector2( 112, 10.0001 )
+position = Vector2( 112, 16 )
 rotation = 3.14159
 texture = ExtResource( 5 )
 vframes = 2

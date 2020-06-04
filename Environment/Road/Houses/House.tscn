@@ -121,27 +121,27 @@ position = Vector2( 16, 48 )
 z_index = 4
 
 [node name="Sprite" type="Sprite" parent="Roof"]
-position = Vector2( 12, 52 )
+position = Vector2( 16, 48 )
 texture = ExtResource( 5 )
 vframes = 2
 hframes = 2
 
 [node name="Sprite2" type="Sprite" parent="Roof"]
-position = Vector2( 52, 52 )
+position = Vector2( 48, 48 )
 rotation = 4.71239
 texture = ExtResource( 5 )
 vframes = 2
 hframes = 2
 
 [node name="Sprite4" type="Sprite" parent="Roof"]
-position = Vector2( 12, 12 )
+position = Vector2( 16, 16 )
 rotation = 1.5708
 texture = ExtResource( 5 )
 vframes = 2
 hframes = 2
 
 [node name="Sprite3" type="Sprite" parent="Roof"]
-position = Vector2( 52, 12 )
+position = Vector2( 48, 16 )
 rotation = 3.14159
 texture = ExtResource( 5 )
 vframes = 2
