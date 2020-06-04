@@ -29,6 +29,15 @@ const ENGINE = "engine"
 const SPARK_PLUG = "spark_plug"
 const FUEL = "fuel"
 const REPAIR_KIT = "repair_kit"
+# Carryable objects with countdown
+var COUNTDOWN_DICT = {
+	ENGINE: 3,
+	SPARK_PLUG: 0.5,
+	FUEL: 4,
+	REPAIR_KIT: 4,
+	KEY: 2.5,
+	GATEKEY: 4
+}
 
 # Items
 const STIM_SHOT = "stim_shot"

@@ -133,20 +133,10 @@ func check_for_player_adding_part():
 		if "Player" in body.name:
 			if body.carrying_object and not body.in_timed_operation:
 				if requires_part(body.object_carrying_name):
-					if [Item.FUEL, Item.REPAIR_KIT].has(body.object_carrying_name):
-						var time = 0
-						match body.object_carrying_name:
-							Item.FUEL:
-								time = 3
-							Item.REPAIR_KIT:
-								time = 5
-						body.spawn_consumption_time_display(time, self)
+					if Item.COUNTDOWN_DICT.has(body.object_carrying_name):
+						body.setup_obj_countdown(body.object_carrying_name, self)
 						return
-					add_part(body.object_carrying_name)
-					body.get_node("CarryableObject").get_node("SlotItemImage").select_item_to_display("none")
-					body.carrying_object = false
-					body.object_carrying_name = ""
-					body.try_update_held_item()
+					add_part_after_countdown(body)
 
 func add_part_after_countdown(player):
 	add_part(player.object_carrying_name)

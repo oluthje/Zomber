@@ -188,8 +188,15 @@ __meta__ = {
 
 [node name="Humvee" parent="." instance=ExtResource( 3 )]
 position = Vector2( 147, 55 )
-state = 1
 
 [node name="CarryableObject" parent="." instance=ExtResource( 14 )]
-position = Vector2( -173, -47 )
-pre_set_object = "key"
+position = Vector2( 502, 147 )
+pre_set_object = "engine"
+
+[node name="CarryableObject2" parent="." instance=ExtResource( 14 )]
+position = Vector2( 588, 147 )
+pre_set_object = "repair_kit"
+
+[node name="CarryableObject3" parent="." instance=ExtResource( 14 )]
+position = Vector2( 652, 144 )
+pre_set_object = "fuel"

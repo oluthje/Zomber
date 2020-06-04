@@ -72,7 +72,7 @@ tracks/0/keys = {
 extents = Vector2( 2, 12 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 5, 16 )
+extents = Vector2( 5, 17 )
 
 [node name="Door" type="Node2D"]
 script = ExtResource( 2 )
@@ -99,17 +99,14 @@ position = Vector2( 0, 16 )
 shape = SubResource( 5 )
 
 [node name="Area2D" type="Area2D" parent="StaticBody2D"]
-__meta__ = {
-"_edit_group_": true,
-"_edit_lock_": true
-}
+position = Vector2( 3, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D/Area2D"]
-position = Vector2( 0, 14 )
+position = Vector2( 0, 15 )
 shape = SubResource( 6 )
 
 [node name="KeyLock" type="Sprite" parent="."]
 visible = false
-position = Vector2( 3, 15 )
+position = Vector2( 5, 15 )
 rotation = -1.5708
 texture = ExtResource( 3 )

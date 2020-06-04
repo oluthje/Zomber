@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-onready var pickup_timer = get_node("PickupTimer")
+onready var pickup_cooldown_timer = get_node("PickupTimer")
 
 var CarryableObject = preload("res://Environment/CarryableObject.tscn")
 var PhysicalItem = preload("res://Weapons/PhysicalItem.tscn")
@@ -45,7 +45,7 @@ var timed_operation_body
 
 # Item pickup
 var can_pickup = true
-var pickup_cooldown = 0.2
+var item_pickup_cooldown = 0.2
 var pickupable_item_area
 
 # Misc
@@ -161,15 +161,15 @@ func try_to_pickup_item():
 	var ammo_num_to_item
 	if Input.is_action_just_pressed("interact") and not carrying_object:
 		if can_pickup and Item.object_player_can_pick_up != "":
-			pickup_timer.set_wait_time(pickup_cooldown)
-			pickup_timer.start()
+			pickup_cooldown_timer.set_wait_time(item_pickup_cooldown)
+			pickup_cooldown_timer.start()
 			can_pickup = false
 			
 			try_pickup_object()
 			try_update_held_item()
 		elif can_pickup and Item.item_player_can_pick_up != "":
-			pickup_timer.set_wait_time(pickup_cooldown)
-			pickup_timer.start()
+			pickup_cooldown_timer.set_wait_time(item_pickup_cooldown)
+			pickup_cooldown_timer.start()
 			can_pickup = false
 			
 			# Get current loaded ammo num for item drop
@@ -186,11 +186,21 @@ func try_pickup_object():
 	pickupable_object_area.queue_free()
 	object_carrying_name = pickupable_object_area.object_name
 	get_node("CarryableObject").get_node("SlotItemImage").select_item_to_display(object_carrying_name)
-
-func spawn_consumption_time_display(time, body):
+	
+func setup_obj_countdown(item, body):
+	var countdown_time
+	if Item.COUNTDOWN_DICT.has(item):
+		countdown_time = Item.COUNTDOWN_DICT[item]
+	else:
+		body.get_parent().add_part_after_countdown(self)
+		return
+	spawn_consumption_time_display(body, countdown_time)
+	
+func spawn_consumption_time_display(body, time):
 	var timed_operation_body = body
 	var pos = get_global_position()
 	in_timed_operation = true
+	
 	var display = ConsumptionTimeDisplay.instance()
 	display.set_global_position(Vector2(pos.x, pos.y - 16))
 	display.setup(time)
