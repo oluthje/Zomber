@@ -191,7 +191,7 @@ position = Vector2( 147, 55 )
 
 [node name="CarryableObject" parent="." instance=ExtResource( 14 )]
 position = Vector2( 502, 147 )
-pre_set_object = "engine"
+pre_set_object = "gatekey"
 
 [node name="CarryableObject2" parent="." instance=ExtResource( 14 )]
 position = Vector2( 588, 147 )

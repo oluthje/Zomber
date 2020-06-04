@@ -5,6 +5,7 @@
 [ext_resource path="res://Sprites/Environment/Vehicles/HumveeParts-Sheet.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Environment/Vehicles/HumveeDoor.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Environment/Vehicles/HumveeWheel.png" type="Texture" id=5]
+[ext_resource path="res://Construction/CollectPartsArea.tscn" type="PackedScene" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 11, 21 )
@@ -71,9 +72,6 @@ tracks/0/keys = {
 
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 11.0112, 1.32893 )
-
-[sub_resource type="RectangleShape2D" id=9]
-extents = Vector2( 52, 24 )
 
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 12, 3 )
@@ -154,6 +152,8 @@ anims/fixed = SubResource( 6 )
 [node name="DoorAnimPlayer" type="AnimationPlayer" parent="."]
 anims/open_door = SubResource( 7 )
 
+[node name="CollectPartsArea" parent="." instance=ExtResource( 6 )]
+
 [node name="Door" type="Node2D" parent="."]
 position = Vector2( -60, 20 )
 __meta__ = {
@@ -171,17 +171,6 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Door/StaticBody2D"]
 position = Vector2( 12.9888, 0.539879 )
 shape = SubResource( 8 )
-
-[node name="CollectPartsArea" type="Area2D" parent="."]
-position = Vector2( -33, -1 )
-__meta__ = {
-"_edit_group_": true,
-"_edit_lock_": true
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CollectPartsArea"]
-position = Vector2( 1, 0 )
-shape = SubResource( 9 )
 
 [node name="CollectPlayerArea" type="Area2D" parent="."]
 position = Vector2( -33, -1 )

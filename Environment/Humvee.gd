@@ -41,7 +41,6 @@ func _ready():
 		$AnimationPlayer.play("fixed")
 
 func _physics_process(delta):
-	check_for_player_adding_part()
 	get_driving_input()
 
 func get_driving_input():
@@ -127,24 +126,6 @@ func spawn_sound_effect_player(sound):
 	player.setup(sound, 5)
 	get_parent().add_child(player)
 
-func check_for_player_adding_part():
-	var bodies = get_node("CollectPartsArea").get_overlapping_bodies()
-	for body in bodies:
-		if "Player" in body.name:
-			if body.carrying_object and not body.in_timed_operation:
-				if requires_part(body.object_carrying_name):
-					if Item.COUNTDOWN_DICT.has(body.object_carrying_name):
-						body.setup_obj_countdown(body.object_carrying_name, self)
-						return
-					add_part_after_countdown(body)
-
-func add_part_after_countdown(player):
-	add_part(player.object_carrying_name)
-	player.get_node("CarryableObject").get_node("SlotItemImage").select_item_to_display("none")
-	player.carrying_object = false
-	player.object_carrying_name = ""
-	player.try_update_held_item()
-
 func add_part(part):
 	get_node("RequiredMaterialsNode").add_resource(part)
 	spawn_sound_effect_player(Item.ADDED_RESOURCE)
@@ -152,24 +133,12 @@ func add_part(part):
 	if part == Item.ENGINE:
 		get_node("Engine").set_visible(true)
 	
-	if has_all_parts():
+	if get_node("CollectPartsArea").has_all_parts():
 		emit_smoke = true
 		get_node("Engine").set_visible(false)
 		get_node("Sparks").set_emitting(false)
 		$DoorAnimPlayer.play("open_door")
 		$AnimationPlayer.play("fixed")
-
-func has_all_parts():
-	for part in required_materials:
-		if required_materials[part] == 1:
-			return false
-	return true
-
-func requires_part(resource):
-	if required_materials.has(resource):
-		if required_materials[resource] > 0:
-			return true
-	return false
 
 func spawn_required_materials_popup():
 	var popup = RequiredMaterialsPopup.instance()

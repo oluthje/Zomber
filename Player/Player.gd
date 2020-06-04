@@ -211,7 +211,7 @@ func consumption_time_complete():
 	var areas = get_node("Area2D").get_overlapping_areas()
 	for area in areas:
 		if "CollectPartsArea" in area.name:
-			area.get_parent().add_part_after_countdown(self)
+			area.add_part_after_countdown(self)
 
 func try_drop_object():
 	var carryable_object = CarryableObject.instance()
